@@ -1,0 +1,12 @@
+CheckBikeIntent if there are bikes at {first_street} and {second_street}
+CheckBikeIntent if there are bikes at {first_street} and {second_street} station
+CheckBikeIntent if there are bikes at the {first_street} and {second_street} station
+CheckBikeIntent if {first_street} and {second_street} has bikes
+CheckBikeIntent if the {first_street} and {second_street} station has bikes
+CheckBikeIntent if {first_street} and {second_street} station has bikes
+CheckBikeIntent if there are bikes at {first_street}
+CheckBikeIntent if there are bikes at {first_street} station
+CheckBikeIntent if there are bikes at the {first_street} station
+CheckBikeIntent if {first_street} has bikes
+CheckBikeIntent if the {first_street} station has bikes
+CheckBikeIntent if {first_street} station has bikes
