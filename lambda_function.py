@@ -1,5 +1,7 @@
 from __future__ import print_function, division
 
+import divvy
+import handle
 import reply
 
 import requests
@@ -23,8 +25,12 @@ def lambda_handler(event, context):
     if (event['session']['application']['applicationId'] != conf['app']['APP_ID']):
          raise ValueError("Invalid Application ID")
 
-    n_bike, n_dock = get_local_bikes(conf['app']['divvy_api'])
+    stations = divvy.get_stations(conf['divvy_api'])
+    #n_bike, n_dock = get_local_bikes(conf['app']['divvy_api'])
 
+    if event['request']['type'] == "IntentRequest":
+        return handle.intent(event['request'], event['session'], stations)
+    
     return reply.build("<speak>There are %d bikes available at the Wells and Concord station.</speak>" % n_bike, is_end=True)
     
     if event['session']['new']:
@@ -52,24 +58,3 @@ def get_local_bikes(address, divvy_api):
 
     return my_sta['availableBikes'], my_sta['availableDocks']
 
-
-def format_address(address):
-    """Standardize speech input to look like Divvy station names
-    """
-    address = address.lower()
-    address = address.replace('and', '&')
-
-    abbrev = {'street': 'st', 'lane': 'ln', 'avenue': 'av'}
-    for full, ab in abbrev.iteritems():
-        address = address.replace(full, ab)
-
-    return address
-
-
-def get_stations(divvy_api=None):
-    if not divvy_api:
-        divvy_api = get_conf()['app']['divvy_api']
-    resp = requests.get(divvy_api)
-    stations = resp.json()['stationBeanList']
-
-    return stations
