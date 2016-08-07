@@ -1,10 +1,8 @@
 from __future__ import print_function, division
 
-import divvy
-import handle
-import reply
+from divvy import stations
+from divvy import handle
 
-import requests
 import yaml
 
 
@@ -22,17 +20,18 @@ def lambda_handler(event, context):
     function.
     """
     conf = get_conf()
-    if (event['session']['application']['applicationId'] != conf['app']['APP_ID']):
+    if event['session']['application']['applicationId'] != conf['app']['APP_ID']:
          raise ValueError("Invalid Application ID")
 
-    stations = divvy.get_stations(conf['divvy_api'])
+    st_list = stations.get_stations(conf['app']['divvy_api'])
     #n_bike, n_dock = get_local_bikes(conf['app']['divvy_api'])
 
     if event['request']['type'] == "IntentRequest":
-        return handle.intent(event['request'], event['session'], stations)
-    
+        return handle.intent(event['request'], event['session'], st_list)
+
+    """
     return reply.build("<speak>There are %d bikes available at the Wells and Concord station.</speak>" % n_bike, is_end=True)
-    
+
     if event['session']['new']:
         on_session_started({'requestId': event['request']['requestId']},
                            event['session'])
@@ -43,7 +42,7 @@ def lambda_handler(event, context):
         return on_intent(event['request'], event['session'])
     elif event['request']['type'] == "SessionEndedRequest":
         return on_session_ended(event['request'], event['session'])
-
+    """
 
 def get_conf():
     with open('config.yaml', 'r') as _fin:

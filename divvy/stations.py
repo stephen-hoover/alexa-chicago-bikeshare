@@ -1,4 +1,4 @@
-import reply
+import requests
 
 
 class AmbiguousStationError(ValueError):
@@ -40,7 +40,7 @@ def find_station(stations, first, second=None):
 
         return check_possible(possible, first, second)
 
-                
+
 def format_address(address):
     """Standardize speech input to look like Divvy station names
     """

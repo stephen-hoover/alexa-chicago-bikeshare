@@ -1,6 +1,7 @@
-"""
+"""Construct the Alexa reply schema
+
 https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/alexa-skills-kit-interface-reference
-The Echo expects a response in the following format:
+Alexa expects a response in the following format:
 
 {
   "version": "string",
@@ -36,6 +37,7 @@ The Echo expects a response in the following format:
 
 """
 
+
 def build(speech, reprompt=None, is_end=False, persist=None):
     output = {
         "version": "1.0",
@@ -56,5 +58,5 @@ def build(speech, reprompt=None, is_end=False, persist=None):
                 "ssml": reprompt
                 }
             }
-               
+
     return output
