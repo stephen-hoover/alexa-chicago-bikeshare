@@ -68,6 +68,36 @@ def intent(req, session, stations):
                            is_end=True)
 
 
+def _station_from_intent(intent, stations):
+    """Given a request and a list of stations, find the desired station
+
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "CheckBikeIntent"
+    stations : dict
+        JSON following the Divvy "stationBeanList" schema
+
+    Returns
+    -------
+    dict
+        A single station information JSON from the Divvy API response
+    """
+    slots = intent['slots']
+    if slots.get('special_name', {}).get('value'):
+        first = slots['special_name']['value']
+        second = None
+    else:
+        first = slots['first_street']['value']
+        second = slots.get('second_street', {}).get('value')
+    sta = location.find_station(
+          stations,
+          first,
+          second)
+    return sta
+
+
 def check_bikes(intent, stations):
     """Handle a CheckBikeIntent; return number of bikes at a station
 
@@ -84,21 +114,11 @@ def check_bikes(intent, stations):
     dict
         JSON following the Alexa reply schema
     """
-    slots = intent['slots']
     try:
-        if slots.get('special_name', {}).get('value'):
-            first = slots['special_name']['value']
-            second = None
-        else:
-            first = slots['first_street']['value']
-            second = slots.get('second_street', {}).get('value')
-        sta = location.find_station(
-              stations,
-              first,
-              second)
+        sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
         return reply.build("<speak>%s</speak>" % err.message, is_end=True)
-    except:
+    except:  # NOQA
         return reply.build("<speak>I'm sorry, I didn't understand that.</speak>",
                            is_end=True)
 
@@ -109,7 +129,7 @@ def check_bikes(intent, stations):
 
     n_bike = sta['availableBikes']
     n_dock = sta['availableDocks']
-    b_or_d = slots['bikes_or_docks']['value']
+    b_or_d = intent['slots']['bikes_or_docks']['value']
     n_things = n_bike if b_or_d == 'bikes' else n_dock
 
     return reply.build("<speak>There are %d %s available "
