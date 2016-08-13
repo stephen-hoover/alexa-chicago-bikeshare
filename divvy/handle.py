@@ -102,13 +102,19 @@ def check_bikes(intent, stations):
         return reply.build("<speak>I'm sorry, I didn't understand that.</speak>",
                            is_end=True)
 
+    if not sta['is_renting']:
+        postamble = ", but the station isn't renting right now."
+    else:
+        postamble = "."
+
     n_bike = sta['availableBikes']
     n_dock = sta['availableDocks']
     b_or_d = slots['bikes_or_docks']['value']
     n_things = n_bike if b_or_d == 'bikes' else n_dock
 
     return reply.build("<speak>There are %d %s available "
-                       "at the %s station.</speak>"
+                       "at the %s station%s</speak>"
                        % (n_things, b_or_d,
-                          location.text_to_speech(sta['stationName'])),
+                          location.text_to_speech(sta['stationName']),
+                          postamble),
                        is_end=True)

@@ -45,3 +45,16 @@ def test_check_bike_docks():
                'halsted street and archer avenue station'
 
     assert expected in out['response']['outputSpeech']['ssml'].lower()
+
+
+def test_check_bike_not_renting():
+    sta = _station_list()
+    intent = _get_request('check_bike', 'two_street')['request']['intent']
+
+    # All stations in my sample response are renting, so hack it.
+    [s for s in sta if s['id'] == 206][0]['is_renting'] = False
+
+    out = handle.check_bikes(intent, sta)
+    expected = "but the station isn't renting right now."
+
+    assert expected in out['response']['outputSpeech']['ssml'].lower()
