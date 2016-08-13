@@ -39,7 +39,7 @@ IntentRequest:
   }
 }
 """
-import stations
+import location
 import reply
 
 
@@ -86,15 +86,26 @@ def check_bikes(intent, stations):
     """
     slots = intent['slots']
     try:
-        sta = stations.find_station(stations,
-                                    slots['first_street'],
-                                    slots.get('second_street'))
-    except stations.AmbiguousStationError as err:
-        return reply.build("<speak>%s</speak>" % err.msg, is_end=True)
+        if slots.get('special_name', {}).get('value'):
+            first = slots['special_name']['value']
+            second = None
+        else:
+            first = slots['first_street']['value']
+            second = slots.get('second_street', {}).get('value')
+        sta = location.find_station(
+              stations,
+              first,
+              second)
+    except location.AmbiguousStationError as err:
+        return reply.build("<speak>%s</speak>" % err.message, is_end=True)
+    except:
+        return reply.build("<speak>I'm sorry, I didn't understand that.</speak>",
+                           is_end=True)
 
     n_bike = sta['availableBikes']
 
     return reply.build("<speak>There are %d bikes available "
                        "at the %s station.</speak>"
-                       % (n_bike, sta['stationName']),
+                       % (n_bike,
+                          location.text_to_speech(sta['stationName'])),
                        is_end=True)

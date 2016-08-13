@@ -10,3 +10,10 @@ CheckBikeIntent if there are bikes at the {first_street} station
 CheckBikeIntent if {first_street} has bikes
 CheckBikeIntent if the {first_street} station has bikes
 CheckBikeIntent if {first_street} station has bikes
+
+CheckBikeIntent if there are bikes at {special_name}
+CheckBikeIntent if there are bikes at {special_name} station
+CheckBikeIntent if there are bikes at the {special_name} station
+CheckBikeIntent if {special_name} has bikes
+CheckBikeIntent if the {special_name} station has bikes
+CheckBikeIntent if {special_name} station has bikes

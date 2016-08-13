@@ -1,6 +1,6 @@
 from __future__ import print_function, division
 
-from divvy import stations
+from divvy import location
 from divvy import handle
 
 import yaml
@@ -23,7 +23,7 @@ def lambda_handler(event, context):
     if event['session']['application']['applicationId'] != conf['app']['APP_ID']:
          raise ValueError("Invalid Application ID")
 
-    st_list = stations.get_stations(conf['app']['divvy_api'])
+    st_list = location.get_stations(conf['app']['divvy_api'])
     #n_bike, n_dock = get_local_bikes(conf['app']['divvy_api'])
 
     if event['request']['type'] == "IntentRequest":
