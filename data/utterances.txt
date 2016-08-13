@@ -1,19 +1,25 @@
-CheckBikeIntent if there are bikes at {first_street} and {second_street}
-CheckBikeIntent if there are bikes at {first_street} and {second_street} station
-CheckBikeIntent if there are bikes at the {first_street} and {second_street} station
-CheckBikeIntent if {first_street} and {second_street} has bikes
-CheckBikeIntent if the {first_street} and {second_street} station has bikes
-CheckBikeIntent if {first_street} and {second_street} station has bikes
-CheckBikeIntent if there are bikes at {first_street}
-CheckBikeIntent if there are bikes at {first_street} station
-CheckBikeIntent if there are bikes at the {first_street} station
-CheckBikeIntent if {first_street} has bikes
-CheckBikeIntent if the {first_street} station has bikes
-CheckBikeIntent if {first_street} station has bikes
+CheckBikeIntent if there are {bikes_or_docks} at {first_street} and {second_street}
+CheckBikeIntent if there are {bikes_or_docks} at {first_street} and {second_street} station
+CheckBikeIntent if there are {bikes_or_docks} at the {first_street} and {second_street} station
+CheckBikeIntent if {first_street} and {second_street} has {bikes_or_docks}
+CheckBikeIntent if the {first_street} and {second_street} station has {bikes_or_docks}
+CheckBikeIntent if {first_street} and {second_street} station has {bikes_or_docks}
+CheckBikeIntent how many {bikes_or_docks} are at {first_street} and {second_street}
+CheckBikeIntent how many {bikes_or_docks} {first_street} and {second_street} has
+CheckBikeIntent how many {bikes_or_docks} there are at {first_street} and {second_street}
+CheckBikeIntent how many {bikes_or_docks} are at the {first_street} and {second_street} station
+CheckBikeIntent how many {bikes_or_docks} the {first_street} and {second_street} station has
+CheckBikeIntent how many {bikes_or_docks} there are at the {first_street} and {second_street} station
 
-CheckBikeIntent if there are bikes at {special_name}
-CheckBikeIntent if there are bikes at {special_name} station
-CheckBikeIntent if there are bikes at the {special_name} station
-CheckBikeIntent if {special_name} has bikes
-CheckBikeIntent if the {special_name} station has bikes
-CheckBikeIntent if {special_name} station has bikes
+CheckBikeIntent if there are {bikes_or_docks} at {special_name}
+CheckBikeIntent if there are {bikes_or_docks} at {special_name} station
+CheckBikeIntent if there are {bikes_or_docks} at the {special_name} station
+CheckBikeIntent if {special_name} has {bikes_or_docks}
+CheckBikeIntent if the {special_name} station has {bikes_or_docks}
+CheckBikeIntent if {special_name} station has {bikes_or_docks}
+CheckBikeIntent how many {bikes_or_docks} are at {special_name}
+CheckBikeIntent how many {bikes_or_docks} {special_name} has
+CheckBikeIntent how many {bikes_or_docks} there are at {special_name}
+CheckBikeIntent how many {bikes_or_docks} are at the {special_name} station
+CheckBikeIntent how many {bikes_or_docks} the {special_name} station has
+CheckBikeIntent how many {bikes_or_docks} there are at the {special_name} station

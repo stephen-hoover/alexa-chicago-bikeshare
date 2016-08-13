@@ -19,18 +19,19 @@
       "name": "CheckBikeIntent",
       "slots": {
         "second_street": {
-          "name": "second_street"
+          "name": "second_street",
+          "value": "archer"
         },
         "first_street": {
           "name": "first_street",
-          "value": "Wells street."
+          "value": "halsted"
         },
         "special_name": {
           "name": "special_name"
         },
         "bikes_or_docks": {
           "name": "bikes_or_docks",
-          "value": "bikes"
+          "value": "docks"
         }
       }
     }

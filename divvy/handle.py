@@ -103,9 +103,12 @@ def check_bikes(intent, stations):
                            is_end=True)
 
     n_bike = sta['availableBikes']
+    n_dock = sta['availableDocks']
+    b_or_d = slots['bikes_or_docks']['value']
+    n_things = n_bike if b_or_d == 'bikes' else n_dock
 
-    return reply.build("<speak>There are %d bikes available "
+    return reply.build("<speak>There are %d %s available "
                        "at the %s station.</speak>"
-                       % (n_bike,
+                       % (n_things, b_or_d,
                           location.text_to_speech(sta['stationName'])),
                        is_end=True)
