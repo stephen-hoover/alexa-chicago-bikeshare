@@ -1,0 +1,40 @@
+{
+  "session": {
+    "sessionId": "SessionId.hex-session-id",
+    "application": {
+      "applicationId": "amzn1.ask.skill.hex-app-id"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.VERYLONGUSERID"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    "locale": "en-US",
+    "timestamp": "2016-08-10T09:09:09Z",
+    "intent": {
+      "name": "CheckStatusIntent",
+      "slots": {
+        "second_street": {
+          "name": "second_street",
+          "value": "archer"
+        },
+        "first_street": {
+          "name": "first_street",
+          "value": "halsted street"
+        },
+        "special_name": {
+          "name": "special_name"
+        },
+        "intro_word": {
+          "name": "intro_word",
+          "value": "about"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

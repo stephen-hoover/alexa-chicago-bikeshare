@@ -23,3 +23,10 @@ CheckBikeIntent how many {bikes_or_docks} there are at {special_name}
 CheckBikeIntent how many {bikes_or_docks} are at the {special_name} station
 CheckBikeIntent how many {bikes_or_docks} the {special_name} station has
 CheckBikeIntent how many {bikes_or_docks} there are at the {special_name} station
+
+CheckStatusIntent {intro_word} {first_street} and {second_street}
+CheckStatusIntent {intro_word} {first_street} and {second_street} station
+CheckStatusIntent {intro_word} the {first_street} and {second_street} station
+CheckStatusIntent {intro_word} {special_name}
+CheckStatusIntent {intro_word} {special_name} station
+CheckStatusIntent {intro_word} the {special_name} station

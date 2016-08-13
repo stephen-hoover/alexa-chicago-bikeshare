@@ -63,6 +63,8 @@ def intent(req, session, stations):
     intent = req['intent']
     if intent['name'] == 'CheckBikeIntent':
         return check_bikes(intent, stations)
+    elif intent['name'] == 'CheckStatusIntent':
+        return check_status(intent, stations)
     else:
         return reply.build("<speak>I didn't understand that.</speak>",
                            is_end=True)
@@ -119,7 +121,8 @@ def check_bikes(intent, stations):
     except location.AmbiguousStationError as err:
         return reply.build("<speak>%s</speak>" % err.message, is_end=True)
     except:  # NOQA
-        return reply.build("<speak>I'm sorry, I didn't understand that.</speak>",
+        return reply.build("<speak>I'm sorry, "
+                           "I didn't understand that.</speak>",
                            is_end=True)
 
     if not sta['is_renting']:
@@ -137,4 +140,48 @@ def check_bikes(intent, stations):
                        % (n_things, b_or_d,
                           location.text_to_speech(sta['stationName']),
                           postamble),
+                       is_end=True)
+
+
+def check_status(intent, stations):
+    """Handle a CheckStatusIntent:
+    return number of bikes and docks at a station
+
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "CheckBikeIntent"
+    stations : dict
+        JSON following the Divvy "stationBeanList" schema
+
+    Returns
+    -------
+    dict
+        JSON following the Alexa reply schema
+    """
+    try:
+        sta = _station_from_intent(intent, stations)
+    except location.AmbiguousStationError as err:
+        return reply.build("<speak>%s</speak>" % err.message, is_end=True)
+    except:  # NOQA
+        return reply.build("<speak>I'm sorry, I didn't "
+                           "understand that.</speak>",
+                           is_end=True)
+
+    sta_name = location.text_to_speech(sta['stationName'])
+    if not sta['is_renting']:
+        return reply.build("<speak>The %s station isn't "
+                           "renting right now.</speak>" % sta_name,
+                           is_end=True)
+    if not sta['statusValue'] == 'In Service':
+        return reply.build("<speak>The %s station is %s.</speak>"
+                           % (sta_name, sta['statusValue']),
+                           is_end=True)
+
+    n_bike = sta['availableBikes']
+    n_dock = sta['availableDocks']
+    return reply.build("<speak>There are %d bikes and %d docks "
+                       "at the %s station.</speak>"
+                       % (n_bike, n_dock, sta_name),
                        is_end=True)

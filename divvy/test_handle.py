@@ -58,3 +58,28 @@ def test_check_bike_not_renting():
     expected = "but the station isn't renting right now."
 
     assert expected in out['response']['outputSpeech']['ssml'].lower()
+
+
+def test_check_status():
+    sta = _station_list()
+    intent = _get_request('check_status', 'two_street')['request']['intent']
+
+    out = handle.check_status(intent, sta)
+    expected = 'there are 5 bikes and 9 docks at the ' \
+               'halsted street and archer avenue station'
+
+    assert expected in out['response']['outputSpeech']['ssml'].lower()
+
+
+def test_check_status_not_renting():
+    sta = _station_list()
+    intent = _get_request('check_status', 'two_street')['request']['intent']
+
+    # All stations in my sample response are renting, so hack it.
+    [s for s in sta if s['id'] == 206][0]['is_renting'] = False
+
+    out = handle.check_status(intent, sta)
+    expected = "the halsted street and archer avenue " \
+               "station isn't renting right now."
+
+    assert expected in out['response']['outputSpeech']['ssml'].lower()
