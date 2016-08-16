@@ -2,6 +2,7 @@ from __future__ import print_function, division
 
 from divvy import location
 from divvy import handle
+from divvy import reply
 
 import yaml
 
@@ -23,6 +24,9 @@ def lambda_handler(event, context):
 
     if event['request']['type'] == "IntentRequest":
         return handle.intent(event['request'], event['session'], st_list)
+    else:
+        # This could be a "LaunchRequest"
+        return reply.build("<speak>Ask me a question about a Divvy station.</speak>")
 
 
 def get_conf():
