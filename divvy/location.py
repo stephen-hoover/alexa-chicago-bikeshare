@@ -31,6 +31,49 @@ def _check_possible(possible, first, second=None):
         raise AmbiguousStationError("I don't know if you mean %s." % possible_list)
 
 
+def matching_station_list(stations, first, second=None):
+    """Filter the Divvy station list based on locations
+
+    May return multiple stations
+
+    Parameters
+    ----------
+    stations : list of dict
+        The 'stationBeanList' from the Divvy API response
+    first : str
+        The first component of a station name or address,
+        e.g. "Larrabee" or "Larrabee Street".
+    second : str, optional
+        As `first`.
+
+    Returns
+    -------
+    list of dict
+        List of station status JSONs from the Divvy API response
+    """
+    possible = []
+    first = speech_to_text(first)
+    if not second:
+        # Search the "location" field.
+        for sta in stations:
+            if first == sta['stationName'].lower():
+                return [sta]
+        # Search the "address" field.
+        for sta in stations:
+            if first in sta['stAddress1'].lower():
+                possible.append(sta)
+    else:
+        second = speech_to_text(second)
+        for sta in stations:
+            address = sta['stAddress1'].lower()
+            name = sta['stationName'].lower()
+            if ((first in address and second in address) or
+                    (first in name and second in name)):
+                possible.append(sta)
+
+    return possible
+
+
 def find_station(stations, first, second=None):
     """Filter the Divvy station list to find a single station
 
@@ -54,29 +97,8 @@ def find_station(stations, first, second=None):
     AmbiguousStationError if `first` and `second`
         don't uniquely specify a station
     """
-    possible = []
-    first = speech_to_text(first)
-    if not second:
-        # Search the "location" field.
-        for sta in stations:
-            if first == sta['stationName'].lower():
-                return sta
-        # Search the "address" field.
-        for sta in stations:
-            if first in sta['stAddress1'].lower():
-                possible.append(sta)
-
-        return _check_possible(possible, first, second)
-    else:
-        second = speech_to_text(second)
-        for sta in stations:
-            address = sta['stAddress1'].lower()
-            name = sta['stationName'].lower()
-            if ((first in address and second in address) or
-                    (first in name and second in name)):
-                possible.append(sta)
-
-        return _check_possible(possible, first, second)
+    possible = matching_station_list(stations, first, second)
+    return _check_possible(possible, first, second)
 
 
 def speech_to_text(address):

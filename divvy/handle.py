@@ -65,6 +65,8 @@ def intent(req, session, stations):
         return check_bikes(intent, stations)
     elif intent['name'] == 'CheckStatusIntent':
         return check_status(intent, stations)
+    elif intent['name'] == 'ListStationIntent':
+        return list_stations(intent, stations)
     else:
         return reply.build("<speak>I didn't understand that.</speak>",
                            is_end=True)
@@ -85,6 +87,11 @@ def _station_from_intent(intent, stations):
     -------
     dict
         A single station information JSON from the Divvy API response
+
+    Raises
+    ------
+    AmbiguousStationError if the name(s) in the request
+        don't uniquely specify a station
     """
     slots = intent['slots']
     if slots.get('special_name', {}).get('value'):
@@ -185,3 +192,24 @@ def check_status(intent, stations):
                        "at the %s station.</speak>"
                        % (n_bike, n_dock, sta_name),
                        is_end=True)
+
+
+def list_stations(intent, stations):
+
+    street_name = intent['slots']['street_name']['value']
+    possible = location.matching_station_list(stations, street_name)
+
+    if len(possible) == 0:
+        return reply.build("<speak>I didn't find any stations "
+                           "on %s.</speak>" % street_name)
+    elif len(possible) == 1:
+        sta_name = location.text_to_speech(possible[0]['stationName'])
+        return reply.build("<speak>There's only one: the %s "
+                           "station.</speak>" % sta_name)
+    else:
+        last_name = location.text_to_speech(possible[-1]['stationName'])
+        speech = (', '.join([location.text_to_speech(p['stationName'])
+                             for p in possible[:-1]]) +
+                  ', and %s' % last_name)
+        return reply.build("<speak>There are %d stations on %s: %s."
+                           "</speak>" % (len(possible), street_name, speech))
