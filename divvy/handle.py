@@ -67,6 +67,13 @@ def intent(req, session, stations):
         return check_status(intent, stations)
     elif intent['name'] == 'ListStationIntent':
         return list_stations(intent, stations)
+    elif intent['name'] == 'AMAZON.HelpIntent':
+        return reply.build("<speak>You can ask me how many bikes or docks are "
+                           "at a specific station, or else just ask the status of a "
+                           "station. Use the Divvy station name, such as "
+                           "\"Milwaukee Avenue and Rockwell Street\". If you only "
+                           "remember one cross-street, you can ask me to list all "
+                           "stations on a particular street.</speak>")
     else:
         return reply.build("<speak>I didn't understand that.</speak>",
                            is_end=True)
