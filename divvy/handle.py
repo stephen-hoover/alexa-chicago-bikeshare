@@ -173,7 +173,7 @@ def add_address(intent, session):
         if slots['which_address'].get('value') in ['here', 'home', 'origin']:
             sess_data['which'] = 'home'
             sess_data['next_step'] = 'num_and_name'
-            return reply.build("Okay, storing this address. "
+            return reply.build("Okay, storing your home address. "
                                "What's the street number and name?",
                                reprompt="What's the street number and name?",
                                persist=sess_data,
@@ -290,7 +290,7 @@ def check_address(intent, session):
     if not addr:
         return reply.build("I don't know your %s address." % which)
     else:
-        return reply.build("Your %s address is %s." %
+        return reply.build("Your %s address is set to %s." %
                            (which, location.text_to_speech(addr['address'])))
 
 
