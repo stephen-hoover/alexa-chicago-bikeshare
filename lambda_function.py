@@ -1,7 +1,6 @@
 from __future__ import print_function, division
 
 from divvy import config
-from divvy import location
 from divvy import handle
 from divvy import reply
 
@@ -18,10 +17,8 @@ def lambda_handler(event, context):
     if event['session']['application']['applicationId'] != config.APP_ID:
         raise ValueError("Invalid Application ID")
 
-    st_list = location.get_stations(config.divvy_api)
-
     if event['request']['type'] == "IntentRequest":
-        return handle.intent(event['request'], event['session'], st_list)
+        return handle.intent(event['request'], event['session'])
     else:
         # This could be a "LaunchRequest"
         return reply.build("Ask me a question about a Divvy station.")

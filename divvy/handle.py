@@ -42,8 +42,10 @@ IntentRequest:
 import location
 import reply
 
+from divvy import config, geocoding
 
-def intent(req, session, stations):
+
+def intent(req, session):
     """Identify and handle IntentRequest objects
 
     Parameters
@@ -52,8 +54,6 @@ def intent(req, session, stations):
         JSON following the Alexa "IntentRequest" schema
     session : dict
         JSON following the Alexa "Session" schema
-    stations : dict
-        JSON following the Divvy "stationBeanList" schema
 
     Returns
     -------
@@ -61,21 +61,26 @@ def intent(req, session, stations):
         JSON following the Alexa reply schema
     """
     intent = req['intent']
+
     if intent['name'] == 'CheckBikeIntent':
-        return check_bikes(intent, stations)
+        return check_bikes(intent, location.get_stations(config.divvy_api))
     elif intent['name'] == 'CheckStatusIntent':
-        return check_status(intent, stations)
+        return check_status(intent, location.get_stations(config.divvy_api))
     elif intent['name'] == 'ListStationIntent':
-        return list_stations(intent, stations)
+        return list_stations(intent, location.get_stations(config.divvy_api))
+    elif intent['name'] == 'AddAddressIntent':
+        return add_address(intent, session)
+    elif intent['name'] in ['AMAZON.StopIntent', 'AMAZON.CancelIntent']:
+        return reply.build("Okay, exiting.", is_end=True)
     elif intent['name'] == 'AMAZON.HelpIntent':
         return reply.build("You can ask me how many bikes or docks are "
                            "at a specific station, or else just ask the status of a "
                            "station. Use the Divvy station name, such as "
                            "\"Milwaukee Avenue and Rockwell Street\". If you only "
                            "remember one cross-street, you can ask me to list all "
-                           "stations on a particular street.")
+                           "stations on a particular street.", is_end=False)
     else:
-        return reply.build("I didn't understand that.", is_end=True)
+        return reply.build("I didn't understand that.", is_end=False)
 
 
 def _station_from_intent(intent, stations):
@@ -108,6 +113,63 @@ def _station_from_intent(intent, stations):
         second = slots.get('second_street', {}).get('value')
     sta = location.find_station(stations, first, second)
     return sta
+
+
+def add_address(intent, session):
+    slots = intent['slots']
+    sess_data = session['attributes']
+    sess_data['add_address'] = True
+    if not sess_data.get('which'):
+        if slots['which_address'].get('value') in ['here', 'home', 'origin']:
+            sess_data['which'] = 'origin'
+            return reply.build("Okay, storing this address. "
+                               "What's the street number and name?",
+                               reprompt="What's the street number and name?",
+                               persist=sess_data,
+                               is_end=False)
+        elif slots['which_address'].get('value') in ['there', 'work',
+                                                     'school', 'destination']:
+            sess_data['which'] = 'destination'
+            return reply.build("Okay, storing your destination address. "
+                               "What's the street number and name?",
+                               reprompt="What's the street number and name?",
+                               persist=sess_data,
+                               is_end=False)
+        else:
+            return reply.build("Would you like to set the address here or at "
+                               "your destination?",
+                               reprompt='You can say "here" or "destination".',
+                               persist=sess_data,
+                               is_end=False)
+    elif not sess_data.get('spoken_address'):
+        if slots['address_street'].get('value'):
+            num = str(slots['address_number'].get('value', ''))
+            st = slots['address_street'].get('value', '')
+            sess_data['spoken_address'] = '%s %s' % (num, st)
+            return reply.build("Got it. Now what's the zip code?",
+                               reprompt="What's the zip code?",
+                               persist=sess_data,
+                               is_end=False)
+    elif not sess_data['zip_code'].get('value'):
+        if not slots['address_number'].get('value'):
+            return reply.build("I need the zip code now.",
+                               reprompt="What's the zip code?",
+                               persist=sess_data,
+                               is_end=False)
+
+        sess_data['zip_code'] = slots['address_number']['value']
+        lat, lon, full_address = geocoding.get_lat_lon('%s, %s' %
+                                                       (sess_data['spoken_address'],
+                                                        sess_data['zip_code']))
+        sess_data['lat'], sess_data['lon'] = lat, lon
+        sess_data['full_address'] = full_address
+        return reply.build("Thanks! Do you want to set your %s address to %s?" %
+                           (sess_data['which'], full_address),
+                           reprompt="Is that the correct address?",
+                           persist=sess_data,
+                           is_end=False)
+    else:
+        raise NotImplementedError
 
 
 def check_bikes(intent, stations):
@@ -144,12 +206,11 @@ def check_bikes(intent, stations):
     b_or_d = intent['slots']['bikes_or_docks']['value']
     n_things = n_bike if b_or_d == 'bikes' else n_dock
 
-    return reply.build("There are %d %s available "
-                       "at the %s station%s"
-                       % (n_things, b_or_d,
-                          location.text_to_speech(sta['stationName']),
-                          postamble),
-                       is_end=True)
+    text = ("There are %d %s available at the %s station%s"
+            % (n_things, b_or_d,
+               location.text_to_speech(sta['stationName']),
+               postamble))
+    return reply.build(text, card_text=text, is_end=True)
 
 
 def check_status(intent, stations):
@@ -189,10 +250,10 @@ def check_status(intent, stations):
 
     n_bike = sta['availableBikes']
     n_dock = sta['availableDocks']
-    return reply.build("There are %d bikes and %d docks "
-                       "at the %s station."
-                       % (n_bike, n_dock, sta_name),
-                       is_end=True)
+    text = ("There are %d bikes and %d docks "
+            "at the %s station."
+            % (n_bike, n_dock, sta_name))
+    return reply.build(text, card_text=text, is_end=True)
 
 
 def list_stations(intent, stations):

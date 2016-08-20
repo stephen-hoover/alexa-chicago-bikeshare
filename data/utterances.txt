@@ -1,3 +1,29 @@
+AddAddressIntent add an address
+AddAddressIntent save an address
+AddAddressIntent store an address
+AddAddressIntent add my address
+AddAddressIntent save my address
+AddAddressIntent store my address
+AddAddressIntent add my {which_address} address
+AddAddressIntent add my {which_address}
+AddAddressIntent add the {which_address}
+AddAddressIntent add the {which_address} address
+AddAddressIntent add {which_address}
+AddAddressIntent add {which_address} address
+AddAddressIntent the {which_address}
+AddAddressIntent the {which_address} address
+AddAddressIntent {address_number} {address_street}
+AddAddressIntent it's {address_number} {address_street}
+AddAddressIntent the address is {address_number} {address_street}
+AddAddressIntent it's {address_number} {address_street}
+AddAddressIntent the address is {address_number} {address_street}
+AddAddressIntent {address_number}
+AddAddressIntent it's {address_number}
+AddAddressIntent the zip is {address_number}
+AddAddressIntent my zip is {address_number}
+AddAddressIntent the zip code is {address_number}
+AddAddressIntent my zip code is {address_number}
+
 CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street}
 CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street} station
 CheckBikeIntent there are {bikes_or_docks} at the {first_street} and {second_street} station
