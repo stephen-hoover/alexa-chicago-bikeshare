@@ -366,11 +366,15 @@ def list_stations(intent, stations):
     elif len(possible) == 1:
         sta_name = location.text_to_speech(possible[0]['stationName'])
         return reply.build("There's only one: the %s "
-                           "station." % sta_name)
+                           "station." % sta_name,
+                           card_text="One station on %s: %s" % (street_name,
+                                                                sta_name),
+                           is_end=False)
     else:
         last_name = location.text_to_speech(possible[-1]['stationName'])
-        speech = (', '.join([location.text_to_speech(p['stationName'])
-                             for p in possible[:-1]]) +
-                  ', and %s' % last_name)
-        return reply.build("There are %d stations on %s: %s."
-                           "" % (len(possible), street_name, speech))
+        speech = "There are %d stations on %s: " % (len(possible),
+                                                    street_name)
+        speech += (', '.join([location.text_to_speech(p['stationName'])
+                              for p in possible[:-1]]) +
+                   ', and %s' % last_name)
+        return reply.build(speech, card_text=speech, is_end=False)
