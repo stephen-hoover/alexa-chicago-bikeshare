@@ -39,6 +39,7 @@ IntentRequest:
   }
 }
 """
+from __future__ import print_function, division
 import location
 import reply
 
@@ -70,6 +71,33 @@ def intent(req, session):
         return list_stations(intent, location.get_stations(config.divvy_api))
     elif intent['name'] == 'AddAddressIntent':
         return add_address(intent, session)
+    elif intent['name'] == 'AMAZON.NextIntent':
+        if session.get('attributes', {}).get('add_address') and \
+                    session['attributes']['next_step'] == 'zip':
+            session['attributes']['next_step'] = 'check_address'
+            session['attributes']['zip_code'] = ''
+            return add_address(intent, session)
+        else:
+            return reply.build("Sorry, I don't know what you mean.",
+                               is_end=False)
+    elif intent['name'] == 'AMAZON.YesIntent':
+        if session.get('attributes', {}).get('add_address') and \
+                    session['attributes']['next_step'] == 'store_address':
+            return store_address(intent, session)
+        else:
+            return reply.build("Sorry, I don't know what you mean.",
+                               is_end=False)
+    elif intent['name'] == 'AMAZON.NoIntent':
+        if session.get('attributes', {}).get('add_address') and \
+                    session['attributes']['next_step'] == 'store_address':
+            session['attributes']['next_step'] = 'zip'
+            return reply.build("Okay, what street number and name do you want?",
+                               reprompt="What's the street number and name?",
+                               persist=session['attributes'],
+                               is_end=False)
+        else:
+            return reply.build("Sorry, I don't know what you mean.",
+                               is_end=False)
     elif intent['name'] in ['AMAZON.StopIntent', 'AMAZON.CancelIntent']:
         return reply.build("Okay, exiting.", is_end=True)
     elif intent['name'] == 'AMAZON.HelpIntent':
@@ -116,12 +144,14 @@ def _station_from_intent(intent, stations):
 
 
 def add_address(intent, session):
-    slots = intent['slots']
-    sess_data = session['attributes']
+    slots = intent.get('slots')
+    sess_data = session.setdefault('attributes', {})
     sess_data['add_address'] = True
-    if not sess_data.get('which'):
+    sess_data.setdefault('next_step', 'which')
+    if sess_data['next_step'] == 'which':
         if slots['which_address'].get('value') in ['here', 'home', 'origin']:
             sess_data['which'] = 'origin'
+            sess_data['next_step'] = 'num_and_name'
             return reply.build("Okay, storing this address. "
                                "What's the street number and name?",
                                reprompt="What's the street number and name?",
@@ -130,46 +160,73 @@ def add_address(intent, session):
         elif slots['which_address'].get('value') in ['there', 'work',
                                                      'school', 'destination']:
             sess_data['which'] = 'destination'
+            sess_data['next_step'] = 'num_and_name'
             return reply.build("Okay, storing your destination address. "
                                "What's the street number and name?",
                                reprompt="What's the street number and name?",
                                persist=sess_data,
                                is_end=False)
         else:
+            sess_data['next_step'] = 'which'
             return reply.build("Would you like to set the address here or at "
                                "your destination?",
                                reprompt='You can say "here" or "destination".',
                                persist=sess_data,
                                is_end=False)
-    elif not sess_data.get('spoken_address'):
+    elif sess_data['next_step'] == 'num_and_name':
         if slots['address_street'].get('value'):
-            num = str(slots['address_number'].get('value', ''))
+            num = slots['address_number'].get('value', '')
+            direction = slots['direction'].get('value', '')
             st = slots['address_street'].get('value', '')
-            sess_data['spoken_address'] = '%s %s' % (num, st)
+            sess_data['spoken_address'] = (('%s %s %s' %
+                                            (num, direction, st))
+                                           .replace('  ', ' '))
+            sess_data['next_step'] = 'zip'
             return reply.build("Got it. Now what's the zip code?",
                                reprompt="What's the zip code?",
                                persist=sess_data,
                                is_end=False)
-    elif not sess_data['zip_code'].get('value'):
+        else:
+            return reply.build("Please say a street number and street name.",
+                               reprompt="What's the street number and name?",
+                               persist=sess_data,
+                               is_end=False)
+    elif sess_data['next_step'] == 'zip':
         if not slots['address_number'].get('value'):
             return reply.build("I need the zip code now.",
                                reprompt="What's the zip code?",
                                persist=sess_data,
                                is_end=False)
-
+        sess_data['next_step'] = 'check_address'
         sess_data['zip_code'] = slots['address_number']['value']
-        lat, lon, full_address = geocoding.get_lat_lon('%s, %s' %
-                                                       (sess_data['spoken_address'],
-                                                        sess_data['zip_code']))
+        return add_address(intent, session)
+    elif sess_data['next_step'] == 'check_address':
+        if sess_data['zip_code']:
+            addr = '%s, %s' % (sess_data['spoken_address'],
+                               sess_data['zip_code'])
+        else:
+            addr = '%s, Chicago, IL' % sess_data['spoken_address']
+        lat, lon, full_address = geocoding.get_lat_lon(addr)
         sess_data['lat'], sess_data['lon'] = lat, lon
         sess_data['full_address'] = full_address
-        return reply.build("Thanks! Do you want to set your %s address to %s?" %
-                           (sess_data['which'], full_address),
+        sess_data['next_step'] = 'store_address'
+        return reply.build("Thanks! Do you want to set "
+                           "your %s address to %s?" %
+                           (sess_data['which'],
+                            location.text_to_speech(full_address)),
                            reprompt="Is that the correct address?",
                            persist=sess_data,
                            is_end=False)
     else:
         raise NotImplementedError
+
+
+def store_address(intent, session):
+    report = ("I would have stored the address %s "
+              "here." % location.text_to_speech(session['attributes']['full_address']))
+    report += (" The latitude is %s and the longitude "
+               "is %s." % (session['attributes']['lat'], session['attributes']['lon']))
+    return reply.build(report, is_end=True)
 
 
 def check_bikes(intent, stations):

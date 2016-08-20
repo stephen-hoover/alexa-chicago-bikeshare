@@ -12,6 +12,11 @@ ABBREV = {' st ': ' street ',
           ' ter ': ' terrace ',
           ' ct ': ' court '}
 
+DIRECTIONS = {' n ': ' north ',
+              ' w ': ' west ',
+              ' s ': ' south ',
+              ' e ': ' east '}
+
 
 class AmbiguousStationError(ValueError):
     pass
@@ -123,6 +128,8 @@ def text_to_speech(address):
     address = address.replace('(*)', '')
 
     for ab, full in ABBREV.iteritems():
+        address = address.replace(ab, full)
+    for ab, full in DIRECTIONS.iteritems():
         address = address.replace(ab, full)
 
     return address.strip()

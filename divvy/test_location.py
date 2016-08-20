@@ -58,6 +58,11 @@ def test_text_to_speech_two_street():
     assert out.lower() == 'halsted street and north branch street'
 
 
+def test_text_to_speech_address():
+    out = location.text_to_speech('200 N State St')
+    assert out.lower() == '200 north state street'
+
+
 def test_text_to_speech_two_street_star():
     out = location.text_to_speech('Loomis St & Taylor St (*)')
     assert out.lower() == 'loomis street and taylor street'

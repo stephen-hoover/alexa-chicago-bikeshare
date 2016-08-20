@@ -12,17 +12,46 @@ AddAddressIntent add {which_address}
 AddAddressIntent add {which_address} address
 AddAddressIntent the {which_address}
 AddAddressIntent the {which_address} address
+
+AddAddressIntent update an address
+AddAddressIntent change an address
+AddAddressIntent update my address
+AddAddressIntent change my address
+AddAddressIntent update my {which_address} address
+AddAddressIntent update my {which_address}
+AddAddressIntent update the {which_address}
+AddAddressIntent update the {which_address} address
+AddAddressIntent update {which_address}
+AddAddressIntent update {which_address} address
+AddAddressIntent change my {which_address} address
+AddAddressIntent change my {which_address}
+AddAddressIntent change the {which_address}
+AddAddressIntent change the {which_address} address
+AddAddressIntent change {which_address}
+AddAddressIntent change {which_address} address
+
 AddAddressIntent {address_number} {address_street}
 AddAddressIntent it's {address_number} {address_street}
 AddAddressIntent the address is {address_number} {address_street}
 AddAddressIntent it's {address_number} {address_street}
 AddAddressIntent the address is {address_number} {address_street}
+AddAddressIntent {address_number} {direction} {address_street}
+AddAddressIntent it's {address_number} {direction} {address_street}
+AddAddressIntent the address is {address_number} {direction} {address_street}
+AddAddressIntent it's {address_number} {direction} {address_street}
+AddAddressIntent the address is {address_number} {direction} {address_street}
 AddAddressIntent {address_number}
 AddAddressIntent it's {address_number}
 AddAddressIntent the zip is {address_number}
 AddAddressIntent my zip is {address_number}
 AddAddressIntent the zip code is {address_number}
 AddAddressIntent my zip code is {address_number}
+
+AMAZON.NextIntent skip zip code
+AMAZON.NextIntent skip the zip code
+AMAZON.NextIntent no zip needed
+AMAZON.NextIntent skip zip
+AMAZON.NextIntent no zip
 
 CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street}
 CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street} station
