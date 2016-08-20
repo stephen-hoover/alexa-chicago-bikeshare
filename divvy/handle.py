@@ -313,7 +313,9 @@ def check_bikes(intent, stations):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build(err.message, is_end=True)
+        return reply.build(err.message,
+                           card_text=err.message,
+                           is_end=True)
     except:  # NOQA
         return reply.build("I'm sorry, I didn't understand that.",
                            is_end=False)
@@ -355,7 +357,9 @@ def check_status(intent, stations):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build(err.message, is_end=True)
+        return reply.build(err.message,
+                           card_text=err.message,
+                           is_end=True)
     except:  # NOQA
         return reply.build("I'm sorry, I didn't understand that.",
                            is_end=False)
