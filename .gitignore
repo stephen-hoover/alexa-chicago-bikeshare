@@ -1,4 +1,9 @@
 *.zip
 *.pyc
 *.so
+*~
 .ipynb_checkpoints
+.cache
+.idea
+config.py
+requests*
