@@ -43,7 +43,7 @@ from __future__ import print_function, division
 import location
 import reply
 
-from divvy import config, geocoding
+from divvy import config, database, geocoding
 
 
 def intent(req, session):
@@ -144,13 +144,29 @@ def _station_from_intent(intent, stations):
 
 
 def add_address(intent, session):
+    """Controls a dialog which allows users to
+    permanently store an address
+
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "AddAddressIntent"
+    session : dict
+        JSON following the Alexa "Session" schema
+
+    Returns
+    -------
+    dict
+        JSON following the Alexa reply schema
+    """
     slots = intent.get('slots')
     sess_data = session.setdefault('attributes', {})
     sess_data['add_address'] = True
     sess_data.setdefault('next_step', 'which')
     if sess_data['next_step'] == 'which':
         if slots['which_address'].get('value') in ['here', 'home', 'origin']:
-            sess_data['which'] = 'origin'
+            sess_data['which'] = 'home'
             sess_data['next_step'] = 'num_and_name'
             return reply.build("Okay, storing this address. "
                                "What's the street number and name?",
@@ -222,11 +238,24 @@ def add_address(intent, session):
 
 
 def store_address(intent, session):
-    report = ("I would have stored the address %s "
-              "here." % location.text_to_speech(session['attributes']['full_address']))
-    report += (" The latitude is %s and the longitude "
-               "is %s." % (session['attributes']['lat'], session['attributes']['lon']))
-    return reply.build(report, is_end=True)
+    """Permanently store this user's address in the database.
+    """
+    sess_data = session.setdefault('attributes', {})
+    if not sess_data.get('add_address') and \
+          not sess_data['next_step'] == 'store_address':
+        raise RuntimeError('Something went wrong.')
+
+    data = {sess_data['which']: dict(latitude=sess_data['lat'],
+                                     longitude=sess_data['lon'],
+                                     address=sess_data['full_address'])}
+    success = database.update_user_data(session['user']['userId'], **data)
+    if not success:
+        return reply.build("I'm sorry, something went wrong and I could't "
+                           "store the address.", is_end=True)
+    else:
+        return reply.build("Okay, I've saved your %s "
+                           "address." % sess_data['which'],
+                           is_end=True)
 
 
 def check_bikes(intent, stations):
@@ -251,7 +280,7 @@ def check_bikes(intent, stations):
         return reply.build(err.message, is_end=True)
     except:  # NOQA
         return reply.build("I'm sorry, I didn't understand that.",
-                           is_end=True)
+                           is_end=False)
 
     if not sta['is_renting']:
         postamble = ", but the station isn't renting right now."
@@ -293,7 +322,7 @@ def check_status(intent, stations):
         return reply.build(err.message, is_end=True)
     except:  # NOQA
         return reply.build("I'm sorry, I didn't understand that.",
-                           is_end=True)
+                           is_end=False)
 
     sta_name = location.text_to_speech(sta['stationName'])
     if not sta['is_renting']:
@@ -314,7 +343,21 @@ def check_status(intent, stations):
 
 
 def list_stations(intent, stations):
+    """Find all stations on a given street
 
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "ListStationIntent"
+    stations : dict
+        JSON following the Divvy "stationBeanList" schema
+
+    Returns
+    -------
+    dict
+        JSON following the Alexa reply schema
+    """
     street_name = intent['slots']['street_name']['value']
     possible = location.matching_station_list(stations, street_name)
 
