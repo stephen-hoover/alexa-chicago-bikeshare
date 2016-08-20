@@ -1,3 +1,34 @@
+CheckAddressIntent tell me what's my {which_address} address
+CheckAddressIntent tell me what is my {which_address} address
+CheckAddressIntent tell me what {which_address} address is set
+CheckAddressIntent tell me what {which_address} address is saved
+CheckAddressIntent tell me what {which_address} address is stored
+CheckAddressIntent tell me which {which_address} address is set
+CheckAddressIntent tell me which {which_address} address is saved
+CheckAddressIntent tell me which {which_address} address is stored
+CheckAddressIntent say what's my {which_address} address
+CheckAddressIntent say what is my {which_address} address
+CheckAddressIntent say what {which_address} address is set
+CheckAddressIntent say what {which_address} address is saved
+CheckAddressIntent say what {which_address} address is stored
+CheckAddressIntent say which {which_address} address is set
+CheckAddressIntent say which {which_address} address is saved
+CheckAddressIntent say which {which_address} address is stored
+CheckAddressIntent check what's my {which_address} address
+CheckAddressIntent check what is my {which_address} address
+CheckAddressIntent check my {which_address} address
+CheckAddressIntent check my {which_address}
+CheckAddressIntent check what {which_address} address is set
+CheckAddressIntent check what {which_address} address is saved
+CheckAddressIntent check what {which_address} address is stored
+CheckAddressIntent check which {which_address} address is set
+CheckAddressIntent check which {which_address} address is saved
+CheckAddressIntent check which {which_address} address is stored
+CheckAddressIntent look up my {which_address}
+CheckAddressIntent look up my {which_address} address
+CheckAddressIntent look up the {which_address}
+CheckAddressIntent look up the {which_address} address
+
 AddAddressIntent add an address
 AddAddressIntent save an address
 AddAddressIntent store an address

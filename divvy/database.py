@@ -12,8 +12,8 @@ def _log_and_status(response):
     """If the response has an error code, print it.
     Return a boolean success flag.
     """
-    if response.status_code >= 300:
-        print(response.json())
+    if response['ResponseMetadata']['HTTPStatusCode'] >= 300:
+        print(response)
         return False
     else:
         return True

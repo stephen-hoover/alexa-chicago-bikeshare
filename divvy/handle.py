@@ -71,7 +71,10 @@ def intent(req, session):
         return list_stations(intent, location.get_stations(config.divvy_api))
     elif intent['name'] == 'AddAddressIntent':
         return add_address(intent, session)
+    elif intent['name'] == 'CheckAddressIntent':
+        return check_address(intent, session)
     elif intent['name'] == 'AMAZON.NextIntent':
+        # This is part of the AddAddressIntent dialog
         if session.get('attributes', {}).get('add_address') and \
                     session['attributes']['next_step'] == 'zip':
             session['attributes']['next_step'] = 'check_address'
@@ -81,6 +84,7 @@ def intent(req, session):
             return reply.build("Sorry, I don't know what you mean.",
                                is_end=False)
     elif intent['name'] == 'AMAZON.YesIntent':
+        # This is part of the AddAddressIntent dialog
         if session.get('attributes', {}).get('add_address') and \
                     session['attributes']['next_step'] == 'store_address':
             return store_address(intent, session)
@@ -88,6 +92,7 @@ def intent(req, session):
             return reply.build("Sorry, I don't know what you mean.",
                                is_end=False)
     elif intent['name'] == 'AMAZON.NoIntent':
+        # This is part of the AddAddressIntent dialog
         if session.get('attributes', {}).get('add_address') and \
                     session['attributes']['next_step'] == 'store_address':
             session['attributes']['next_step'] = 'zip'
@@ -239,15 +244,16 @@ def add_address(intent, session):
 
 def store_address(intent, session):
     """Permanently store this user's address in the database.
+    This is the endpoint of the AddAddressIntent dialog
     """
     sess_data = session.setdefault('attributes', {})
     if not sess_data.get('add_address') and \
           not sess_data['next_step'] == 'store_address':
         raise RuntimeError('Something went wrong.')
 
-    data = {sess_data['which']: dict(latitude=sess_data['lat'],
-                                     longitude=sess_data['lon'],
-                                     address=sess_data['full_address'])}
+    data = {sess_data['which']: dict(latitude=str(sess_data['lat']),
+                                     longitude=str(sess_data['lon']),
+                                     address=str(sess_data['full_address']))}
     success = database.update_user_data(session['user']['userId'], **data)
     if not success:
         return reply.build("I'm sorry, something went wrong and I could't "
@@ -256,6 +262,36 @@ def store_address(intent, session):
         return reply.build("Okay, I've saved your %s "
                            "address." % sess_data['which'],
                            is_end=True)
+
+
+def check_address(intent, session):
+    """Look up an address stored under this user's ID
+
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "CheckAddressIntent"
+    session : dict
+        JSON following the Alexa "Session" schema
+
+    Returns
+    -------
+    dict
+        JSON following the Alexa reply schema
+    """
+    user_data = database.get_user_data(session['user']['userId'])
+    if not user_data:
+        return reply.build("I don't remember any of your addresses.",
+                           is_end=True)
+
+    which = intent.get('slots', {}).get('which_address', {}).get('value')
+    addr = user_data.get(which)
+    if not addr:
+        return reply.build("I don't know your %s address." % which)
+    else:
+        return reply.build("Your %s address is %s." %
+                           (which, location.text_to_speech(addr['address'])))
 
 
 def check_bikes(intent, stations):
