@@ -68,15 +68,14 @@ def intent(req, session, stations):
     elif intent['name'] == 'ListStationIntent':
         return list_stations(intent, stations)
     elif intent['name'] == 'AMAZON.HelpIntent':
-        return reply.build("<speak>You can ask me how many bikes or docks are "
+        return reply.build("You can ask me how many bikes or docks are "
                            "at a specific station, or else just ask the status of a "
                            "station. Use the Divvy station name, such as "
                            "\"Milwaukee Avenue and Rockwell Street\". If you only "
                            "remember one cross-street, you can ask me to list all "
-                           "stations on a particular street.</speak>")
+                           "stations on a particular street.")
     else:
-        return reply.build("<speak>I didn't understand that.</speak>",
-                           is_end=True)
+        return reply.build("I didn't understand that.", is_end=True)
 
 
 def _station_from_intent(intent, stations):
@@ -107,10 +106,7 @@ def _station_from_intent(intent, stations):
     else:
         first = slots['first_street']['value']
         second = slots.get('second_street', {}).get('value')
-    sta = location.find_station(
-          stations,
-          first,
-          second)
+    sta = location.find_station(stations, first, second)
     return sta
 
 
@@ -133,10 +129,9 @@ def check_bikes(intent, stations):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build("<speak>%s</speak>" % err.message, is_end=True)
+        return reply.build(err.message, is_end=True)
     except:  # NOQA
-        return reply.build("<speak>I'm sorry, "
-                           "I didn't understand that.</speak>",
+        return reply.build("I'm sorry, I didn't understand that.",
                            is_end=True)
 
     if not sta['is_renting']:
@@ -149,8 +144,8 @@ def check_bikes(intent, stations):
     b_or_d = intent['slots']['bikes_or_docks']['value']
     n_things = n_bike if b_or_d == 'bikes' else n_dock
 
-    return reply.build("<speak>There are %d %s available "
-                       "at the %s station%s</speak>"
+    return reply.build("There are %d %s available "
+                       "at the %s station%s"
                        % (n_things, b_or_d,
                           location.text_to_speech(sta['stationName']),
                           postamble),
@@ -177,26 +172,25 @@ def check_status(intent, stations):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build("<speak>%s</speak>" % err.message, is_end=True)
+        return reply.build(err.message, is_end=True)
     except:  # NOQA
-        return reply.build("<speak>I'm sorry, I didn't "
-                           "understand that.</speak>",
+        return reply.build("I'm sorry, I didn't understand that.",
                            is_end=True)
 
     sta_name = location.text_to_speech(sta['stationName'])
     if not sta['is_renting']:
-        return reply.build("<speak>The %s station isn't "
-                           "renting right now.</speak>" % sta_name,
+        return reply.build("The %s station isn't "
+                           "renting right now." % sta_name,
                            is_end=True)
     if not sta['statusValue'] == 'In Service':
-        return reply.build("<speak>The %s station is %s.</speak>"
+        return reply.build("The %s station is %s."
                            % (sta_name, sta['statusValue']),
                            is_end=True)
 
     n_bike = sta['availableBikes']
     n_dock = sta['availableDocks']
-    return reply.build("<speak>There are %d bikes and %d docks "
-                       "at the %s station.</speak>"
+    return reply.build("There are %d bikes and %d docks "
+                       "at the %s station."
                        % (n_bike, n_dock, sta_name),
                        is_end=True)
 
@@ -207,16 +201,15 @@ def list_stations(intent, stations):
     possible = location.matching_station_list(stations, street_name)
 
     if len(possible) == 0:
-        return reply.build("<speak>I didn't find any stations "
-                           "on %s.</speak>" % street_name)
+        return reply.build("I didn't find any stations on %s." % street_name)
     elif len(possible) == 1:
         sta_name = location.text_to_speech(possible[0]['stationName'])
-        return reply.build("<speak>There's only one: the %s "
-                           "station.</speak>" % sta_name)
+        return reply.build("There's only one: the %s "
+                           "station." % sta_name)
     else:
         last_name = location.text_to_speech(possible[-1]['stationName'])
         speech = (', '.join([location.text_to_speech(p['stationName'])
                              for p in possible[:-1]]) +
                   ', and %s' % last_name)
-        return reply.build("<speak>There are %d stations on %s: %s."
-                           "</speak>" % (len(possible), street_name, speech))
+        return reply.build("There are %d stations on %s: %s."
+                           "" % (len(possible), street_name, speech))

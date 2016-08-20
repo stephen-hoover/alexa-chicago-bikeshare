@@ -44,7 +44,7 @@ def build(speech, reprompt=None, is_end=False, persist=None):
         "response": {
             "outputSpeech": {
                 "type": "SSML",
-                "ssml": speech
+                "ssml": "<speak>%s</speak>" % speech
             },
             "shouldEndSession": is_end
         }
