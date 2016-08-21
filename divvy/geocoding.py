@@ -81,6 +81,6 @@ def station_from_lat_lon(lat, lon, stations, n_nearest=3):
     """
     lat, lon = float(lat), float(lon)
     distances = [(distance(lat, lon, st['latitude'], st['longitude']), st)
-                 for st in stations]
+                 for st in stations if st['is_renting']]
     distances = sorted(distances)
     return [pair[1] for pair in distances[:n_nearest]]

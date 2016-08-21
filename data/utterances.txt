@@ -1,3 +1,20 @@
+CheckCommuteIntent check my commute
+CheckCommuteIntent check my trip
+CheckCommuteIntent check my commute status
+CheckCommuteIntent check my trip status
+CheckCommuteIntent how my commute looks
+CheckCommuteIntent how's my commute
+CheckCommuteIntent about my commute
+CheckCommuteIntent how's my commute looking
+CheckCommuteIntent check my commute today
+CheckCommuteIntent check my trip today
+CheckCommuteIntent check my commute status today
+CheckCommuteIntent check my trip status today
+CheckCommuteIntent how my commute looks today
+CheckCommuteIntent how's my commute today
+CheckCommuteIntent about my commute today
+CheckCommuteIntent how's my commute looking today
+
 CheckAddressIntent tell me what's my {which_address} address
 CheckAddressIntent tell me what is my {which_address} address
 CheckAddressIntent tell me what {which_address} address is set

@@ -69,6 +69,8 @@ def intent(req, session):
         return check_status(intent, location.get_stations(config.divvy_api))
     elif intent['name'] == 'ListStationIntent':
         return list_stations(intent, location.get_stations(config.divvy_api))
+    elif intent['name'] == 'CheckCommuteIntent':
+        return check_commute(intent, session)
     elif intent['name'] == 'AddAddressIntent':
         return add_address(intent, session)
     elif intent['name'] == 'CheckAddressIntent':
@@ -146,6 +148,48 @@ def _station_from_intent(intent, stations):
         second = slots.get('second_street', {}).get('value')
     sta = location.find_station(stations, first, second)
     return sta
+
+
+def check_commute(intent, session):
+    """Checks nearest station status for home and work
+
+    The user must previously have stored both addresses
+    in the database.
+
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "AddAddressIntent"
+    session : dict
+        JSON following the Alexa "Session" schema
+
+    Returns
+    -------
+    dict
+        JSON following the Alexa reply schema
+    """
+    user_data = database.get_user_data(session['user']['userId'])
+    if not user_data:
+        return reply.build("I don't remember any of your addresses.",
+                           is_end=True)
+    stations = location.get_stations(config.divvy_api)
+    utter = []
+    for which, av_key, av_name in \
+          [('home', 'availableBikes', 'bikes'),
+           ('destination', 'availableDocks', 'docks')]:
+        if user_data.get(which):
+            lat = user_data[which]['latitude']
+            lon = user_data[which]['longitude']
+            nearest_st = geocoding.station_from_lat_lon(
+                  lat, lon, stations, n_nearest=2)
+
+            n_thing = nearest_st[0][av_key]
+            st_name = location.text_to_speech(nearest_st[0]['stationName'])
+            utter.append('There are %d %s at the %s station' %
+                         (n_thing, av_name, st_name))
+    utter = '%s.' % ' and '.join(utter)
+    return reply.build(utter, card_text=utter, is_end=True)
 
 
 def add_address(intent, session):
