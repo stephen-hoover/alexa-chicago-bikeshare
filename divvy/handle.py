@@ -124,7 +124,7 @@ def _station_from_intent(intent, stations):
     intent : dict
         JSON following the Alexa "IntentRequest"
         schema with name "CheckBikeIntent"
-    stations : dict
+    stations : list of dict
         JSON following the Divvy "stationBeanList" schema
 
     Returns

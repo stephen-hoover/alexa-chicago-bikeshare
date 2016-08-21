@@ -12,7 +12,7 @@ def _api_response():
         return json.load(_fin)
 
 
-def _station_list():
+def station_list():
     return _api_response()['stationBeanList']
 
 
@@ -26,7 +26,7 @@ def _get_request(intent, case):
 
 
 def test_check_bike_bikes():
-    sta = _station_list()
+    sta = station_list()
     intent = _get_request('check_bike', 'two_street')['request']['intent']
 
     out = handle.check_bikes(intent, sta)
@@ -37,7 +37,7 @@ def test_check_bike_bikes():
 
 
 def test_check_bike_docks():
-    sta = _station_list()
+    sta = station_list()
     intent = _get_request('check_docks', 'two_street')['request']['intent']
 
     out = handle.check_bikes(intent, sta)
@@ -48,7 +48,7 @@ def test_check_bike_docks():
 
 
 def test_check_bike_not_renting():
-    sta = _station_list()
+    sta = station_list()
     intent = _get_request('check_bike', 'two_street')['request']['intent']
 
     # All stations in my sample response are renting, so hack it.
@@ -61,7 +61,7 @@ def test_check_bike_not_renting():
 
 
 def test_check_status():
-    sta = _station_list()
+    sta = station_list()
     intent = _get_request('check_status', 'two_street')['request']['intent']
 
     out = handle.check_status(intent, sta)
@@ -72,7 +72,7 @@ def test_check_status():
 
 
 def test_check_status_not_renting():
-    sta = _station_list()
+    sta = station_list()
     intent = _get_request('check_status', 'two_street')['request']['intent']
 
     # All stations in my sample response are renting, so hack it.

@@ -43,7 +43,6 @@ AddAddressIntent add {which_address}
 AddAddressIntent add {which_address} address
 AddAddressIntent the {which_address}
 AddAddressIntent the {which_address} address
-
 AddAddressIntent update an address
 AddAddressIntent change an address
 AddAddressIntent update my address
@@ -60,7 +59,6 @@ AddAddressIntent change the {which_address}
 AddAddressIntent change the {which_address} address
 AddAddressIntent change {which_address}
 AddAddressIntent change {which_address} address
-
 AddAddressIntent {address_number} {address_street}
 AddAddressIntent it's {address_number} {address_street}
 AddAddressIntent the address is {address_number} {address_street}
@@ -96,7 +94,6 @@ CheckBikeIntent how many {bikes_or_docks} there are at {first_street} and {secon
 CheckBikeIntent how many {bikes_or_docks} are at the {first_street} and {second_street} station
 CheckBikeIntent how many {bikes_or_docks} the {first_street} and {second_street} station has
 CheckBikeIntent how many {bikes_or_docks} there are at the {first_street} and {second_street} station
-
 CheckBikeIntent there are {bikes_or_docks} at {special_name}
 CheckBikeIntent there are {bikes_or_docks} at {special_name} station
 CheckBikeIntent there are {bikes_or_docks} at the {special_name} station
