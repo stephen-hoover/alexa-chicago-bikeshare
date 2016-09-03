@@ -188,6 +188,15 @@ def check_commute(intent, session):
             st_name = location.text_to_speech(nearest_st[0]['stationName'])
             utter.append('There are %d %s at the %s station' %
                          (n_thing, av_name, st_name))
+
+            if n_thing < 3:
+                # If there's not many bikes/docks at the best station,
+                # refer users to the next nearest station.
+                n_thing = nearest_st[1][av_key]
+                st_name = location.text_to_speech(nearest_st[1]['stationName'])
+                utter[-1] += (' with %d %s at the next nearest station, %s' %
+                              (n_thing, av_name, st_name))
+
     utter = '%s.' % ' and '.join(utter)
     return reply.build(utter, card_text=utter, is_end=True)
 
