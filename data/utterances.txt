@@ -105,9 +105,8 @@ AddAddressIntent my zip code is {address_number}
 
 AMAZON.NextIntent skip zip code
 AMAZON.NextIntent skip the zip code
-AMAZON.NextIntent no zip needed
 AMAZON.NextIntent skip zip
-AMAZON.NextIntent no zip
+AMAZON.NextIntent you don't need it
 
 CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street}
 CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street} station
