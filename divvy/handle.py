@@ -75,6 +75,8 @@ def intent(req, session):
         return add_address(intent, session)
     elif intent['name'] == 'CheckAddressIntent':
         return check_address(intent, session)
+    elif intent['name'] == 'RemoveAddressIntent':
+        return remove_address(intent, session)
     elif intent['name'] == 'AMAZON.NextIntent':
         # This is part of the AddAddressIntent dialog
         if session.get('attributes', {}).get('add_address') and \
@@ -86,15 +88,19 @@ def intent(req, session):
             return reply.build("Sorry, I don't know what you mean.",
                                is_end=False)
     elif intent['name'] == 'AMAZON.YesIntent':
-        # This is part of the AddAddressIntent dialog
+        # This is part of the AddAddressIntent or
+        # RemoveAddressIntent dialog
         if session.get('attributes', {}).get('add_address') and \
                     session['attributes']['next_step'] == 'store_address':
             return store_address(intent, session)
+        elif session.get('attributes', {}).get('remove_address'):
+            return remove_address(intent, session)
         else:
             return reply.build("Sorry, I don't know what you mean.",
                                is_end=False)
     elif intent['name'] == 'AMAZON.NoIntent':
-        # This is part of the AddAddressIntent dialog
+        # This is part of the AddAddressIntent or
+        # RemoveAddressIntent dialog
         if session.get('attributes', {}).get('add_address') and \
                     session['attributes']['next_step'] == 'store_address':
             session['attributes']['next_step'] = 'zip'
@@ -102,6 +108,8 @@ def intent(req, session):
                                reprompt="What's the street number and name?",
                                persist=session['attributes'],
                                is_end=False)
+        elif session.get('attributes', {}).get('remove_address'):
+            return remove_address(intent, session)
         else:
             return reply.build("Sorry, I don't know what you mean.",
                                is_end=False)
@@ -199,6 +207,61 @@ def check_commute(intent, session):
 
     utter = '%s.' % ' and '.join(utter)
     return reply.build(utter, card_text=utter, is_end=True)
+
+
+def remove_address(intent, session):
+    """Allow users to delete stored addresses
+
+    Parameters
+    ----------
+    intent : dict
+        JSON following the Alexa "IntentRequest"
+        schema with name "RemoveAddressIntent" or
+        with a "remove_address" flag in the
+        `session['attributes']` dictionary
+    session : dict
+        JSON following the Alexa "Session" schema
+
+    Returns
+    -------
+    dict
+        JSON following the Alexa reply schema
+    """
+    sess_data = session.setdefault('attributes', {})
+    sess_data['remove_address'] = True
+
+    # Retrieve stored data just to check if it exists or not.
+    user_data = database.get_user_data(session['user']['userId'])
+    if not user_data:
+        return reply.build("I already don't remember any addresses for you.",
+                           is_end=True)
+    elif sess_data.get('awaiting_confirmation'):
+        # The user has requested removal and
+        # we requested confirmation
+        if intent['name'] == 'AMAZON.NoIntent':
+            return reply.build("Okay, keeping your stored addresses.",
+                               is_end=True)
+        elif intent['name'] == 'AMAZON.YesIntent':
+            succ = database.delete_user(session['user']['userId'])
+            if succ:
+                return reply.build("Okay, I've forgotten all the addresses "
+                                   "you told me.", is_end=True)
+            else:
+                # Only get here if the database interaction fails somehow
+                return reply.build("Huh. Something went wrong.", is_end=True)
+        else:
+            # Shouldn't ever get here.
+            return reply.build("Sorry, I don't know what you mean.",
+                               is_end=False)
+    else:
+        # Prompt the user for confirmation of data removal.
+        sess_data['awaiting_confirmation'] = True
+        return reply.build("Do you really want me to forget the addresses "
+                           "you gave me?",
+                           reprompt='Say "yes" to delete all stored addresses '
+                                    'or "no" to not change anything.',
+                           persist=sess_data,
+                           is_end=False)
 
 
 def add_address(intent, session):

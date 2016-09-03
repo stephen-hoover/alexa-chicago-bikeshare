@@ -15,6 +15,16 @@ CheckCommuteIntent how's my commute today
 CheckCommuteIntent about my commute today
 CheckCommuteIntent how's my commute looking today
 
+RemoveAddressIntent delete my addresses
+RemoveAddressIntent delete my information
+RemoveAddressIntent remove my addresses
+RemoveAddressIntent remove my information
+RemoveAddressIntent remove my data
+RemoveAddressIntent delete my data
+RemoveAddressIntent forget me
+RemoveAddressIntent forget my addresses
+RemoveAddressIntent delete my account
+
 CheckAddressIntent tell me what's my {which_address} address
 CheckAddressIntent tell me what is my {which_address} address
 CheckAddressIntent tell me what {which_address} address is set
