@@ -68,6 +68,18 @@ def test_find_station_fuzzy_pair():
     assert not found['testStation']
 
 
+def test_find_station_fuzzy_pair_flipped():
+    # Fuzzy matching on an inverted pair of street names
+    sta = _station_list()
+
+    found = location.find_station(sta, 'grind', 'ashlande avenue',
+                                  exact=False)
+
+    assert isinstance(found, dict)
+    assert 'Ashland Ave & Grand Ave' == found['stationName']
+    assert not found['testStation']
+
+
 def test_find_station_one_ambiguous():
     sta = _station_list()
 

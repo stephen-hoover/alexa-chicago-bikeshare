@@ -95,9 +95,26 @@ def matching_station_list(stations, first, second=None, exact=False):
         if not possible and not exact:
             # If there's no exact match on the fragments,
             # then do fuzzy matching on the combination.
-            return matching_station_list(stations,
-                                         '%s and %s' % (first, second),
-                                         exact=False)
+            # Try each ordering of street names.
+            order_one = matching_station_list(
+                stations, '%s and %s' % (first, second), exact=False)
+            order_two = matching_station_list(
+                stations, '%s and %s' % (second, first), exact=False)
+
+            # Pick the best of this pair
+            score_one = difflib.SequenceMatcher(
+                None, '%s and %s' % (first, second),
+                order_one[0]['stationName']).ratio()
+            score_two = difflib.SequenceMatcher(
+                None, '%s and %s' % (second, first),
+                order_two[0]['stationName']).ratio()
+            log.info('Heard names "%s" and "%s". Fuzzy match in '
+                     'forward order: %d; reverse %d' %
+                     (first, second, score_one, score_two))
+            if score_one > score_two:
+                return order_one
+            else:
+                return order_two
 
     return possible
 
