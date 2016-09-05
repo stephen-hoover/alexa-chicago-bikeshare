@@ -52,9 +52,9 @@ def build(speech, reprompt=None, card_text=None, is_end=False, persist=None):
     if persist:
         output["sessionAttributes"] = persist
     if card_text:
-        output["card"] = {"type": "Simple",
-                          "title": "Chicago Bikeshare Status",
-                          "content": card_text}
+        output["response"]["card"] = {"type": "Simple",
+                                      "title": "Chicago Bikeshare Status",
+                                      "content": card_text}
     if reprompt:
         output["response"]["reprompt"] = {
             "outputSpeech": {
