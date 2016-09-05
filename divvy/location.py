@@ -1,6 +1,8 @@
 import difflib
+import logging
 import requests
 
+log = logging.getLogger(__name__)
 
 ABBREV = {' st ': ' street ',
           ' pl ': ' place ',
@@ -78,8 +80,8 @@ def matching_station_list(stations, first, second=None, exact=False):
             # Do fuzzy matching if we couldn't find an exact match.
             st_names = {s['stationName'].lower(): s for s in stations}
             best_name = difflib.get_close_matches(first, st_names, n=1)[0]
-            print('Heard "%s", matching with station "%s".' %
-                  (first, best_name))
+            log.info('Heard "%s", matching with station "%s".' %
+                     (first, best_name))
             return [st_names[best_name]]
     else:
         second = speech_to_text(second)

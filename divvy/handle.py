@@ -41,9 +41,12 @@ IntentRequest:
 """
 from __future__ import print_function, division
 import location
+import logging
 import reply
 
 from divvy import config, database, geocoding
+
+log = logging.getLogger(__name__)
 
 
 def intent(req, session):
@@ -443,6 +446,7 @@ def check_bikes(intent, stations):
                            card_text=err.message,
                            is_end=True)
     except:  # NOQA
+        log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that.",
                            is_end=False)
 
@@ -487,6 +491,7 @@ def check_status(intent, stations):
                            card_text=err.message,
                            is_end=True)
     except:  # NOQA
+        log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that.",
                            is_end=False)
 

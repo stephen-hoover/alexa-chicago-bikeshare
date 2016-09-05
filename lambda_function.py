@@ -1,17 +1,21 @@
 from __future__ import print_function, division
+import logging
+import sys
 
 from divvy import config
 from divvy import handle
 from divvy import reply
 
+log = logging.getLogger(__name__)
 
 # --------------------------- Lambda Function ----------------------------------
 def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
     etc.) The JSON body of the request is provided in the event parameter.
     """
-    print("event.session.application.applicationId=" +
-          event['session']['application']['applicationId'])
+    logging.basicConfig(level='INFO', stream=sys.stderr)
+    log.debug("event.session.application.applicationId=" +
+              event['session']['application']['applicationId'])
 
     # This `if` prevents other Skills from using this Lambda
     if event['session']['application']['applicationId'] != config.APP_ID:
@@ -24,5 +28,5 @@ def lambda_handler(event, context):
             # This could be a "LaunchRequest"
             return reply.build("Ask me a question about a Divvy station.")
     except Exception as err:  # NOQA
-        print("Exception: %s" % str(err))
+        log.exception('Unhandled exception!')
         return reply.build("Sorry, something went wrong. Please try again.")
