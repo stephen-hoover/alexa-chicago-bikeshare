@@ -201,6 +201,7 @@ def check_commute(intent, session):
                            is_end=True)
     stations = location.get_stations(config.divvy_api)
     utter = []
+    first_phrase = True
     for which, av_key, av_name in \
           [('home', 'availableBikes', 'bikes'),
            ('destination', 'availableDocks', 'docks')]:
@@ -212,10 +213,14 @@ def check_commute(intent, session):
 
             n_thing = nearest_st[0][av_key]
             st_name = location.text_to_speech(nearest_st[0]['stationName'])
-            verb = 'is' if n_thing == 1 else 'are'
             av_slice = slice(0, (-1 if n_thing == 1 else None))  # singular?
-            utter.append('There %s %d %s at the %s station' %
-                         (verb, n_thing, av_name[av_slice], st_name))
+            phrase = ('%d %s at the %s station' %
+                      (n_thing, av_name[av_slice], st_name))
+            if first_phrase:
+                verb = 'is' if n_thing == 1 else 'are'
+                phrase = ('There %s ' % verb) + phrase
+            utter.append(phrase)
+            first_phrase = False
 
             if n_thing < 3:
                 # If there's not many bikes/docks at the best station,
