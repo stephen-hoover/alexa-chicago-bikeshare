@@ -212,16 +212,19 @@ def check_commute(intent, session):
 
             n_thing = nearest_st[0][av_key]
             st_name = location.text_to_speech(nearest_st[0]['stationName'])
-            utter.append('There are %d %s at the %s station' %
-                         (n_thing, av_name, st_name))
+            verb = 'is' if n_thing == 1 else 'are'
+            av_slice = slice(0, (-1 if n_thing == 1 else None))  # singular?
+            utter.append('There %s %d %s at the %s station' %
+                         (verb, n_thing, av_name[av_slice], st_name))
 
             if n_thing < 3:
                 # If there's not many bikes/docks at the best station,
                 # refer users to the next nearest station.
                 n_thing = nearest_st[1][av_key]
+                av_slice = slice(0, (-1 if n_thing == 1 else None))  # singular?
                 st_name = location.text_to_speech(nearest_st[1]['stationName'])
                 utter[-1] += (' with %d %s at the next nearest station, %s' %
-                              (n_thing, av_name, st_name))
+                              (n_thing, av_name[av_slice], st_name))
 
     utter = '%s.' % ' and '.join(utter)
     return reply.build(utter, card_text=utter, is_end=True)
@@ -465,8 +468,10 @@ def check_bikes(intent, stations):
     b_or_d = intent['slots']['bikes_or_docks']['value']
     n_things = n_bike if b_or_d == 'bikes' else n_dock
 
-    text = ("There are %d %s available at the %s station%s"
-            % (n_things, b_or_d,
+    verb = 'is' if n_things == 1 else 'are'
+    b_or_d = b_or_d[:-1] if n_things == 1 else b_or_d  # singular?
+    text = ("There %s %d %s available at the %s station%s"
+            % (verb, n_things, b_or_d,
                location.text_to_speech(sta['stationName']),
                postamble))
     return reply.build(text, card_text=text, is_end=True)
@@ -512,9 +517,11 @@ def check_status(intent, stations):
 
     n_bike = sta['availableBikes']
     n_dock = sta['availableDocks']
-    text = ("There are %d bikes and %d docks "
+    text = ("There are %d bike%s and %d dock%s "
             "at the %s station."
-            % (n_bike, n_dock, sta_name))
+            % (n_bike, "s" if n_bike > 1 else "",
+               n_dock, "s" if n_dock > 1 else "",
+               sta_name))
     return reply.build(text, card_text=text, is_end=True)
 
 
