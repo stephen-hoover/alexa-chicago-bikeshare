@@ -92,6 +92,13 @@ def matching_station_list(stations, first, second=None, exact=False):
                     (first in name and second in name)):
                 possible.append(sta)
 
+        if not possible and not exact:
+            # If there's no exact match on the fragments,
+            # then do fuzzy matching on the combination.
+            return matching_station_list(stations,
+                                         '%s and %s' % (first, second),
+                                         exact=False)
+
     return possible
 
 
