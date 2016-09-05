@@ -131,7 +131,7 @@ def speech_to_text(address):
     """
     # Add a space, since we look for spaces after abbreviations
     address = address.lower() + ' '
-    address = address.replace('and', '&')
+    address = address.replace(' and ', ' & ')
 
     for ab, full in ABBREV.iteritems():
         address = address.replace(full, ab)

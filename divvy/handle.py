@@ -160,8 +160,13 @@ def _station_from_intent(intent, stations):
     slots = intent['slots']
     if slots.get('station_name', {}).get('value'):
         name = slots['station_name']['value']
-        if 'and' in name:
-            first, second = name.split('and')
+        if ' and ' in name:
+            # Try to be robust to re-orderings of street names.
+            tokens = name.split(' and ')
+            if len(tokens) != 2:
+                first, second = name, None
+            else:
+                first, second = name.split(' and ')
         else:
             first, second = name, None
     else:

@@ -37,6 +37,16 @@ def test_find_station_one_name():
     assert not found['testStation']
 
 
+def test_find_station_with_and():
+    sta = _station_list()
+
+    found = location.find_station(sta, 'Ashland Avenue and Grand Avenue', exact=True)
+
+    assert isinstance(found, dict)
+    assert 'Ashland Ave & Grand Ave' == found['stationName']
+    assert not found['testStation']
+
+
 def test_find_station_fuzzy():
     sta = _station_list()
 
