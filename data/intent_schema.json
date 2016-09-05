@@ -1,0 +1,105 @@
+{
+  "intents": [
+    {
+      "intent": "CheckBikeIntent",
+      "slots": [
+        {
+          "name": "first_street",
+       	  "type": "streets"
+      	},
+        {
+          "name": "second_street",
+          "type": "streets"
+        },
+        {
+          "name": "special_name",
+          "type": "special_name"
+        },
+        {
+          "name": "bikes_or_docks",
+          "type": "bikes_or_docks"
+        }
+        ]
+    },
+    {
+      "intent": "CheckStatusIntent",
+      "slots": [
+        {
+          "name": "first_street",
+       	  "type": "streets"
+      	},
+        {
+          "name": "second_street",
+          "type": "streets"
+        },
+        {
+          "name": "special_name",
+          "type": "special_name"
+        }
+        ]
+    },
+    {
+      "intent": "ListStationIntent",
+      "slots": [
+        {
+          "name": "street_name",
+       	  "type": "streets"
+      	}
+        ]
+    },
+    {
+      "intent": "AddAddressIntent",
+      "slots": [
+        {
+          "name": "which_address",
+          "type": "which_address"
+        },
+        {
+          "name": "address_number",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "address_street",
+          "type": "chicago_street_names"
+        },
+        {
+          "name": "direction",
+          "type": "direction"
+        }
+      ]
+    },
+    {
+      "intent": "CheckAddressIntent",
+      "slots": [
+        {
+          "name": "which_address",
+          "type": "which_address"
+        }
+        ]
+    },
+    {
+      "intent": "RemoveAddressIntent"
+    },
+    {
+      "intent": "CheckCommuteIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.NextIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    }
+  ]
+ }
