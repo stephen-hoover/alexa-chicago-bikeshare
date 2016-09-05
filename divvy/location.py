@@ -76,7 +76,7 @@ def matching_station_list(stations, first, second=None, exact=False):
             if first in sta['stAddress1'].lower():
                 possible.append(sta)
 
-        if not possible:
+        if not possible and not exact:
             # Do fuzzy matching if we couldn't find an exact match.
             st_names = {s['stationName'].lower(): s for s in stations}
             best_name = difflib.get_close_matches(first, st_names, n=1)[0]
