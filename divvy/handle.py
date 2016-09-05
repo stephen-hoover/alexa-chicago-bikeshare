@@ -65,6 +65,9 @@ def intent(req, session):
         JSON following the Alexa reply schema
     """
     intent = req['intent']
+    if session.setdefault('attributes', {}) is None:
+        # Ensure that there's always a dictionary under "attributes".
+        session['attributes'] = {}
 
     if intent['name'] == 'CheckBikeIntent':
         if not intent['slots']['bikes_or_docks'].get('value'):
