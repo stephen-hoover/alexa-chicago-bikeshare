@@ -68,6 +68,30 @@ def test_find_station_fuzzy_pair():
     assert not found['testStation']
 
 
+def test_find_station_fuzzy_pair_partial_nomatch():
+    # The first thing we check, "concord and Welles", doesn't
+    # have any matches with the default cutoff of 0.6.
+    # Make sure we can still retrieve the correct station.
+    sta = _station_list()
+
+    found = location.find_station(sta, 'concord', 'Welles', exact=False)
+
+    assert isinstance(found, dict)
+    assert 'Wells St & Concord Ln' == found['stationName']
+    assert not found['testStation']
+
+
+def test_find_station_fuzzy_pair_complete_nomatch():
+    sta = _station_list()
+
+    try:
+        location.find_station(sta, '14131', 'xyzzz', exact=False)
+    except location.AmbiguousStationError as err:
+        assert str(err).startswith("I couldn't find a station at")
+    else:
+        assert False, "Expected an AmbiguousStationError"
+
+
 def test_find_station_fuzzy_pair_flipped():
     # Fuzzy matching on an inverted pair of street names
     sta = _station_list()

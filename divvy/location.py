@@ -78,11 +78,16 @@ def matching_station_list(stations, first, second=None, exact=False):
 
         if not possible and not exact:
             # Do fuzzy matching if we couldn't find an exact match.
+            # Note default "cutoff=0.6" in `get_close_matches`.
             st_names = {s['stationName'].lower(): s for s in stations}
-            best_name = difflib.get_close_matches(first, st_names, n=1)[0]
-            log.info('Heard "%s", matching with station "%s".' %
-                     (first, best_name))
-            return [st_names[best_name]]
+            best_names = difflib.get_close_matches(first, st_names, n=1)
+            if not best_names:
+                log.info("Didn't find a match for station \"%s\"." % first)
+                return []
+            else:
+                log.info('Heard "%s", matching with station "%s".' %
+                         (first, best_names[0]))
+                return [st_names[best_names[0]]]
     else:
         second = speech_to_text(second)
         for sta in stations:
@@ -102,19 +107,28 @@ def matching_station_list(stations, first, second=None, exact=False):
                 stations, '%s and %s' % (second, first), exact=False)
 
             # Pick the best of this pair
-            score_one = difflib.SequenceMatcher(
-                None, '%s and %s' % (first, second),
-                order_one[0]['stationName']).ratio()
-            score_two = difflib.SequenceMatcher(
-                None, '%s and %s' % (second, first),
-                order_two[0]['stationName']).ratio()
+            score_one, score_two = 0, 0
+            if order_one:
+                score_one = difflib.SequenceMatcher(
+                    None, '%s and %s' % (first, second),
+                    order_one[0]['stationName']).ratio()
+            if order_two:
+                score_two = difflib.SequenceMatcher(
+                    None, '%s and %s' % (second, first),
+                    order_two[0]['stationName']).ratio()
             log.info('Heard names "%s" and "%s". Fuzzy match in '
                      'forward order: %d; reverse %d' %
                      (first, second, score_one, score_two))
             if score_one > score_two:
                 return order_one
-            else:
+            elif order_two:
+                # Make sure the second ordering had a
+                # match before returning it.
                 return order_two
+            else:
+                # If no station names look like the user request,
+                # return an empty list.
+                return []
 
     return possible
 
