@@ -1,0 +1,1137 @@
+field museum
+daley center plaza
+daley center
+central street metra
+museum of science and industry
+adler planetarium
+burnham harbor
+dusable museum
+eckhart park
+valli produce - evanston plaza
+valli produce
+warren park west
+budlong woods library
+budlong woods
+theater on the lake
+millennium park
+dusable harbor
+kosciuszko park
+mccormick place
+2112 west peterson avenue
+dusable
+kosciuszko
+mccormick
+2112 west peterson
+university library
+900 west harrison street
+900 west harrison
+montrose harbor
+rainbow beach
+shedd aquarium
+63rd street beach
+warren park east
+warren park
+aberdeen and jackson
+aberdeen and monroe
+aberdeen street and jackson boulevard
+aberdeen street and monroe street
+ada and washington
+ada street and washington boulevard
+albany and 26th
+albany and bloomingdale
+albany avenue and 26th street
+albany avenue and bloomingdale avenue
+artesian and hubbard
+artesian avenue and hubbard street
+ashland and 13th
+ashland and 21st
+ashland and 50th
+ashland and 63rd
+ashland and 66th
+ashland and 69th
+ashland and archer
+ashland and augusta
+ashland and belle plaine
+ashland and blackhawk
+ashland and chicago
+ashland and division
+ashland and garfield
+ashland and grace
+ashland and grand
+ashland and harrison
+ashland and lake
+ashland and mcdowell
+ashland and pershing
+ashland and wellington
+ashland and wrightwood
+ashland avenue and 13th street
+ashland avenue and 21st street
+ashland avenue and 50th street
+ashland avenue and 63rd street
+ashland avenue and 66th street
+ashland avenue and 69th street
+ashland avenue and archer avenue
+ashland avenue and augusta boulevard
+ashland avenue and belle plaine avenue
+ashland avenue and blackhawk street
+ashland avenue and chicago avenue
+ashland avenue and division street
+ashland avenue and garfield boulevard
+ashland avenue and grace street
+ashland avenue and grand avenue
+ashland avenue and harrison street
+ashland avenue and lake street
+ashland avenue and mcdowell avenue
+ashland avenue and pershing road
+ashland avenue and wellington avenue
+ashland avenue and wrightwood avenue
+austin and chicago
+austin and lake
+austin boulevard and chicago avenue
+austin boulevard and lake street
+avers and belmont
+avers avenue and belmont avenue
+benson and church
+benson avenue and church street
+bissell and armitage
+bissell street and armitage avenue
+blackstone and hyde park
+blackstone avenue and hyde park boulevard
+blue island and 18th
+blue island avenue and 18th street
+bosworth and howard
+bosworth avenue and howard street
+broadway and argyle
+broadway and argyle street
+broadway and barry
+broadway and barry avenue
+broadway and belmont
+broadway and belmont avenue
+broadway and berwyn
+broadway and berwyn avenue
+broadway and cornelia
+broadway and cornelia avenue
+broadway and granville
+broadway and granville avenue
+broadway and ridge
+broadway and ridge avenue
+broadway and sheridan
+broadway and sheridan road
+broadway and thorndale
+broadway and thorndale avenue
+broadway and waveland
+broadway and waveland avenue
+broadway and wilson
+broadway and wilson avenue
+california and 21st
+california and 23rd
+california and 26th
+california and altgeld
+california and byron
+california and division
+california and fletcher
+california and francis
+california and lake
+california and milwaukee
+california and montrose
+california and north
+california avenue and 21st street
+california avenue and 23rd place
+california avenue and 26th street
+california avenue and altgeld street
+california avenue and byron street
+california avenue and division street
+california avenue and fletcher street
+california avenue and francis place
+california avenue and lake street
+california avenue and milwaukee avenue
+california avenue and montrose avenue
+california avenue and north avenue
+calumet and 18th
+calumet and 21st
+calumet and 33rd
+calumet and 35th
+calumet and 51st
+calumet and 71st
+calumet avenue and 18th street
+calumet avenue and 21st street
+calumet avenue and 33rd street
+calumet avenue and 35th street
+calumet avenue and 51st street
+calumet avenue and 71st street
+campbell and fullerton
+campbell and montrose
+campbell and north
+campbell avenue and fullerton avenue
+campbell avenue and montrose avenue
+campbell avenue and north avenue
+canal and adams
+canal and harrison
+canal and jackson
+canal and madison
+canal and monroe(*)
+canal and taylor
+canal street and adams street
+canal street and harrison street
+canal street and jackson boulevard
+canal street and madison street
+canal street and monroe street (*)
+canal street and taylor street
+cannon and fullerton
+cannon drive and fullerton avenue
+carpenter and huron
+carpenter street and huron street
+central and chicago
+central and girard
+central and harrison
+central and lake
+central and madison
+central avenue and chicago avenue
+central avenue and harrison street
+central avenue and lake street
+central avenue and madison street
+central park and 5th
+central park and elbridge
+central park and north
+central park and ogden
+central park avenue and elbridge avenue
+central park avenue and north avenue
+central park avenue and ogden avenue
+central park boulevard and 5th avenue
+central street and girard avenue
+chappel and 79th
+chappel avenue and 79th street
+chicago and sheridan
+chicago and washington
+chicago avenue and sheridan road
+chicago avenue and washington street
+christiana and lawrence
+christiana avenue and lawrence avenue
+cicero and flournoy
+cicero and lake
+cicero and quincy
+cicero avenue and flournoy street
+cicero avenue and lake street
+cicero avenue and quincy street
+cityfront plaza and pioneer
+cityfront plaza drive and pioneer court
+clarendon and gordon
+clarendon and junior
+clarendon and leland
+clarendon avenue and gordon terrace
+clarendon avenue and junior terrace
+clarendon avenue and leland avenue
+clark and 9th(amli)
+clark and armitage
+clark and berwyn
+clark and bryn mawr
+clark and chicago
+clark and columbia
+clark and congress
+clark and elm
+clark and elmdale
+clark and grace
+clark and jarvis
+clark and lake
+clark and leland
+clark and lincoln
+clark and lunt
+clark and montrose
+clark and north
+clark and randolph
+clark and schiller
+clark and schreiber
+clark and touhy
+clark and wellington
+clark and winnemac
+clark and wrightwood
+clark street and 9th street (amli)
+clark street and armitage avenue
+clark street and berwyn avenue
+clark street and bryn mawr avenue
+clark street and chicago avenue
+clark street and columbia avenue
+clark street and congress parkway
+clark street and elm street
+clark street and elmdale avenue
+clark street and grace street
+clark street and jarvis avenue
+clark street and lake street
+clark street and leland avenue
+clark street and lincoln avenue
+clark street and lunt avenue
+clark street and montrose avenue
+clark street and north avenue
+clark street and randolph street
+clark street and schiller street
+clark street and schreiber avenue
+clark street and touhy avenue
+clark street and wellington avenue
+clark street and winnemac avenue
+clark street and wrightwood avenue
+clifton and armitage
+clifton and lawrence
+clifton avenue and armitage avenue
+clifton avenue and lawrence avenue
+clinton and 18th
+clinton and lake
+clinton and madison
+clinton and polk(*)
+clinton and roosevelt
+clinton and tilden
+clinton and washington
+clinton street and 18th street
+clinton street and lake street
+clinton street and madison street
+clinton street and polk street (*)
+clinton street and roosevelt road
+clinton street and tilden street
+clinton street and washington boulevard
+clybourn and division
+clybourn avenue and division street
+columbus and randolph
+columbus drive and randolph street
+conservatory and lake
+conservatory drive and lake street
+cornell and hyde park
+cornell avenue and hyde park boulevard
+cottage grove and 43rd
+cottage grove and 47th
+cottage grove and 51st
+cottage grove and 63rd
+cottage grove and 67th
+cottage grove and 71st
+cottage grove and 78th
+cottage grove and 83rd
+cottage grove and oakwood
+cottage grove avenue and 43rd street
+cottage grove avenue and 47th street
+cottage grove avenue and 51st street
+cottage grove avenue and 63rd street
+cottage grove avenue and 67th street
+cottage grove avenue and 71st street
+cottage grove avenue and 78th street
+cottage grove avenue and 83rd street
+cottage grove avenue and oakwood boulevard
+cuyler and augusta
+cuyler avenue and augusta street
+damen and 51st
+damen and 61st
+damen and augusta
+damen and charleston
+damen and chicago
+damen and clybourn
+damen and cortland
+damen and coulter
+damen and cullerton
+damen and division
+damen and foster
+damen and garfield
+damen and grand
+damen and leland
+damen and madison
+damen and melrose
+damen and pershing
+damen and pierce
+damen and sunnyside
+damen and wellington
+damen avenue and 51st street
+damen avenue and 61st street
+damen avenue and augusta boulevard
+damen avenue and charleston street
+damen avenue and chicago avenue
+damen avenue and clybourn avenue
+damen avenue and cortland street
+damen avenue and coulter street
+damen avenue and cullerton street
+damen avenue and division street
+damen avenue and foster avenue
+damen avenue and garfield boulevard
+damen avenue and grand avenue
+damen avenue and leland avenue
+damen avenue and madison street
+damen avenue and melrose avenue
+damen avenue and pershing road
+damen avenue and pierce avenue
+damen avenue and sunnyside avenue
+damen avenue and wellington avenue
+dayton and north
+dayton street and north avenue
+dearborn and adams
+dearborn and delaware
+dearborn and erie
+dearborn and monroe
+dearborn parkway and delaware place
+dearborn street and adams street
+dearborn street and erie street
+dearborn street and monroe street
+desplaines and jackson
+desplaines and kinzie
+desplaines and randolph
+desplaines street and jackson boulevard
+desplaines street and kinzie street
+desplaines street and randolph street
+dodge and church
+dodge avenue and church street
+dorchester and 49th
+dorchester and 63rd
+dorchester avenue and 49th street
+dorchester avenue and 63rd street
+drake and addison
+drake and fullerton
+drake and montrose
+drake avenue and addison street
+drake avenue and fullerton avenue
+drake avenue and montrose avenue
+east and garfield
+east and madison
+east avenue and garfield street
+east avenue and madison street
+eastlake and rogers
+eastlake terrace and rogers avenue
+eberhart and 61st
+eberhart avenue and 61st street
+elizabeth and 47th
+elizabeth street and 47th street
+ellis and 53rd
+ellis and 55th
+ellis and 58th
+ellis and 60th
+ellis and 83rd
+ellis avenue and 53rd street
+ellis avenue and 55th street
+ellis avenue and 58th street
+ellis avenue and 60th street
+ellis avenue and 83rd street
+elmwood and austin
+elmwood avenue and austin street
+elston and wabansia
+elston avenue and wabansia avenue
+emerald and 28th
+emerald and 31st
+emerald avenue and 28th street
+emerald avenue and 31st street
+evans and 75th
+evans avenue and 75th street
+exchange and 79th
+exchange avenue and 79th street
+fairbanks and grand
+fairbanks court and grand avenue
+fairfield and roosevelt
+fairfield avenue and roosevelt road
+federal and polk
+federal street and polk street
+field and south water
+field boulevard and south water street
+financial and congress
+financial place and congress parkway
+forest and chicago
+forest and lake
+forest avenue and chicago avenue
+forest avenue and lake street
+fort dearborn and 31st
+fort dearborn drive and 31st street
+francisco and foster
+francisco avenue and foster avenue
+franklin and chicago
+franklin and jackson
+franklin and lake
+franklin and monroe
+franklin and quincy
+franklin street and chicago avenue
+franklin street and jackson boulevard
+franklin street and lake street
+franklin street and monroe street
+franklin street and quincy street
+glenwood and morse
+glenwood and touhy
+glenwood avenue and morse avenue
+glenwood avenue and touhy avenue
+green and madison
+green and randolph
+green street and madison street
+green street and randolph street
+greenview and diversey
+greenview and fullerton
+greenview and jarvis
+greenview avenue and diversey parkway
+greenview avenue and fullerton avenue
+greenview avenue and jarvis avenue
+greenwood and 47th
+greenwood and 79th
+greenwood avenue and 47th street
+greenwood avenue and 79th street
+halsted and 18th
+halsted and 21st
+halsted and 35th(*)
+halsted and 37th
+halsted and 47th
+halsted and 51st
+halsted and 56th
+halsted and 59th
+halsted and 63rd
+halsted and 69th
+halsted and archer
+halsted and blackhawk(*)
+halsted and dickens
+halsted and diversey
+halsted and maxwell
+halsted and north branch
+halsted and polk
+halsted and roosevelt
+halsted and roscoe
+halsted and willow
+halsted and wrightwood
+halsted street and 18th street
+halsted street and 21st street
+halsted street and 35th street (*)
+halsted street and 37th street
+halsted street and 47th place
+halsted street and 51st street
+halsted street and 56th street
+halsted street and 59th street
+halsted street and 63rd street
+halsted street and 69th street
+halsted street and archer avenue
+halsted street and blackhawk street (*)
+halsted street and dickens avenue
+halsted street and diversey parkway
+halsted street and maxwell street
+halsted street and north branch street
+halsted street and polk street
+halsted street and roosevelt road
+halsted street and roscoe street
+halsted street and willow street
+halsted street and wrightwood avenue
+hampden and diversey
+hampden court and diversey parkway
+harper and 59th
+harper avenue and 59th street
+hermitage and polk
+hermitage avenue and polk street
+hoyne and 47th
+hoyne avenue and 47th street
+humboldt and armitage
+humboldt and luis munoz marin
+humboldt boulevard and armitage avenue
+humboldt drive and luis munoz marin drive
+humphrey and ontario
+humphrey avenue and ontario street
+indiana and 26th
+indiana and 31st
+indiana and 40th
+indiana and roosevelt
+indiana avenue and 26th street
+indiana avenue and 31st street
+indiana avenue and 40th street
+indiana avenue and roosevelt road
+jefferson and monroe
+jefferson street and monroe street
+jeffery and 67th
+jeffery and 71st
+jeffery and 76th
+jeffery boulevard and 67th street
+jeffery boulevard and 71st street
+jeffery boulevard and 76th street
+kedzie and 21st
+kedzie and 24th
+kedzie and bryn mawr
+kedzie and chicago
+kedzie and foster
+kedzie and harrison
+kedzie and lake
+kedzie and leland
+kedzie and milwaukee
+kedzie and montrose
+kedzie and palmer
+kedzie and roosevelt
+kedzie avenue and 21st street
+kedzie avenue and 24th street
+kedzie avenue and bryn mawr avenue
+kedzie avenue and chicago avenue
+kedzie avenue and foster avenue
+kedzie avenue and harrison street
+kedzie avenue and lake street
+kedzie avenue and leland avenue
+kedzie avenue and milwaukee avenue
+kedzie avenue and montrose avenue
+kedzie avenue and palmer court
+kedzie avenue and roosevelt road
+keeler and irving park
+keeler avenue and irving park road
+kenton and madison
+kenton avenue and madison street
+keystone and fullerton
+keystone and montrose
+keystone avenue and fullerton avenue
+keystone avenue and montrose avenue
+kilbourn and irving park
+kilbourn avenue and irving park road
+kimball and belmont
+kimball avenue and belmont avenue
+kimbark and 53rd
+kimbark avenue and 53rd street
+kingsbury and erie
+kingsbury and kinzie
+kingsbury street and erie street
+kingsbury street and kinzie street
+knox and montrose
+knox avenue and montrose avenue
+kostner and adams
+kostner and lake
+kostner avenue and adams street
+kostner avenue and lake street
+lake park and 35th
+lake park and 47th
+lake park and 53rd
+lake park and 56th
+lake park avenue and 35th street
+lake park avenue and 47th street
+lake park avenue and 53rd street
+lake park avenue and 56th street
+lake shore and belmont
+lake shore and diversey
+lake shore and monroe
+lake shore and north
+lake shore and ohio
+lake shore and wellington
+lake shore drive and belmont avenue
+lake shore drive and diversey parkway
+lake shore drive and monroe street
+lake shore drive and north boulevard
+lake shore drive and ohio street
+lake shore drive and wellington avenue
+lakefront trail and bryn mawr
+lakefront trail and bryn mawr avenue
+lakeview and fullerton
+lakeview avenue and fullerton parkway
+laramie and gladys
+laramie and kinzie
+laramie and madison
+laramie avenue and gladys avenue
+laramie avenue and kinzie street
+laramie avenue and madison street
+larrabee and armitage
+larrabee and division
+larrabee and kingsbury
+larrabee and menomonee
+larrabee and north
+larrabee and oak
+larrabee and webster
+larrabee street and armitage avenue
+larrabee street and division street
+larrabee street and kingsbury street
+larrabee street and menomonee street
+larrabee street and north avenue
+larrabee street and oak street
+larrabee street and webster avenue
+lasalle and adams
+lasalle and illinois
+lasalle and jackson
+lasalle and washington
+lasalle street and adams street
+lasalle street and illinois street
+lasalle street and jackson boulevard
+lasalle street and washington street
+lawndale and 23rd
+lawndale avenue and 23rd street
+leavitt and addison
+leavitt and archer
+leavitt and armitage
+leavitt and lawrence
+leavitt and north
+leavitt street and addison street
+leavitt street and archer avenue
+leavitt street and armitage avenue
+leavitt street and lawrence avenue
+leavitt street and north avenue
+lincoln and addison
+lincoln and belle plaine
+lincoln and belmont
+lincoln and diversey
+lincoln and fullerton
+lincoln and leavitt
+lincoln and roscoe
+lincoln and waveland
+lincoln and winona
+lincoln avenue and addison street
+lincoln avenue and belle plaine avenue
+lincoln avenue and belmont avenue
+lincoln avenue and diversey parkway
+lincoln avenue and fullerton avenue
+lincoln avenue and leavitt street
+lincoln avenue and roscoe street
+lincoln avenue and waveland avenue
+lincoln avenue and winona street
+logan and elston
+logan boulevard and elston avenue
+lombard and garfield
+lombard and madison
+lombard avenue and garfield street
+lombard avenue and madison street
+loomis and archer
+loomis and jackson
+loomis and lexington
+loomis and taylor(*)
+loomis street and archer avenue
+loomis street and jackson boulevard
+loomis street and lexington street
+loomis street and taylor street (*)
+manor and leland
+manor avenue and leland avenue
+maplewood and peterson
+maplewood avenue and peterson avenue
+marine and ainslie
+marine drive and ainslie street
+marion and south
+marion street and south boulevard
+marshfield and 44th
+marshfield and 59th
+marshfield and cortland
+marshfield avenue and 44th street
+marshfield avenue and 59th street
+marshfield avenue and cortland street
+mason and madison
+mason avenue and madison street
+may and 69th
+may and cullerton
+may and fulton
+may and randolph
+may and taylor
+may street and 69th street
+may street and cullerton street
+may street and fulton street
+may street and randolph street
+may street and taylor street
+mcclurg and erie
+mcclurg and illinois
+mcclurg court and erie street
+mcclurg court and illinois street
+michigan and 14th
+michigan and 18th
+michigan and balbo
+michigan and congress
+michigan and jackson
+michigan and lake
+michigan and madison
+michigan and oak
+michigan and pearson
+michigan and washington
+michigan avenue and 14th street
+michigan avenue and 18th street
+michigan avenue and balbo avenue
+michigan avenue and congress parkway
+michigan avenue and jackson boulevard
+michigan avenue and lake street
+michigan avenue and madison street
+michigan avenue and oak street
+michigan avenue and pearson street
+michigan avenue and washington street
+mies van der rohe way and chestnut
+mies van der rohe way and chestnut street
+mies van der rohe way and chicago
+mies van der rohe way and chicago avenue
+millard and 26th
+millard avenue and 26th street
+milwaukee and cuyler
+milwaukee and rockwell
+milwaukee and wabansia
+milwaukee avenue and cuyler avenue
+milwaukee avenue and rockwell street
+milwaukee avenue and wabansia avenue
+mlk jr and 29th
+mlk jr and 47th
+mlk jr and 56th(*)
+mlk jr and 63rd
+mlk jr and 83rd
+mlk jr and oakwood
+mlk jr drive and 29th street
+mlk jr drive and 47th street
+mlk jr drive and 56th street (*)
+mlk jr drive and 63rd street
+mlk jr drive and 83rd street
+mlk jr drive and oakwood boulevard
+monticello and irving park
+monticello avenue and irving park road
+morgan and 14th
+morgan and 18th
+morgan and 31st
+morgan and lake
+morgan and pershing
+morgan and polk
+morgan avenue and 14th place
+morgan street and 18th street
+morgan street and 31st street
+morgan street and lake street
+morgan street and pershing road
+morgan street and polk street
+noble and milwaukee
+noble street and milwaukee avenue
+normal and 72nd
+normal and archer
+normal avenue and 72nd street
+normal avenue and archer avenue
+oak park and harrison
+oak park and south
+oak park avenue and harrison street
+oak park avenue and south boulevard
+oakley and irving park
+oakley and touhy
+oakley avenue and irving park road
+oakley avenue and touhy avenue
+ogden and chicago
+ogden and congress
+ogden and race
+ogden and roosevelt
+ogden avenue and chicago avenue
+ogden avenue and congress parkway
+ogden avenue and race avenue
+ogden avenue and roosevelt road
+orleans and elm(*)
+orleans and merchandise mart plaza
+orleans and ohio
+orleans street and elm street (*)
+orleans street and merchandise mart plaza
+orleans street and ohio street
+paulina and 18th
+paulina and howard
+paulina and montrose
+paulina and north
+paulina avenue and north avenue
+paulina street and 18th street
+paulina street and howard street
+paulina street and montrose avenue
+peoria and jackson
+peoria street and jackson boulevard
+perry and 69th
+perry avenue and 69th street
+phillips and 79th
+phillips and 82nd
+phillips avenue and 79th street
+phillips avenue and 82nd street
+pine grove and irving park
+pine grove and waveland
+pine grove avenue and irving park road
+pine grove avenue and waveland avenue
+prairie and 43rd
+prairie and garfield
+prairie avenue and 43rd street
+prairie avenue and garfield boulevard
+princeton and 47th
+princeton and garfield
+princeton avenue and 47th street
+princeton avenue and garfield boulevard
+pulaski and congress
+pulaski and eddy
+pulaski and lake
+pulaski and madison
+pulaski road and congress parkway
+pulaski road and eddy street
+pulaski road and lake street
+pulaski road and madison street
+racine and 13th
+racine and 15th
+racine and 18th
+racine and 35th
+racine and 61st
+racine and 65th
+racine and belmont
+racine and congress
+racine and fullerton
+racine and garfield
+racine and wrightwood
+racine avenue and 13th street
+racine avenue and 15th street
+racine avenue and 18th street
+racine avenue and 35th street
+racine avenue and 61st street
+racine avenue and 65th street
+racine avenue and belmont avenue
+racine avenue and congress parkway
+racine avenue and fullerton avenue
+racine avenue and garfield boulevard
+racine avenue and wrightwood avenue
+ravenswood and balmoral
+ravenswood and berteau
+ravenswood and irving park
+ravenswood and lawrence
+ravenswood and montrose(*)
+ravenswood avenue and balmoral avenue
+ravenswood avenue and berteau avenue
+ravenswood avenue and irving park road
+ravenswood avenue and lawrence avenue
+ravenswood avenue and montrose avenue (*)
+rhodes and 32nd
+rhodes avenue and 32nd street
+richmond and diversey
+richmond street and diversey avenue
+ridge and howard
+ridge and touhy
+ridge boulevard and howard street
+ridge boulevard and touhy avenue
+ridgeland and lake
+ridgeland avenue and lake street
+ritchie and banks
+ritchie court and banks street
+rockwell and eastwood
+rockwell street and eastwood avenue
+rush and cedar
+rush and hubbard
+rush and superior
+rush street and cedar street
+rush street and hubbard street
+rush street and superior street
+sacramento and franklin
+sacramento boulevard and franklin boulevard
+saginaw and exchange
+saginaw avenue and exchange avenue
+sangamon and washington(*)
+sangamon street and washington boulevard (*)
+sawyer and irving park
+sawyer avenue and irving park road
+sedgwick and huron
+sedgwick and north
+sedgwick and schiller
+sedgwick and webster
+sedgwick street and huron street
+sedgwick street and north avenue
+sedgwick street and schiller street
+sedgwick street and webster avenue
+seeley and roscoe
+seeley avenue and roscoe street
+sheffield and addison
+sheffield and fullerton
+sheffield and kingsbury
+sheffield and webster
+sheffield and wellington
+sheffield and willow
+sheffield and wrightwood
+sheffield avenue and addison street
+sheffield avenue and fullerton avenue
+sheffield avenue and kingsbury street
+sheffield avenue and webster avenue
+sheffield avenue and wellington avenue
+sheffield avenue and willow street
+sheffield avenue and wrightwood avenue
+sheridan and buena
+sheridan and greenleaf
+sheridan and irving park
+sheridan and lawrence
+sheridan and loyola
+sheridan and montrose
+sheridan and noyes(nu)
+sheridan road and buena avenue
+sheridan road and greenleaf avenue
+sheridan road and irving park road
+sheridan road and lawrence avenue
+sheridan road and loyola avenue
+sheridan road and montrose avenue
+sheridan road and noyes street (nu)
+shields and 28th
+shields and 31st
+shields and 43rd
+shields avenue and 28th place
+shields avenue and 31st street
+shields avenue and 43rd street
+shore and 55th
+shore drive and 55th street
+south chicago and 83rd
+south chicago avenue and 83rd street
+south shore and 67th
+south shore and 71st
+south shore and 74th
+south shore drive and 67th street
+south shore drive and 71st street
+south shore drive and 74th street
+southport and belmont
+southport and clark
+southport and clybourn
+southport and irving park
+southport and roscoe
+southport and waveland
+southport and wellington
+southport and wrightwood
+southport avenue and belmont avenue
+southport avenue and clark street
+southport avenue and clybourn avenue
+southport avenue and irving park road
+southport avenue and roscoe street
+southport avenue and waveland avenue
+southport avenue and wellington avenue
+southport avenue and wrightwood avenue
+spaulding and armitage
+spaulding and division
+spaulding avenue and armitage avenue
+spaulding avenue and division street
+st. clair and erie
+st. clair street and erie street
+st. louis and balmoral
+st. louis avenue and balmoral avenue
+state and 19th
+state and 29th
+state and 33rd
+state and 35th
+state and 76th
+state and 79th
+state and harrison
+state and kinzie
+state and pearson
+state and pershing
+state and randolph
+state and van buren
+state street and 19th street
+state street and 29th street
+state street and 33rd street
+state street and 35th street
+state street and 76th street
+state street and 79th street
+state street and harrison street
+state street and kinzie street
+state street and pearson street
+state street and pershing road
+state street and randolph street
+state street and van buren street
+stave and armitage
+stave street and armitage avenue
+stetson and south water
+stetson avenue and south water street
+stockton and wrightwood
+stockton drive and wrightwood avenue
+stony island and 64th
+stony island and 67th
+stony island and 71st
+stony island and 75th
+stony island and 82nd
+stony island and south chicago
+stony island avenue and 64th street
+stony island avenue and 67th street
+stony island avenue and 71st street
+stony island avenue and 75th street
+stony island avenue and 82nd street
+stony island avenue and south chicago avenue
+streeter and grand
+streeter drive and grand avenue
+talman and addison
+talman avenue and addison street
+throop and 52nd
+throop street and 52nd street
+troy and elston
+troy and north
+troy street and elston avenue
+troy street and north avenue
+union and 42nd
+union and grand
+union avenue and 42nd street
+union avenue and grand avenue
+university and 57th
+university avenue and 57th street
+vernon and 75th
+vernon and 79th
+vernon avenue and 75th street
+vernon avenue and 79th street
+wabash and 16th
+wabash and 87th
+wabash and 8th
+wabash and adams
+wabash and cermak
+wabash and grand
+wabash and roosevelt
+wabash and wacker
+wabash avenue and 16th street
+wabash avenue and 87th street
+wabash avenue and 8th street
+wabash avenue and adams street
+wabash avenue and cermak road
+wabash avenue and grand avenue
+wabash avenue and roosevelt road
+wabash avenue and wacker place
+wacker and washington
+wacker drive and washington street
+wallace and 35th
+wallace street and 35th street
+washtenaw and 15th(*)
+washtenaw and lawrence
+washtenaw avenue and 15th street (*)
+washtenaw avenue and lawrence avenue
+wells and 19th
+wells and concord
+wells and elm
+wells and evergreen
+wells and huron
+wells and polk
+wells and walton
+wells street and 19th street
+wells street and concord lane
+wells street and elm street
+wells street and evergreen avenue
+wells street and huron street
+wells street and polk street
+wells street and walton street
+wentworth and 24th
+wentworth and 33rd
+wentworth and 35th
+wentworth and 63rd
+wentworth and archer
+wentworth avenue and 24th street
+wentworth avenue and 33rd street
+wentworth avenue and 35th street
+wentworth avenue and 63rd street
+wentworth avenue and archer avenue
+western and 21st
+western and 24th
+western and 28th
+western and 48th
+western and congress
+western and division
+western and granville
+western and howard
+western and leland
+western and lunt
+western and monroe
+western and roscoe
+western and walton
+western and winnebago
+western avenue and 21st street
+western avenue and 24th street
+western avenue and 28th street
+western avenue and congress parkway
+western avenue and division street
+western avenue and granville avenue
+western avenue and howard street
+western avenue and leland avenue
+western avenue and lunt avenue
+western avenue and monroe street
+western avenue and roscoe street
+western avenue and walton street
+western avenue and winnebago avenue
+western boulevard and 48th place
+wilton and belmont
+wilton and diversey
+wilton avenue and belmont avenue
+wilton avenue and diversey parkway
+winchester and elston
+winchester avenue and elston avenue
+wisconsin and madison
+wisconsin avenue and madison street
+wolcott and fargo
+wolcott and polk
+wolcott avenue and fargo avenue
+wolcott avenue and polk street
+wood and 35th
+wood and division
+wood and grand
+wood and milwaukee
+wood and taylor
+wood street and 35th street
+wood street and division street
+wood street and grand avenue
+wood street and milwaukee avenue
+wood street and taylor street
+woodlawn and 55th
+woodlawn and 75th
+woodlawn and lake park
+woodlawn avenue and 55th street
+woodlawn avenue and 75th street
+woodlawn avenue and lake park avenue
+yates and 75th
+yates boulevard and 75th street

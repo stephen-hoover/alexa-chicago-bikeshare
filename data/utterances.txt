@@ -108,55 +108,31 @@ AMAZON.NextIntent skip the zip code
 AMAZON.NextIntent skip zip
 AMAZON.NextIntent you don't need it
 
-CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street}
-CheckBikeIntent there are {bikes_or_docks} at {first_street} and {second_street} station
-CheckBikeIntent there are {bikes_or_docks} at the {first_street} and {second_street} station
-CheckBikeIntent {first_street} and {second_street} has {bikes_or_docks}
-CheckBikeIntent the {first_street} and {second_street} station has {bikes_or_docks}
-CheckBikeIntent {first_street} and {second_street} station has {bikes_or_docks}
-CheckBikeIntent how many {bikes_or_docks} are at {first_street} and {second_street}
-CheckBikeIntent how many {bikes_or_docks} {first_street} and {second_street} has
-CheckBikeIntent how many {bikes_or_docks} there are at {first_street} and {second_street}
-CheckBikeIntent how many {bikes_or_docks} are at the {first_street} and {second_street} station
-CheckBikeIntent how many {bikes_or_docks} the {first_street} and {second_street} station has
-CheckBikeIntent how many {bikes_or_docks} there are at the {first_street} and {second_street} station
-CheckBikeIntent there are {bikes_or_docks} at {special_name}
-CheckBikeIntent there are {bikes_or_docks} at {special_name} station
-CheckBikeIntent there are {bikes_or_docks} at the {special_name} station
-CheckBikeIntent {special_name} has {bikes_or_docks}
-CheckBikeIntent the {special_name} station has {bikes_or_docks}
-CheckBikeIntent {special_name} station has {bikes_or_docks}
-CheckBikeIntent how many {bikes_or_docks} are at {special_name}
-CheckBikeIntent how many {bikes_or_docks} {special_name} has
-CheckBikeIntent how many {bikes_or_docks} there are at {special_name}
-CheckBikeIntent how many {bikes_or_docks} are at the {special_name} station
-CheckBikeIntent how many {bikes_or_docks} the {special_name} station has
-CheckBikeIntent how many {bikes_or_docks} there are at the {special_name} station
+CheckBikeIntent there are {bikes_or_docks} at {station_name}
+CheckBikeIntent there are {bikes_or_docks} at {station_name} station
+CheckBikeIntent there are {bikes_or_docks} at the {station_name} station
+CheckBikeIntent {station_name} has {bikes_or_docks}
+CheckBikeIntent the {station_name} station has {bikes_or_docks}
+CheckBikeIntent {station_name} station has {bikes_or_docks}
+CheckBikeIntent how many {bikes_or_docks} are at {station_name}
+CheckBikeIntent how many {bikes_or_docks} {station_name} has
+CheckBikeIntent how many {bikes_or_docks} there are at {station_name}
+CheckBikeIntent how many {bikes_or_docks} are at the {station_name} station
+CheckBikeIntent how many {bikes_or_docks} the {station_name} station has
+CheckBikeIntent how many {bikes_or_docks} there are at the {station_name} station
 
-CheckStatusIntent {first_street} and {second_street}
-CheckStatusIntent {first_street} and {second_street} station
-CheckStatusIntent the {first_street} and {second_street} station
-CheckStatusIntent {special_name}
-CheckStatusIntent {special_name} station
-CheckStatusIntent the {special_name} station
-CheckStatusIntent check {first_street} and {second_street}
-CheckStatusIntent check {first_street} and {second_street} station
-CheckStatusIntent check the {first_street} and {second_street} station
-CheckStatusIntent check {special_name}
-CheckStatusIntent check {special_name} station
-CheckStatusIntent check the {special_name} station
-CheckStatusIntent the status of {first_street} and {second_street}
-CheckStatusIntent the status of {first_street} and {second_street} station
-CheckStatusIntent the status of the {first_street} and {second_street} station
-CheckStatusIntent the status of {special_name}
-CheckStatusIntent the status of {special_name} station
-CheckStatusIntent the status of the {special_name} station
-CheckStatusIntent and give me {first_street} and {second_street}
-CheckStatusIntent and give me {first_street} and {second_street} station
-CheckStatusIntent and give me the {first_street} and {second_street} station
-CheckStatusIntent and give me {special_name}
-CheckStatusIntent and give me {special_name} station
-CheckStatusIntent and give me the {special_name} station
+CheckStatusIntent {station_name}
+CheckStatusIntent {station_name} station
+CheckStatusIntent the {station_name} station
+CheckStatusIntent check {station_name}
+CheckStatusIntent check {station_name} station
+CheckStatusIntent check the {station_name} station
+CheckStatusIntent the status of {station_name}
+CheckStatusIntent the status of {station_name} station
+CheckStatusIntent the status of the {station_name} station
+CheckStatusIntent and give me {station_name}
+CheckStatusIntent and give me {station_name} station
+CheckStatusIntent and give me the {station_name} station
 
 ListStationIntent what stations are on {street_name}
 ListStationIntent stations on {street_name}

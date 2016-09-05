@@ -4,17 +4,9 @@
       "intent": "CheckBikeIntent",
       "slots": [
         {
-          "name": "first_street",
-       	  "type": "streets"
+          "name": "station_name",
+       	  "type": "station_name"
       	},
-        {
-          "name": "second_street",
-          "type": "streets"
-        },
-        {
-          "name": "special_name",
-          "type": "special_name"
-        },
         {
           "name": "bikes_or_docks",
           "type": "bikes_or_docks"
@@ -25,16 +17,8 @@
       "intent": "CheckStatusIntent",
       "slots": [
         {
-          "name": "first_street",
-       	  "type": "streets"
-      	},
-        {
-          "name": "second_street",
-          "type": "streets"
-        },
-        {
-          "name": "special_name",
-          "type": "special_name"
+          "name": "station_name",
+          "type": "station_name"
         }
         ]
     },

@@ -148,9 +148,12 @@ def _station_from_intent(intent, stations):
         don't uniquely specify a station
     """
     slots = intent['slots']
-    if slots.get('special_name', {}).get('value'):
-        first = slots['special_name']['value']
-        second = None
+    if slots.get('station_name', {}).get('value'):
+        name = slots['station_name']['value']
+        if 'and' in name:
+            first, second = name.split('and')
+        else:
+            first, second = name, None
     else:
         first = slots['first_street']['value']
         second = slots.get('second_street', {}).get('value')
