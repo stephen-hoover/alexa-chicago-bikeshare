@@ -134,7 +134,9 @@ def intent(req, session):
                            "station. Use the Divvy station name, such as "
                            "\"Milwaukee Avenue and Rockwell Street\". If you only "
                            "remember one cross-street, you can ask me to list all "
-                           "stations on a particular street.", is_end=False)
+                           "stations on a particular street. If you've told me to "
+                           "\"add an address\", I can remember that and use it "
+                           "when you ask me to \"check my commute\".", is_end=False)
     else:
         return reply.build("I didn't understand that.", is_end=False)
 
@@ -200,10 +202,12 @@ def check_commute(intent, session):
     """
     user_data = database.get_user_data(session['user']['userId'])
     if not user_data:
-        return reply.build("I don't remember any of your addresses.",
+        return reply.build("I don't remember any of your addresses. "
+                           "You can ask me to \"save an address\" if you "
+                           "want me to be able to check on your daily commute.",
                            is_end=True)
     stations = location.get_stations(config.divvy_api)
-    utter = []
+    utter = ''
     first_phrase = True
     for which, av_key, av_name in \
           [('home', 'availableBikes', 'bikes'),
@@ -222,7 +226,9 @@ def check_commute(intent, session):
             if first_phrase:
                 verb = 'is' if n_thing == 1 else 'are'
                 phrase = ('There %s ' % verb) + phrase
-            utter.append(phrase)
+            else:
+                phrase = ', and ' + phrase
+            utter += phrase
             first_phrase = False
 
             if n_thing < 3:
@@ -231,10 +237,10 @@ def check_commute(intent, session):
                 n_thing = nearest_st[1][av_key]
                 av_slice = slice(0, (-1 if n_thing == 1 else None))  # singular?
                 st_name = location.text_to_speech(nearest_st[1]['stationName'])
-                utter[-1] += (' with %d %s at the next nearest station, %s' %
-                              (n_thing, av_name[av_slice], st_name))
+                utter += (', and %d %s at the next nearest station, %s. ' %
+                          (n_thing, av_name[av_slice], st_name))
+                first_phrase = True  # Start a new sentence next time
 
-    utter = '%s.' % ' and '.join(utter)
     return reply.build(utter, card_text=utter, is_end=True)
 
 
@@ -318,7 +324,7 @@ def add_address(intent, session):
         if slots['which_address'].get('value') in ['here', 'home', 'origin']:
             sess_data['which'] = 'home'
             sess_data['next_step'] = 'num_and_name'
-            return reply.build("Okay, storing your home address. "
+            return reply.build("Okay, storing your origin address. "
                                "What's the street number and name?",
                                reprompt="What's the street number and name?",
                                persist=sess_data,
@@ -348,7 +354,9 @@ def add_address(intent, session):
                                             (num, direction, st))
                                            .replace('  ', ' '))
             sess_data['next_step'] = 'zip'
-            return reply.build("Got it. Now what's the zip code?",
+            return reply.build("Got it. Now what's the zip code? "
+                               "You can tell me "
+                               "to skip it if you don't know.",
                                reprompt="What's the zip code?",
                                persist=sess_data,
                                is_end=False)
