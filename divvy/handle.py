@@ -64,7 +64,14 @@ def intent(req, session):
     intent = req['intent']
 
     if intent['name'] == 'CheckBikeIntent':
-        return check_bikes(intent, location.get_stations(config.divvy_api))
+        if not intent['slots']['bikes_or_docks'].get('value'):
+            # If something went wrong understanding the bike/dock
+            # value, fall back on the status check.
+            return check_status(intent,
+                                location.get_stations(config.divvy_api))
+        else:
+            return check_bikes(intent,
+                               location.get_stations(config.divvy_api))
     elif intent['name'] == 'CheckStatusIntent':
         return check_status(intent, location.get_stations(config.divvy_api))
     elif intent['name'] == 'ListStationIntent':
