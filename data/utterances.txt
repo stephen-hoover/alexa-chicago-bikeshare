@@ -139,3 +139,4 @@ ListStationIntent stations on {street_name}
 ListStationIntent which stations are on {street_name}
 ListStationIntent list stations on {street_name}
 ListStationIntent where I can find bikes on {street_name}
+ListStationIntent how many stations are on {street_name}
