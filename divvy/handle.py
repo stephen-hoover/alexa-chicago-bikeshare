@@ -522,10 +522,11 @@ def check_status(intent, stations):
 
     n_bike = sta['availableBikes']
     n_dock = sta['availableDocks']
-    text = ("There are %d bike%s and %d dock%s "
+    text = ("There %s %d bike%s and %d dock%s "
             "at the %s station."
-            % (n_bike, "s" if n_bike > 1 else "",
-               n_dock, "s" if n_dock > 1 else "",
+            % ("is" if n_bike == 1 else "are",
+               n_bike, "" if n_bike == 1 else "s",
+               n_dock, "" if n_dock == 1 else "s",
                sta_name))
     return reply.build(text, card_text=text, is_end=True)
 
