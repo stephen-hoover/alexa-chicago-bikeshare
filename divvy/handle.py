@@ -42,6 +42,7 @@ IntentRequest:
 from __future__ import print_function, division
 import location
 import logging
+import os
 import reply
 import time
 
@@ -142,6 +143,13 @@ def intent(req, session):
         return reply.build("I didn't understand that.", is_end=False)
 
 
+def _time_string():
+    """Return a string representing local Chicago time"""
+    os.environ['TZ'] = 'US/Central'  # Chicago!
+    time.tzset()
+    return time.asctime()
+
+
 def _station_from_intent(intent, stations):
     """Given a request and a list of stations, find the desired station
 
@@ -209,7 +217,7 @@ def check_commute(intent, session):
                            is_end=True)
     stations = location.get_stations(config.divvy_api)
     utter = ''
-    card_text = ['Checked at %s' % time.asctime()]
+    card_text = ['Checked at %s' % _time_string()]
     first_phrase = True
     for which, av_key, av_name in \
           [('origin', 'availableBikes', 'bikes'),
@@ -540,13 +548,14 @@ def check_status(intent, stations):
         return reply.build("The %s station isn't "
                            "renting right now." % sta_name,
                            card_title='%s Status' % sta['stationName'],
-                           card_text='Not renting',
+                           card_text='%s\nNot renting' % _time_string(),
                            is_end=True)
     if not sta['statusValue'] == 'In Service':
         return reply.build("The %s station is %s."
                            % (sta_name, sta['statusValue']),
                            card_title='%s Status' % sta['stationName'],
-                           card_text=sta['statusValue'],
+                           card_text='%s\n%s' % (sta['statusValue'],
+                                                 _time_string()),
                            is_end=True)
 
     n_bike = sta['availableBikes']
@@ -559,8 +568,9 @@ def check_status(intent, stations):
                sta_name))
     return reply.build(text,
                        card_title='%s Status' % sta['stationName'],
-                       card_text=("%d bike%s and %d dock%s" %
-                                  (n_bike, "" if n_bike == 1 else "s",
+                       card_text=("At %s:\n%d bike%s and %d dock%s" %
+                                  (_time_string(),
+                                   n_bike, "" if n_bike == 1 else "s",
                                    n_dock, "" if n_dock == 1 else "s")),
                        is_end=True)
 
