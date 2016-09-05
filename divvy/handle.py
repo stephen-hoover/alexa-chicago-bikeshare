@@ -43,6 +43,7 @@ from __future__ import print_function, division
 import location
 import logging
 import reply
+import time
 
 from divvy import config, database, geocoding
 
@@ -208,9 +209,10 @@ def check_commute(intent, session):
                            is_end=True)
     stations = location.get_stations(config.divvy_api)
     utter = ''
+    card_text = ['Checked at %s' % time.asctime()]
     first_phrase = True
     for which, av_key, av_name in \
-          [('home', 'availableBikes', 'bikes'),
+          [('origin', 'availableBikes', 'bikes'),
            ('destination', 'availableDocks', 'docks')]:
         if user_data.get(which):
             lat = user_data[which]['latitude']
@@ -230,6 +232,11 @@ def check_commute(intent, session):
                 phrase = ', and ' + phrase
             utter += phrase
             first_phrase = False
+            card_text.append("%s: %d %s at %s" %
+                             (which.capitalize(),
+                              n_thing,
+                              av_name[av_slice],
+                              nearest_st[0]['stationName']))
 
             if n_thing < 3:
                 # If there's not many bikes/docks at the best station,
@@ -240,8 +247,16 @@ def check_commute(intent, session):
                 utter += (', and %d %s at the next nearest station, %s. ' %
                           (n_thing, av_name[av_slice], st_name))
                 first_phrase = True  # Start a new sentence next time
+                card_text.append("Next Best %s: %d %s at %s" %
+                                 (which.capitalize(),
+                                  n_thing,
+                                  av_name[av_slice],
+                                  nearest_st[1]['stationName']))
 
-    return reply.build(utter, card_text=utter, is_end=True)
+    return reply.build(utter,
+                       card_title="Your Divvy Commute Status",
+                       card_text='\n'.join(card_text),
+                       is_end=True)
 
 
 def remove_address(intent, session):
@@ -322,7 +337,7 @@ def add_address(intent, session):
     sess_data.setdefault('next_step', 'which')
     if sess_data['next_step'] == 'which':
         if slots['which_address'].get('value') in ['here', 'home', 'origin']:
-            sess_data['which'] = 'home'
+            sess_data['which'] = 'origin'
             sess_data['next_step'] = 'num_and_name'
             return reply.build("Okay, storing your origin address. "
                                "What's the street number and name?",
@@ -381,6 +396,9 @@ def add_address(intent, session):
         else:
             addr = '%s, Chicago, IL' % sess_data['spoken_address']
         lat, lon, full_address = geocoding.get_lat_lon(addr)
+        if full_address.endswith(", USA"):
+            # We don't need to keep the country name.
+            full_address = full_address[:-5]
         sess_data['lat'], sess_data['lon'] = lat, lon
         sess_data['full_address'] = full_address
         sess_data['next_step'] = 'store_address'
@@ -466,9 +484,7 @@ def check_bikes(intent, stations):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build(err.message,
-                           card_text=err.message,
-                           is_end=True)
+        return reply.build(err.message, is_end=True)
     except:  # NOQA
         log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that.",
@@ -490,7 +506,7 @@ def check_bikes(intent, stations):
             % (verb, n_things, b_or_d,
                location.text_to_speech(sta['stationName']),
                postamble))
-    return reply.build(text, card_text=text, is_end=True)
+    return reply.build(text, is_end=True)
 
 
 def check_status(intent, stations):
@@ -513,9 +529,7 @@ def check_status(intent, stations):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build(err.message,
-                           card_text=err.message,
-                           is_end=True)
+        return reply.build(err.message, is_end=True)
     except:  # NOQA
         log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that.",
@@ -525,10 +539,14 @@ def check_status(intent, stations):
     if not sta['is_renting']:
         return reply.build("The %s station isn't "
                            "renting right now." % sta_name,
+                           card_title='%s Status' % sta['stationName'],
+                           card_text='Not renting',
                            is_end=True)
     if not sta['statusValue'] == 'In Service':
         return reply.build("The %s station is %s."
                            % (sta_name, sta['statusValue']),
+                           card_title='%s Status' % sta['stationName'],
+                           card_text=sta['statusValue'],
                            is_end=True)
 
     n_bike = sta['availableBikes']
@@ -539,7 +557,12 @@ def check_status(intent, stations):
                n_bike, "" if n_bike == 1 else "s",
                n_dock, "" if n_dock == 1 else "s",
                sta_name))
-    return reply.build(text, card_text=text, is_end=True)
+    return reply.build(text,
+                       card_title='%s Status' % sta['stationName'],
+                       card_text=("%d bike%s and %d dock%s" %
+                                  (n_bike, "" if n_bike == 1 else "s",
+                                   n_dock, "" if n_dock == 1 else "s")),
+                       is_end=True)
 
 
 def list_stations(intent, stations):
@@ -559,8 +582,10 @@ def list_stations(intent, stations):
         JSON following the Alexa reply schema
     """
     street_name = intent['slots']['street_name']['value']
-    possible = location.matching_station_list(stations, street_name,
+    possible = location.matching_station_list(stations,
+                                              street_name,
                                               exact=True)
+    street_name = street_name.capitalize()
 
     if len(possible) == 0:
         return reply.build("I didn't find any stations on %s." % street_name)
@@ -568,8 +593,9 @@ def list_stations(intent, stations):
         sta_name = location.text_to_speech(possible[0]['stationName'])
         return reply.build("There's only one: the %s "
                            "station." % sta_name,
-                           card_text="One station on %s: %s" % (street_name,
-                                                                sta_name),
+                           card_title="Divvy Stations on %s" % street_name,
+                           card_text=("One station on %s: %s" %
+                                      (street_name, possible[0]['stationName'])),
                            is_end=False)
     else:
         last_name = location.text_to_speech(possible[-1]['stationName'])
@@ -578,4 +604,10 @@ def list_stations(intent, stations):
         speech += (', '.join([location.text_to_speech(p['stationName'])
                               for p in possible[:-1]]) +
                    ', and %s' % last_name)
-        return reply.build(speech, card_text=speech, is_end=False)
+        card_text = ("The following %d stations are on %s:\n%s" %
+                     (len(possible), street_name,
+                      '\n'.join(p['stationName'] for p in possible)))
+        return reply.build(speech,
+                           card_title="Divvy Stations on %s" % street_name,
+                           card_text=card_text,
+                           is_end=False)

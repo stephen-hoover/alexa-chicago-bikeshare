@@ -38,7 +38,9 @@ Alexa expects a response in the following format:
 """
 
 
-def build(speech, reprompt=None, card_text=None, is_end=False, persist=None):
+def build(speech, reprompt=None,
+          card_text=None, card_title=None,
+          is_end=False, persist=None):
     output = {
         "version": "1.0",
         "response": {
@@ -53,7 +55,7 @@ def build(speech, reprompt=None, card_text=None, is_end=False, persist=None):
         output["sessionAttributes"] = persist
     if card_text:
         output["response"]["card"] = {"type": "Simple",
-                                      "title": "Chicago Bikeshare Status",
+                                      "title": card_title,
                                       "content": card_text}
     if reprompt:
         output["response"]["reprompt"] = {
