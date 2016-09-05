@@ -24,9 +24,15 @@ def lambda_handler(event, context):
     try:
         if event['request']['type'] == "IntentRequest":
             return handle.intent(event['request'], event['session'])
+        elif event['request']['type'] == "LaunchRequest":
+            return reply.build("Ask me a question about a Divvy station.",
+                               is_end=False)
+        elif event['request']['type'] == "SessionEndedRequest":
+            return reply.build("Bike safe!", is_end=True)
         else:
-            # This could be a "LaunchRequest"
-            return reply.build("Ask me a question about a Divvy station.")
+            # I don't think there's any other kinds of requests.
+            return reply.build("Ask me a question about a Divvy station.",
+                               is_end=False)
     except Exception as err:  # NOQA
         log.exception('Unhandled exception!')
         return reply.build("Sorry, something went wrong. Please try again.")
