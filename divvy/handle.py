@@ -164,7 +164,7 @@ def _station_from_intent(intent, stations):
     else:
         first = slots['first_street']['value']
         second = slots.get('second_street', {}).get('value')
-    sta = location.find_station(stations, first, second)
+    sta = location.find_station(stations, first, second, exact=False)
     return sta
 
 
@@ -525,7 +525,8 @@ def list_stations(intent, stations):
         JSON following the Alexa reply schema
     """
     street_name = intent['slots']['street_name']['value']
-    possible = location.matching_station_list(stations, street_name)
+    possible = location.matching_station_list(stations, street_name,
+                                              exact=True)
 
     if len(possible) == 0:
         return reply.build("I didn't find any stations on %s." % street_name)

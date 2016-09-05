@@ -1,3 +1,4 @@
+import difflib
 import requests
 
 
@@ -36,7 +37,7 @@ def _check_possible(possible, first, second=None):
         raise AmbiguousStationError("I don't know if you mean %s." % possible_list)
 
 
-def matching_station_list(stations, first, second=None):
+def matching_station_list(stations, first, second=None, exact=False):
     """Filter the Divvy station list based on locations
 
     May return multiple stations
@@ -50,6 +51,11 @@ def matching_station_list(stations, first, second=None):
         e.g. "Larrabee" or "Larrabee Street".
     second : str, optional
         As `first`.
+    exact : bool, optional
+        If True, require exact string matches. Otherwise
+        always return at least one station name. If no
+        exact match, return the closest string match to
+        a station name.
 
     Returns
     -------
@@ -67,6 +73,14 @@ def matching_station_list(stations, first, second=None):
         for sta in stations:
             if first in sta['stAddress1'].lower():
                 possible.append(sta)
+
+        if not possible:
+            # Do fuzzy matching if we couldn't find an exact match.
+            st_names = {s['stationName'].lower(): s for s in stations}
+            best_name = difflib.get_close_matches(first, st_names, n=1)[0]
+            print('Heard "%s", matching with station "%s".' %
+                  (first, best_name))
+            return [st_names[best_name]]
     else:
         second = speech_to_text(second)
         for sta in stations:
@@ -79,7 +93,7 @@ def matching_station_list(stations, first, second=None):
     return possible
 
 
-def find_station(stations, first, second=None):
+def find_station(stations, first, second=None, exact=False):
     """Filter the Divvy station list to find a single station
 
     Parameters
@@ -91,6 +105,10 @@ def find_station(stations, first, second=None):
         e.g. "Larrabee" or "Larrabee Street".
     second : str, optional
         As `first`.
+    exact : bool, optional
+        If True, require exact string matches. Otherwise
+        always return at least one station name. If no
+        exact match, return the closest string match.
 
     Returns
     -------
@@ -102,7 +120,7 @@ def find_station(stations, first, second=None):
     AmbiguousStationError if `first` and `second`
         don't uniquely specify a station
     """
-    possible = matching_station_list(stations, first, second)
+    possible = matching_station_list(stations, first, second, exact=exact)
     return _check_possible(possible, first, second)
 
 
