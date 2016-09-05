@@ -17,8 +17,12 @@ def lambda_handler(event, context):
     if event['session']['application']['applicationId'] != config.APP_ID:
         raise ValueError("Invalid Application ID")
 
-    if event['request']['type'] == "IntentRequest":
-        return handle.intent(event['request'], event['session'])
-    else:
-        # This could be a "LaunchRequest"
-        return reply.build("Ask me a question about a Divvy station.")
+    try:
+        if event['request']['type'] == "IntentRequest":
+            return handle.intent(event['request'], event['session'])
+        else:
+            # This could be a "LaunchRequest"
+            return reply.build("Ask me a question about a Divvy station.")
+    except Exception as err:  # NOQA
+        print("Exception: %s" % str(err))
+        return reply.build("Sorry, something went wrong. Please try again.")
