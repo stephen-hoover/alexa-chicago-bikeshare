@@ -169,13 +169,13 @@ canal and adams
 canal and harrison
 canal and jackson
 canal and madison
-canal and monroe(*)
+canal and monroe
 canal and taylor
 canal street and adams street
 canal street and harrison street
 canal street and jackson boulevard
 canal street and madison street
-canal street and monroe street (*)
+canal street and monroe street
 canal street and taylor street
 cannon and fullerton
 cannon drive and fullerton avenue
@@ -221,7 +221,7 @@ clarendon and leland
 clarendon avenue and gordon terrace
 clarendon avenue and junior terrace
 clarendon avenue and leland avenue
-clark and 9th(amli)
+clark and 9th
 clark and armitage
 clark and berwyn
 clark and bryn mawr
@@ -245,7 +245,7 @@ clark and touhy
 clark and wellington
 clark and winnemac
 clark and wrightwood
-clark street and 9th street (amli)
+clark street and 9th street
 clark street and armitage avenue
 clark street and berwyn avenue
 clark street and bryn mawr avenue
@@ -276,14 +276,14 @@ clifton avenue and lawrence avenue
 clinton and 18th
 clinton and lake
 clinton and madison
-clinton and polk(*)
+clinton and polk
 clinton and roosevelt
 clinton and tilden
 clinton and washington
 clinton street and 18th street
 clinton street and lake street
 clinton street and madison street
-clinton street and polk street (*)
+clinton street and polk street
 clinton street and roosevelt road
 clinton street and tilden street
 clinton street and washington boulevard
@@ -463,7 +463,7 @@ greenwood avenue and 47th street
 greenwood avenue and 79th street
 halsted and 18th
 halsted and 21st
-halsted and 35th(*)
+halsted and 35th
 halsted and 37th
 halsted and 47th
 halsted and 51st
@@ -472,7 +472,7 @@ halsted and 59th
 halsted and 63rd
 halsted and 69th
 halsted and archer
-halsted and blackhawk(*)
+halsted and blackhawk
 halsted and dickens
 halsted and diversey
 halsted and maxwell
@@ -484,7 +484,7 @@ halsted and willow
 halsted and wrightwood
 halsted street and 18th street
 halsted street and 21st street
-halsted street and 35th street (*)
+halsted street and 35th street
 halsted street and 37th street
 halsted street and 47th place
 halsted street and 51st street
@@ -493,7 +493,7 @@ halsted street and 59th street
 halsted street and 63rd street
 halsted street and 69th street
 halsted street and archer avenue
-halsted street and blackhawk street (*)
+halsted street and blackhawk street
 halsted street and dickens avenue
 halsted street and diversey parkway
 halsted street and maxwell street
@@ -672,11 +672,11 @@ lombard avenue and madison street
 loomis and archer
 loomis and jackson
 loomis and lexington
-loomis and taylor(*)
+loomis and taylor
 loomis street and archer avenue
 loomis street and jackson boulevard
 loomis street and lexington street
-loomis street and taylor street (*)
+loomis street and taylor street
 manor and leland
 manor avenue and leland avenue
 maplewood and peterson
@@ -741,13 +741,13 @@ milwaukee avenue and rockwell street
 milwaukee avenue and wabansia avenue
 mlk jr and 29th
 mlk jr and 47th
-mlk jr and 56th(*)
+mlk jr and 56th
 mlk jr and 63rd
 mlk jr and 83rd
 mlk jr and oakwood
 mlk jr drive and 29th street
 mlk jr drive and 47th street
-mlk jr drive and 56th street (*)
+mlk jr drive and 56th street
 mlk jr drive and 63rd street
 mlk jr drive and 83rd street
 mlk jr drive and oakwood boulevard
@@ -787,10 +787,10 @@ ogden avenue and chicago avenue
 ogden avenue and congress parkway
 ogden avenue and race avenue
 ogden avenue and roosevelt road
-orleans and elm(*)
+orleans and elm
 orleans and merchandise mart plaza
 orleans and ohio
-orleans street and elm street (*)
+orleans street and elm street
 orleans street and merchandise mart plaza
 orleans street and ohio street
 paulina and 18th
@@ -855,12 +855,12 @@ ravenswood and balmoral
 ravenswood and berteau
 ravenswood and irving park
 ravenswood and lawrence
-ravenswood and montrose(*)
+ravenswood and montrose
 ravenswood avenue and balmoral avenue
 ravenswood avenue and berteau avenue
 ravenswood avenue and irving park road
 ravenswood avenue and lawrence avenue
-ravenswood avenue and montrose avenue (*)
+ravenswood avenue and montrose avenue
 rhodes and 32nd
 rhodes avenue and 32nd street
 richmond and diversey
@@ -885,8 +885,8 @@ sacramento and franklin
 sacramento boulevard and franklin boulevard
 saginaw and exchange
 saginaw avenue and exchange avenue
-sangamon and washington(*)
-sangamon street and washington boulevard (*)
+sangamon and washington
+sangamon street and washington boulevard
 sawyer and irving park
 sawyer avenue and irving park road
 sedgwick and huron
@@ -919,14 +919,14 @@ sheridan and irving park
 sheridan and lawrence
 sheridan and loyola
 sheridan and montrose
-sheridan and noyes(nu)
+sheridan and noyes
 sheridan road and buena avenue
 sheridan road and greenleaf avenue
 sheridan road and irving park road
 sheridan road and lawrence avenue
 sheridan road and loyola avenue
 sheridan road and montrose avenue
-sheridan road and noyes street (nu)
+sheridan road and noyes street
 shields and 28th
 shields and 31st
 shields and 43rd
@@ -1049,9 +1049,9 @@ wacker and washington
 wacker drive and washington street
 wallace and 35th
 wallace street and 35th street
-washtenaw and 15th(*)
+washtenaw and 15th
 washtenaw and lawrence
-washtenaw avenue and 15th street (*)
+washtenaw avenue and 15th street
 washtenaw avenue and lawrence avenue
 wells and 19th
 wells and concord
