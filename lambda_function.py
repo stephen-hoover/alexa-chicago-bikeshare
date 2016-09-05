@@ -34,5 +34,5 @@ def lambda_handler(event, context):
             return reply.build("Ask me a question about a Divvy station.",
                                is_end=False)
     except Exception as err:  # NOQA
-        log.exception('Unhandled exception!')
+        log.exception('Unhandled exception for event\n%\n' % str(event))
         return reply.build("Sorry, something went wrong. Please try again.")
