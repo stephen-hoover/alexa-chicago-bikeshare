@@ -40,12 +40,12 @@ IntentRequest:
 }
 """
 from __future__ import print_function, division
-import location
 import logging
 import os
 import reply
 import time
 
+import location
 from divvy import config, database, geocoding
 
 log = logging.getLogger(__name__)
@@ -75,15 +75,13 @@ def intent(req, session):
         if not intent['slots']['bikes_or_docks'].get('value'):
             # If something went wrong understanding the bike/dock
             # value, fall back on the status check.
-            return check_status(intent,
-                                location.get_stations(config.divvy_api))
+            return check_status(intent, session)
         else:
-            return check_bikes(intent,
-                               location.get_stations(config.divvy_api))
+            return check_bikes(intent, session)
     elif intent['name'] == 'CheckStatusIntent':
-        return check_status(intent, location.get_stations(config.divvy_api))
+        return check_status(intent, session)
     elif intent['name'] == 'ListStationIntent':
-        return list_stations(intent, location.get_stations(config.divvy_api))
+        return list_stations(intent, session)
     elif intent['name'] == 'CheckCommuteIntent':
         return check_commute(intent, session)
     elif intent['name'] == 'AddAddressIntent':
@@ -473,7 +471,7 @@ def check_address(intent, session):
                            (which, location.text_to_speech(addr['address'])))
 
 
-def check_bikes(intent, stations):
+def check_bikes(intent, session):
     """Handle a CheckBikeIntent; return number of bikes at a station
 
     Parameters
@@ -481,14 +479,15 @@ def check_bikes(intent, stations):
     intent : dict
         JSON following the Alexa "IntentRequest"
         schema with name "CheckBikeIntent"
-    stations : dict
-        JSON following the Divvy "stationBeanList" schema
+    session : dict
+        JSON following the Alexa "Session" schema
 
     Returns
     -------
     dict
         JSON following the Alexa reply schema
     """
+    stations = location.get_stations(config.divvy_api)
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
@@ -517,7 +516,7 @@ def check_bikes(intent, stations):
     return reply.build(text, is_end=True)
 
 
-def check_status(intent, stations):
+def check_status(intent, session):
     """Handle a CheckStatusIntent:
     return number of bikes and docks at a station
 
@@ -526,14 +525,15 @@ def check_status(intent, stations):
     intent : dict
         JSON following the Alexa "IntentRequest"
         schema with name "CheckBikeIntent"
-    stations : dict
-        JSON following the Divvy "stationBeanList" schema
+    session : dict
+        JSON following the Alexa "Session" schema
 
     Returns
     -------
     dict
         JSON following the Alexa reply schema
     """
+    stations = location.get_stations(config.divvy_api)
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
@@ -575,7 +575,7 @@ def check_status(intent, stations):
                        is_end=True)
 
 
-def list_stations(intent, stations):
+def list_stations(intent, session):
     """Find all stations on a given street
 
     Parameters
@@ -583,14 +583,15 @@ def list_stations(intent, stations):
     intent : dict
         JSON following the Alexa "IntentRequest"
         schema with name "ListStationIntent"
-    stations : dict
-        JSON following the Divvy "stationBeanList" schema
+    session : dict
+        JSON following the Alexa "Session" schema
 
     Returns
     -------
     dict
         JSON following the Alexa reply schema
     """
+    stations = location.get_stations(config.divvy_api)
     street_name = intent['slots']['street_name']['value']
     possible = location.matching_station_list(stations,
                                               street_name,

@@ -14,7 +14,7 @@ def test_distance():
 
 
 def test_stations_from_lat_lon():
-    stations = test_handle.station_list()
+    stations = test_handle.build_station_mock()(None)
     nearest = geocoding.station_from_lat_lon(41.866500, -87.609210,
                                              stations, n_nearest=3)
     assert len(nearest) == 3
