@@ -13,7 +13,8 @@ def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
     etc.) The JSON body of the request is provided in the event parameter.
     """
-    logging.basicConfig(level='INFO', stream=sys.stderr)
+    logging.basicConfig(level=getattr(config, 'log_level', 'INFO'),
+                        stream=sys.stderr)
 
     # This `if` prevents other Skills from using this Lambda
     if event['session']['application']['applicationId'] != config.APP_ID:
