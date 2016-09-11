@@ -1,6 +1,8 @@
 import os
 import json
 
+import pytest
+
 from divvy import location
 
 
@@ -84,12 +86,9 @@ def test_find_station_fuzzy_pair_partial_nomatch():
 def test_find_station_fuzzy_pair_complete_nomatch():
     sta = _station_list()
 
-    try:
+    with pytest.raises(location.AmbiguousStationError) as err:
         location.find_station(sta, '14131', 'xyzzz', exact=False)
-    except location.AmbiguousStationError as err:
-        assert str(err).startswith("I couldn't find a station at")
-    else:
-        assert False, "Expected an AmbiguousStationError"
+    assert str(err.value).startswith("I couldn't find a station at")
 
 
 def test_find_station_fuzzy_pair_flipped():
@@ -107,12 +106,9 @@ def test_find_station_fuzzy_pair_flipped():
 def test_find_station_one_ambiguous():
     sta = _station_list()
 
-    try:
+    with pytest.raises(location.AmbiguousStationError) as err:
         location.find_station(sta, 'Halsted')
-    except location.AmbiguousStationError as err:
-        assert 'halsted street' in err.message.lower()
-    else:
-        assert False, 'Expected an AmbiguousStationError.'
+    assert 'halsted street' in err.value.message.lower()
 
 
 def test_speech_to_text_two_street():

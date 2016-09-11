@@ -30,8 +30,8 @@ def build_station_mock(not_renting=None):
 
     return mock_get_stations
 
-def _get_request(intent, case):
 
+def _get_request(intent, case):
     fname = os.path.join(os.path.dirname(__file__),
                          'samples',
                          '%s_%s.json' % (intent, case))
