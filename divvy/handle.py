@@ -91,41 +91,11 @@ def intent(req, session):
     elif intent['name'] == 'RemoveAddressIntent':
         return remove_address(intent, session)
     elif intent['name'] == 'AMAZON.NextIntent':
-        # This is part of the AddAddressIntent dialog
-        if session.get('attributes', {}).get('add_address') and \
-                    session['attributes']['next_step'] == 'zip':
-            session['attributes']['next_step'] = 'check_address'
-            session['attributes']['zip_code'] = ''
-            return add_address(intent, session)
-        else:
-            return reply.build("Sorry, I don't know what you mean.",
-                               is_end=False)
+        return next_intent(intent, session)
     elif intent['name'] == 'AMAZON.YesIntent':
-        # This is part of the AddAddressIntent or
-        # RemoveAddressIntent dialog
-        if session.get('attributes', {}).get('add_address') and \
-                    session['attributes']['next_step'] == 'store_address':
-            return store_address(intent, session)
-        elif session.get('attributes', {}).get('remove_address'):
-            return remove_address(intent, session)
-        else:
-            return reply.build("Sorry, I don't know what you mean.",
-                               is_end=False)
+        return yes_intent(intent, session)
     elif intent['name'] == 'AMAZON.NoIntent':
-        # This is part of the AddAddressIntent or
-        # RemoveAddressIntent dialog
-        if session.get('attributes', {}).get('add_address') and \
-                    session['attributes']['next_step'] == 'store_address':
-            session['attributes']['next_step'] = 'zip'
-            return reply.build("Okay, what street number and name do you want?",
-                               reprompt="What's the street number and name?",
-                               persist=session['attributes'],
-                               is_end=False)
-        elif session.get('attributes', {}).get('remove_address'):
-            return remove_address(intent, session)
-        else:
-            return reply.build("Sorry, I don't know what you mean.",
-                               is_end=False)
+        return no_intent(intent, session)
     elif intent['name'] in ['AMAZON.StopIntent', 'AMAZON.CancelIntent']:
         return reply.build("Okay, exiting.", is_end=True)
     elif intent['name'] == 'AMAZON.HelpIntent':
@@ -186,6 +156,55 @@ def _station_from_intent(intent, stations):
         second = slots.get('second_street', {}).get('value')
     sta = location.find_station(stations, first, second, exact=False)
     return sta
+
+
+def next_intent(intent, session):
+    """Handle the AMAZON.NextIntent
+
+    This should only come up as part of the AddAddressIntent dialog."""
+    # This is part of the AddAddressIntent dialog
+    if session.get('attributes', {}).get('add_address') and \
+                session['attributes']['next_step'] == 'zip':
+        session['attributes']['next_step'] = 'check_address'
+        session['attributes']['zip_code'] = ''
+        return add_address(intent, session)
+    else:
+        return reply.build("Sorry, I don't know what you mean.",
+                           is_end=False)
+
+
+def yes_intent(intent, session):
+    """Handle the AMAZON.YesIntent
+
+    This is expected to be part of the AddAddressIntent
+    or RemoveAddressIntent dialog"""
+    if session.get('attributes', {}).get('add_address') and \
+                session['attributes']['next_step'] == 'store_address':
+        return store_address(intent, session)
+    elif session.get('attributes', {}).get('remove_address'):
+        return remove_address(intent, session)
+    else:
+        return reply.build("Sorry, I don't know what you mean.",
+                           is_end=False)
+
+
+def no_intent(intent, session):
+    """Handle the AMAZON.NoIntent
+
+    This is expected to be part of the AddAddressIntent
+    or RemoveAddressIntent dialog"""
+    if session.get('attributes', {}).get('add_address') and \
+                session['attributes']['next_step'] == 'store_address':
+        session['attributes']['next_step'] = 'zip'
+        return reply.build("Okay, what street number and name do you want?",
+                           reprompt="What's the street number and name?",
+                           persist=session['attributes'],
+                           is_end=False)
+    elif session.get('attributes', {}).get('remove_address'):
+        return remove_address(intent, session)
+    else:
+        return reply.build("Sorry, I don't know what you mean.",
+                           is_end=False)
 
 
 def check_commute(intent, session):
