@@ -95,16 +95,7 @@ def matching_station_list(stations, first, second=None, exact=False):
 
         if not possible and not exact:
             # Do fuzzy matching if we couldn't find an exact match.
-            # Note default "cutoff=0.6" in `get_close_matches`.
-            st_names = {s['stationName'].lower(): s for s in stations}
-            best_names = difflib.get_close_matches(first, st_names, n=1)
-            if not best_names:
-                log.info("Didn't find a match for station \"%s\"." % first)
-                return []
-            else:
-                log.info('Heard "%s", matching with station "%s".' %
-                         (first, best_names[0]))
-                return [st_names[best_names[0]]]
+            possible.extend(_fuzzy_match(first, stations))
     else:
         second = speech_to_text(second)
         for sta in stations:
@@ -115,39 +106,62 @@ def matching_station_list(stations, first, second=None, exact=False):
                 possible.append(sta)
 
         if not possible and not exact:
-            # If there's no exact match on the fragments,
-            # then do fuzzy matching on the combination.
-            # Try each ordering of street names.
-            order_one = matching_station_list(
-                stations, '%s and %s' % (first, second), exact=False)
-            order_two = matching_station_list(
-                stations, '%s and %s' % (second, first), exact=False)
-
-            # Pick the best of this pair
-            score_one, score_two = 0, 0
-            if order_one:
-                score_one = difflib.SequenceMatcher(
-                    None, '%s and %s' % (first, second),
-                    order_one[0]['stationName']).ratio()
-            if order_two:
-                score_two = difflib.SequenceMatcher(
-                    None, '%s and %s' % (second, first),
-                    order_two[0]['stationName']).ratio()
-            log.info('Heard names "%s" and "%s". Fuzzy match in '
-                     'forward order: %d; reverse %d' %
-                     (first, second, score_one, score_two))
-            if score_one > score_two:
-                return order_one
-            elif order_two:
-                # Make sure the second ordering had a
-                # match before returning it.
-                return order_two
-            else:
-                # If no station names look like the user request,
-                # return an empty list.
-                return []
-
+            possible.extend(_fuzzy_match_two(first, second, stations))
     return possible
+
+
+def _fuzzy_match(name, stations):
+    """Compare the input name to all station names
+    and pick the one that's closest.
+    Note the default `cutoff=0.6` in `get_close_matches`.
+    If nothing if close enough, we won't return any
+    stations. The default seems reasonable.
+    """
+    st_names = {s['stationName'].lower(): s for s in stations}
+    best_names = difflib.get_close_matches(name.lower(), st_names, n=1)
+    if not best_names:
+        log.info("Didn't find a match for station \"%s\"." % name)
+        return []
+    else:
+        log.info('Heard "%s", matching with station "%s".' %
+                 (name, best_names[0]))
+        return [st_names[best_names[0]]]
+
+
+def _fuzzy_match_two(first, second, stations):
+    """If we have the station name in two parts
+    (e.g. "street1" and "street2"), then check for
+    possible matches by combining them in each order.
+    Pick the match closest to the inputs.
+    """
+    order_one = _fuzzy_match(speech_to_text('%s and %s' % (first, second)),
+                             stations)
+    order_two = _fuzzy_match(speech_to_text('%s and %s' % (second, first)),
+                             stations)
+
+    # Pick the best of this pair
+    score_one, score_two = 0, 0
+    if order_one:
+        score_one = difflib.SequenceMatcher(
+            None, '%s and %s' % (first, second),
+            order_one[0]['stationName']).ratio()
+    if order_two:
+        score_two = difflib.SequenceMatcher(
+            None, '%s and %s' % (second, first),
+            order_two[0]['stationName']).ratio()
+    log.info('Heard names "%s" and "%s". Fuzzy match in '
+             'forward order: %d; reverse %d' %
+             (first, second, score_one, score_two))
+    if score_one > score_two:
+        return order_one
+    elif order_two:
+        # Make sure the second ordering had a
+        # match before returning it.
+        return order_two
+    else:
+        # If no station names look like the user request,
+        # return an empty list.
+        return []
 
 
 def find_station(stations, first, second=None, exact=False):
