@@ -111,15 +111,19 @@ def intent(req, session):
         return reply.build("Okay, exiting.", is_end=True)
     elif intent['name'] == 'AMAZON.HelpIntent':
         return reply.build("You can ask me how many bikes or docks are "
-                           "at a specific station, or else just ask the status of a "
-                           "station. Use the Divvy station name, such as "
-                           "\"Milwaukee Avenue and Rockwell Street\". If you only "
-                           "remember one cross-street, you can ask me to list all "
-                           "stations on a particular street. If you've told me to "
-                           "\"add an address\", I can remember that and use it "
-                           "when you ask me to \"check my commute\".", is_end=False)
+                           "at a specific station, or else just ask the "
+                           "status of a station. Use the Divvy station "
+                           "name, such as "
+                           "\"Milwaukee Avenue and Rockwell Street\". "
+                           "If you only remember one cross-street, you "
+                           "can ask me to list all stations on a particular "
+                           "street. If you've told me to \"add an address\", "
+                           "I can remember that and use it when you "
+                           "ask me to \"check my commute\". "
+                           "What should I do?", is_end=False)
     else:
-        return reply.build("I didn't understand that.", is_end=False)
+        return reply.build("I didn't understand that. Try again?",
+                           is_end=False)
 
 
 def _time_string():
@@ -180,7 +184,7 @@ def next_intent(intent, session):
         session['attributes']['zip_code'] = ''
         return add_address(intent, session)
     else:
-        return reply.build("Sorry, I don't know what you mean.",
+        return reply.build("Sorry, I don't know what you mean. Try again?",
                            is_end=False)
 
 
@@ -195,7 +199,7 @@ def yes_intent(intent, session):
     elif session.get('attributes', {}).get('remove_address'):
         return remove_address(intent, session)
     else:
-        return reply.build("Sorry, I don't know what you mean.",
+        return reply.build("Sorry, I don't know what you mean. Try again?",
                            is_end=False)
 
 
@@ -214,7 +218,7 @@ def no_intent(intent, session):
     elif session.get('attributes', {}).get('remove_address'):
         return remove_address(intent, session)
     else:
-        return reply.build("Sorry, I don't know what you mean.",
+        return reply.build("Sorry, I don't know what you mean. Try again?",
                            is_end=False)
 
 
@@ -240,8 +244,9 @@ def check_commute(intent, session):
     user_data = database.get_user_data(session['user']['userId'])
     if not user_data:
         return reply.build("I don't remember any of your addresses. "
-                           "You can ask me to \"save an address\" if you "
-                           "want me to be able to check on your daily commute.",
+                           "You can ask me to \"save an address\" "
+                           "if you want me to be able to check "
+                           "on your daily commute.",
                            is_end=True)
     stations = location.get_stations(config.divvy_api)
     utter = ''
@@ -337,8 +342,8 @@ def remove_address(intent, session):
                 return reply.build("Huh. Something went wrong.", is_end=True)
         else:
             # Shouldn't ever get here.
-            return reply.build("Sorry, I don't know what you mean.",
-                               is_end=False)
+            return reply.build("Sorry, I don't know what you mean. "
+                               "Try again?", is_end=False)
     else:
         # Prompt the user for confirmation of data removal.
         sess_data['awaiting_confirmation'] = True
@@ -548,7 +553,7 @@ def check_bikes(intent, session):
         return reply.build(err.message, is_end=True)
     except:  # NOQA
         log.exception('Failed to get a station.')
-        return reply.build("I'm sorry, I didn't understand that.",
+        return reply.build("I'm sorry, I didn't understand that. Try again?",
                            is_end=False)
 
     if not sta['is_renting']:
@@ -594,7 +599,7 @@ def check_status(intent, session):
         return reply.build(err.message, is_end=True)
     except:  # NOQA
         log.exception('Failed to get a station.')
-        return reply.build("I'm sorry, I didn't understand that.",
+        return reply.build("I'm sorry, I didn't understand that. Try again?",
                            is_end=False)
 
     sta_name = location.text_to_speech(sta['stationName'])
@@ -661,7 +666,7 @@ def list_stations(intent, session):
                            card_title="Divvy Stations on %s" % street_name,
                            card_text=("One station on %s: %s" %
                                       (street_name, possible[0]['stationName'])),
-                           is_end=False)
+                           is_end=True)
     else:
         last_name = location.text_to_speech(possible[-1]['stationName'])
         speech = "There are %d stations on %s: " % (len(possible),
@@ -675,4 +680,4 @@ def list_stations(intent, session):
         return reply.build(speech,
                            card_title="Divvy Stations on %s" % street_name,
                            card_text=card_text,
-                           is_end=False)
+                           is_end=True)
