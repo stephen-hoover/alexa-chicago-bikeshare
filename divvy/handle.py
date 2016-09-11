@@ -46,7 +46,14 @@ import reply
 import time
 
 import location
-from divvy import config, database, geocoding
+from divvy import config, geocoding
+if config.db_type == 's3':
+    import s3_database as database
+elif config.db_type == 'dynamo':
+    import s3_database as database
+else:
+    raise ImportError("Unrecognized database type "
+                      "in config: %s" % config.db_type)
 
 log = logging.getLogger(__name__)
 
