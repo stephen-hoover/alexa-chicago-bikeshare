@@ -42,9 +42,9 @@ CheckAddressIntent say which {which_address} address is set
 CheckAddressIntent say which {which_address} address is saved
 CheckAddressIntent say which {which_address} address is stored
 CheckAddressIntent check what's my {which_address} address
-CheckAddressIntent check what is my {which_address} address
 CheckAddressIntent check my {which_address} address
 CheckAddressIntent check my {which_address}
+CheckAddressIntent check what is my {which_address} address
 CheckAddressIntent check what {which_address} address is set
 CheckAddressIntent check what {which_address} address is saved
 CheckAddressIntent check what {which_address} address is stored
@@ -55,6 +55,18 @@ CheckAddressIntent look up my {which_address}
 CheckAddressIntent look up my {which_address} address
 CheckAddressIntent look up the {which_address}
 CheckAddressIntent look up the {which_address} address
+CheckAddressIntent what addresses are set
+CheckAddressIntent what addresses are saved
+CheckAddressIntent what addresses are stored
+CheckAddressIntent what addresses you know
+CheckAddressIntent check my addresses
+CheckAddressIntent look up my addresses
+CheckAddressIntent say what addresses are set
+CheckAddressIntent say which addresses are set
+CheckAddressIntent tell me what addresses are set
+CheckAddressIntent tell me which addresses are set
+CheckAddressIntent tell me which addresses you know
+CheckAddressIntent tell me what addresses you know
 
 AddAddressIntent add an address
 AddAddressIntent save an address
@@ -68,8 +80,7 @@ AddAddressIntent add the {which_address}
 AddAddressIntent add the {which_address} address
 AddAddressIntent add {which_address}
 AddAddressIntent add {which_address} address
-AddAddressIntent the {which_address}
-AddAddressIntent the {which_address} address
+
 AddAddressIntent update an address
 AddAddressIntent change an address
 AddAddressIntent update my address
@@ -86,6 +97,9 @@ AddAddressIntent change the {which_address}
 AddAddressIntent change the {which_address} address
 AddAddressIntent change {which_address}
 AddAddressIntent change {which_address} address
+
+AddAddressIntent the {which_address}
+AddAddressIntent the {which_address} address
 AddAddressIntent {address_number} {address_street}
 AddAddressIntent it's {address_number} {address_street}
 AddAddressIntent the address is {address_number} {address_street}
@@ -107,6 +121,7 @@ AMAZON.NextIntent skip zip code
 AMAZON.NextIntent skip the zip code
 AMAZON.NextIntent skip zip
 AMAZON.NextIntent you don't need it
+AMAZON.NextIntent I don't know
 
 CheckBikeIntent there are {bikes_or_docks} at {station_name}
 CheckBikeIntent there are {bikes_or_docks} at {station_name} station

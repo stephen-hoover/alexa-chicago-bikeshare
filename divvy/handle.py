@@ -40,6 +40,7 @@ IntentRequest:
 }
 """
 from __future__ import print_function, division
+import difflib
 import logging
 import os
 import reply
@@ -56,6 +57,9 @@ else:
                       "in config: %s" % config.db_type)
 
 log = logging.getLogger(__name__)
+
+ORIGIN_NAMES = ['here', 'home', 'origin']
+DEST_NAMES = ['there', 'work', 'school', 'destination']
 
 
 def intent(req, session):
@@ -368,7 +372,7 @@ def add_address(intent, session):
     sess_data['add_address'] = True
     sess_data.setdefault('next_step', 'which')
     if sess_data['next_step'] == 'which':
-        if slots['which_address'].get('value') in ['here', 'home', 'origin']:
+        if slots['which_address'].get('value') in ORIGIN_NAMES:
             sess_data['which'] = 'origin'
             sess_data['next_step'] = 'num_and_name'
             return reply.build("Okay, storing your origin address. "
@@ -376,8 +380,7 @@ def add_address(intent, session):
                                reprompt="What's the street number and name?",
                                persist=sess_data,
                                is_end=False)
-        elif slots['which_address'].get('value') in ['there', 'work',
-                                                     'school', 'destination']:
+        elif slots['which_address'].get('value') in DEST_NAMES:
             sess_data['which'] = 'destination'
             sess_data['next_step'] = 'num_and_name'
             return reply.build("Okay, storing your destination address. "
@@ -488,13 +491,38 @@ def check_address(intent, session):
         return reply.build("I don't remember any of your addresses.",
                            is_end=True)
 
-    which = intent.get('slots', {}).get('which_address', {}).get('value')
+    # Standardize the input address requester
+    which_raw = intent.get('slots', {}).get('which_address', {}).get('value')
+    if not which_raw:
+        # We might not have gotten anything in the slot.
+        which = None
+    else:
+        which = difflib.get_close_matches(which_raw.lower(),
+                                          ORIGIN_NAMES + DEST_NAMES, n=1)
+        which = which[0] if which else None
+
+    if which in ORIGIN_NAMES:
+        which_lab = 'origin'
+    elif which in DEST_NAMES:
+        which_lab = 'destination'
+    else:
+        # If nothing was filled in the slot,
+        # give the user both addresses.
+        both = [_speak_address(wh, user_data)
+                for wh in ['origin', 'destination']
+                if wh in user_data]
+        return reply.build(" ".join(both), is_end=True)
+    return reply.build(_speak_address(which_lab, user_data), is_end=True)
+
+
+def _speak_address(which, user_data):
+    """Assume that `which` is either "origin" or "destination"."""
     addr = user_data.get(which)
     if not addr:
-        return reply.build("I don't know your %s address." % which)
+        return "I don't know your %s address." % which
     else:
-        return reply.build("Your %s address is set to %s." %
-                           (which, location.text_to_speech(addr['address'])))
+        return ("Your %s address is set to %s." %
+                (which, location.text_to_speech(addr['address'])))
 
 
 def check_bikes(intent, session):
