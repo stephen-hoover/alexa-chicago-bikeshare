@@ -135,6 +135,9 @@ CheckBikeIntent how many {bikes_or_docks} there are at {station_name}
 CheckBikeIntent how many {bikes_or_docks} are at the {station_name} station
 CheckBikeIntent how many {bikes_or_docks} the {station_name} station has
 CheckBikeIntent how many {bikes_or_docks} there are at the {station_name} station
+CheckBikeIntent the number of {bikes_or_docks} at {station_name}
+CheckBikeIntent the number of {bikes_or_docks} at {station_name} station
+CheckBikeIntent the number of {bikes_or_docks} at the {station_name} station
 
 CheckStatusIntent {station_name}
 CheckStatusIntent {station_name} station
