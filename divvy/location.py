@@ -1,9 +1,16 @@
+"""Match spoken station names and addresses to the
+stored station information which comes back from
+the Divvy API.
+"""
 import difflib
 import logging
 import requests
 
 log = logging.getLogger(__name__)
 
+# Create a couple of lookup tables to go
+# between the name format given to us by
+# Divvy and the transcription of spoken words.
 ABBREV = {' st ': ' street ',
           ' pl ': ' place ',
           ' ave ': ' avenue ',
@@ -22,21 +29,31 @@ DIRECTIONS = {' n ': ' north ',
 
 
 class AmbiguousStationError(ValueError):
+    """This error indicates that we expected a single
+    station, but the user request matched multiple stations.
+    """
     pass
 
 
 def _check_possible(possible, first, second=None):
+    """If the list of possible stations has only one option,
+    return it. Otherwise generate an informative error message."""
     if len(possible) == 1:
         return possible[0]
     elif not possible:
         if second:
-            raise AmbiguousStationError("I couldn't find a station at %s and %s." % (first, second))
+            raise AmbiguousStationError("I couldn't find a station at "
+                                        "%s and %s." % (first, second))
         else:
-            raise AmbiguousStationError("I couldn't find a station at %s." % first)
+            raise AmbiguousStationError("I couldn't find a station "
+                                        "at %s." % first)
     else:
-        possible_list = (', '.join([text_to_speech(p['stationName']) for p in possible[:-1]]) +
-                         ', or %s' % text_to_speech(possible[-1]['stationName']))
-        raise AmbiguousStationError("I don't know if you mean %s." % possible_list)
+        possible_list = (', '.join([text_to_speech(p['stationName'])
+                                    for p in possible[:-1]]) +
+                         ', or %s' % text_to_speech(
+                             possible[-1]['stationName']))
+        raise AmbiguousStationError("I don't know if you "
+                                    "mean %s." % possible_list)
 
 
 def matching_station_list(stations, first, second=None, exact=False):
@@ -194,6 +211,7 @@ def text_to_speech(address):
 
 
 def get_stations(divvy_api):
+    """Query the Divvy API and return the station list"""
     resp = requests.get(divvy_api)
     stations = resp.json()['stationBeanList']
 

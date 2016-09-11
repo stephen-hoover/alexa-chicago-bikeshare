@@ -14,8 +14,6 @@ def lambda_handler(event, context):
     etc.) The JSON body of the request is provided in the event parameter.
     """
     logging.basicConfig(level='INFO', stream=sys.stderr)
-    log.debug("event.session.application.applicationId=" +
-              event['session']['application']['applicationId'])
 
     # This `if` prevents other Skills from using this Lambda
     if event['session']['application']['applicationId'] != config.APP_ID:
@@ -34,5 +32,5 @@ def lambda_handler(event, context):
             return reply.build("Ask me a question about a Divvy station.",
                                is_end=False)
     except Exception as err:  # NOQA
-        log.exception('Unhandled exception for event\n%\n' % str(event))
+        log.exception('Unhandled exception for event\n%s\n' % str(event))
         return reply.build("Sorry, something went wrong. Please try again.")

@@ -1,3 +1,5 @@
+"""Functions having to do with physical location
+"""
 from __future__ import print_function, division
 import math
 
@@ -7,6 +9,34 @@ from divvy import config
 
 
 def get_lat_lon(addr_string):
+    """Convert an address to lat/lon
+
+    Use the Google Maps Geocoding API to convert an
+    address string (e.g. 123 North State Street)
+    to a latitude and longitude. The Google API will
+    also return a standarized address string.
+    It's pretty good at spelling correction if the street
+    name gets garbled by the speech-to-text engine.
+
+    Parameters
+    ----------
+    addr_string: str
+        String address, e.g. "123 North State Street, Chicago, IL".
+        The zip code can help disambiguate, but generally
+        isn't necessary. It's strongly advised to have
+        either the city or the zip: otherwise, Google will
+        guess what city you mean, often incorrectly.
+
+    Returns
+    -------
+    (lat, lon, addr): (float, float, str)
+        Latitude (as a float), longitude (as a float), and the
+        standardized form of the input address
+
+    See Also
+    --------
+    https://developers.google.com/maps/documentation/geocoding/
+    """
     addr_string = addr_string.replace(' ', '+')
     query = 'json?address=' + addr_string + '&key=' + config.maps_api_key
 
