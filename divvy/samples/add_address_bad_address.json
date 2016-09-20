@@ -1,0 +1,33 @@
+{
+  "session": {
+    "sessionId": "SessionId.hex-session-id",
+    "application": {
+      "applicationId": "amzn1.ask.skill.hex-app-id"
+    },
+    "attributes": {
+      "which": "destination",
+      "next_step": "num_and_name",
+      "add_address": true
+    },
+    "user": {
+      "userId": "amzn1.ask.account.VERYLONGUSERID"
+    },
+    "new": false
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+    "locale": "en-US",
+    "timestamp": "2016-01-10T20:11:22Z",
+    "intent": {
+      "name": "CheckStatusIntent",
+      "slots": {
+        "station_name": {
+          "name": "station_name",
+          "value": "16th street museum of science and industry"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

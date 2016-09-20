@@ -61,6 +61,20 @@ log = logging.getLogger(__name__)
 ORIGIN_NAMES = ['here', 'home', 'origin']
 DEST_NAMES = ['there', 'work', 'school', 'destination']
 
+# The following intents could be part of the AddAddress dialog.
+ADD_ADDRESS_INTENTS = ['AddAddressIntent',
+                       'AMAZON.NextIntent',
+                       'AMAZON.YesIntent',
+                       'AMAZON.NoIntent',
+                       'AMAZON.StopIntent',
+                       'AMAZON.CancelIntent']
+
+# These intents might be part of the RemoveAddress dialog
+REMOVE_ADDRESS_INTENTS = ['RemoveAddressIntent',
+                          'AMAZON.YesIntent',
+                          'AMAZON.NoIntent',
+                          'AMAZON.StopIntent',
+                          'AMAZON.CancelIntent']
 
 def intent(req, session):
     """Identify and handle IntentRequest objects
@@ -82,6 +96,32 @@ def intent(req, session):
         # Ensure that there's always a dictionary under "attributes".
         session['attributes'] = {}
 
+    # If the user has already opened a dialog, handle incorrect
+    # Intents from Alexa due to misunderstandings or user error.
+    if session['attributes'].get('add_address') and \
+            not intent['name'] in ADD_ADDRESS_INTENTS:
+        # Try to recover if Alexa misunderstood
+        # an address as a station name.
+        if intent['name'] == 'CheckStatusIntent' and \
+                intent['slots'].get('station_name', {}).get('value'):
+            intent['name'] = 'AddAddressIntent'
+            intent['slots'].setdefault('address_street', {})['value'] = \
+                intent['slots']['station_name']['value']
+        else:
+            return reply.build("I didn't understand that as an address. "
+                               "Please provide an address, such as "
+                               "\"123 north State Street\".",
+                               reprompt="What's the street number and name?",
+                               persist=session['attributes'],
+                               is_end=False)
+    elif session['attributes'].get('remove_address') and \
+            not intent['name'] in REMOVE_ADDRESS_INTENTS:
+        # If the user wanted to remove an address, but didn't
+        # give an intelligible response when we requested
+        # confirmation, then assume the answer is no.
+        intent['name'] = 'AMAZON.NoIntent'
+
+    # Dispatch each Intent to the correct handler.
     if intent['name'] == 'CheckBikeIntent':
         if not intent['slots']['bikes_or_docks'].get('value'):
             # If something went wrong understanding the bike/dock
@@ -120,9 +160,12 @@ def intent(req, session):
                            "street. If you've told me to \"add an address\", "
                            "I can remember that and use it when you "
                            "ask me to \"check my commute\". "
-                           "What should I do?", is_end=False)
+                           "What should I do?",
+                           persist=session['attributes'],
+                           is_end=False)
     else:
         return reply.build("I didn't understand that. Try again?",
+                           persist=session['attributes'],
                            is_end=False)
 
 
@@ -185,6 +228,7 @@ def next_intent(intent, session):
         return add_address(intent, session)
     else:
         return reply.build("Sorry, I don't know what you mean. Try again?",
+                           persist=session.get('attributes', {}),
                            is_end=False)
 
 
@@ -200,6 +244,7 @@ def yes_intent(intent, session):
         return remove_address(intent, session)
     else:
         return reply.build("Sorry, I don't know what you mean. Try again?",
+                           persist=session.get('attributes', {}),
                            is_end=False)
 
 
@@ -219,6 +264,7 @@ def no_intent(intent, session):
         return remove_address(intent, session)
     else:
         return reply.build("Sorry, I don't know what you mean. Try again?",
+                           persist=session.get('attributes', {}),
                            is_end=False)
 
 
@@ -343,7 +389,7 @@ def remove_address(intent, session):
         else:
             # Shouldn't ever get here.
             return reply.build("Sorry, I don't know what you mean. "
-                               "Try again?", is_end=False)
+                               "Try again?", persist=sess_data, is_end=False)
     else:
         # Prompt the user for confirmation of data removal.
         sess_data['awaiting_confirmation'] = True
@@ -402,12 +448,13 @@ def add_address(intent, session):
                                is_end=False)
     elif sess_data['next_step'] == 'num_and_name':
         if slots['address_street'].get('value'):
-            num = slots['address_number'].get('value', '')
-            direction = slots['direction'].get('value', '')
-            st = slots['address_street'].get('value', '')
+            num = slots.get('address_number', {}).get('value', '')
+            direction = slots.get('direction', {}).get('value', '')
+            st = slots.get('address_street', {}).get('value', '')
             sess_data['spoken_address'] = (('%s %s %s' %
                                             (num, direction, st))
-                                           .replace('  ', ' '))
+                                           .replace('  ', ' ')
+                                           .strip())
             sess_data['next_step'] = 'zip'
             return reply.build("Got it. Now what's the zip code? "
                                "You can tell me "
@@ -554,6 +601,7 @@ def check_bikes(intent, session):
     except:  # NOQA
         log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that. Try again?",
+                           persist=session.get('attributes', {}),
                            is_end=False)
 
     if not sta['is_renting']:
@@ -600,6 +648,7 @@ def check_status(intent, session):
     except:  # NOQA
         log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that. Try again?",
+                           persist=session.get('attributes', {}),
                            is_end=False)
 
     sta_name = location.text_to_speech(sta['stationName'])

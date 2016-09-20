@@ -93,3 +93,30 @@ def test_check_status_not_renting():
                "station isn't renting right now."
 
     assert expected in out['response']['outputSpeech']['ssml'].lower()
+
+
+@mock.patch.object(handle.location, "get_stations", build_station_mock())
+@mock.patch.object(handle, "database")
+def test_add_address_bad_address(mock_db):
+    event = _get_request('add_address', 'bad_address')
+
+    out = handle.intent(event['request'], event['session'])
+
+    assert not out['response']['shouldEndSession']
+    assert out['sessionAttributes']['next_step'] == "zip"
+    assert (out['sessionAttributes']['spoken_address'] ==
+            "16th street museum of science and industry")
+
+
+@mock.patch.object(handle.location, "get_stations", build_station_mock())
+@mock.patch.object(handle, "database")
+def test_add_address_no_address(mock_db):
+    event = _get_request('add_address', 'bad_address')
+    event['request']['intent']['name'] = 'CheckCommuteIntent'
+
+    out = handle.intent(event['request'], event['session'])
+
+    assert not out['response']['shouldEndSession']
+    assert out['sessionAttributes']['next_step'] == "num_and_name"
+    assert ("I didn't understand that as an address.".lower() in
+            out['response']['outputSpeech']['ssml'].lower())
