@@ -255,7 +255,7 @@ def no_intent(intent, session):
     or RemoveAddressIntent dialog"""
     if session.get('attributes', {}).get('add_address') and \
                 session['attributes']['next_step'] == 'store_address':
-        session['attributes']['next_step'] = 'zip'
+        session['attributes']['next_step'] = 'num_and_name'
         return reply.build("Okay, what street number and name do you want?",
                            reprompt="What's the street number and name?",
                            persist=session['attributes'],
@@ -478,14 +478,31 @@ def add_address(intent, session):
         return add_address(intent, session)
     elif sess_data['next_step'] == 'check_address':
         if sess_data['zip_code']:
-            addr = '%s, %s' % (sess_data['spoken_address'],
-                               sess_data['zip_code'])
+            # Assume that Divvy subscribers are always interested
+            # in Illinois addresses, but not necessarily Chicago.
+            addr = '%s, IL, %s' % (sess_data['spoken_address'],
+                                   sess_data['zip_code'])
         else:
+            # Without a zip code, assume Chicago
+            # to add necessary specificity.
             addr = '%s, Chicago, IL' % sess_data['spoken_address']
         lat, lon, full_address = geocoding.get_lat_lon(addr)
         if full_address.endswith(", USA"):
             # We don't need to keep the country name.
             full_address = full_address[:-5]
+
+        if full_address.lower().startswith("chicago, il"):
+            # If the geocoding fails to find a specific address,
+            # it will return a generic "Chicago" location.
+            sess_data['next_step'] = 'num_and_name'
+            return reply.build("I'm sorry, I heard the address \"%s\", "
+                               "but I can't figure out where that is. "
+                               "Try a different address, something I can "
+                               "look up on the map." % addr,
+                               reprompt="What's the street number and name?",
+                               persist=sess_data,
+                               is_end=False)
+
         sess_data['lat'], sess_data['lon'] = lat, lon
         sess_data['full_address'] = full_address
         sess_data['next_step'] = 'store_address'
