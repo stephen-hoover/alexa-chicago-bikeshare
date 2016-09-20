@@ -39,7 +39,8 @@ You can always check what address(es) you have stored with, e.g.,
 "tell me which home address is saved". Remove all stored addresses
 by saying "remove my addresses".
 
-For more information on Divvy, or to purchase a membership, visit
+This skill is not sponsored by, endorsed by, or affiliated with
+Divvy Bikes. For more information on Divvy, visit their website at
 http://www.divvybikes.com/.
 
 ## Things you can say
