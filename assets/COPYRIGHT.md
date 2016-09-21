@@ -1,0 +1,1 @@
+The Chicago Bikeshare logo is &copy; 2016 to Lydia CL Hoover (http://lydiahooverphotography.com/), all rights reserved, and is used here and in the Alexa Skill store by permission.

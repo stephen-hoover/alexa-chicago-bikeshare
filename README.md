@@ -1,3 +1,4 @@
+![Chicago Bikeshare Logo](/assets/108px_logo.png)
 # Chicago Bikeshare
 
 A skill for Amazon Alexa<br>
