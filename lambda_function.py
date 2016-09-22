@@ -34,4 +34,6 @@ def lambda_handler(event, context):
                                is_end=False)
     except Exception as err:  # NOQA
         log.exception('Unhandled exception for event\n%s\n' % str(event))
-        return reply.build("Sorry, something went wrong. Please try again.")
+        return reply.build("Sorry, something went wrong. Please try again.",
+                           persist=event['session'].get('attributes', {}),
+                           is_end=False)
