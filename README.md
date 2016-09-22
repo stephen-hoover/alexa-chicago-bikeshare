@@ -41,7 +41,7 @@ You can always check what address(es) you have stored with, e.g.,
 by saying "remove my addresses".
 
 This skill is not sponsored by, endorsed by, or affiliated with
-Divvy Bikes. For more information on Divvy, visit their website at
+Divvy Bikes. For more information about Divvy, visit their website at
 http://www.divvybikes.com/.
 
 ## Things you can say
