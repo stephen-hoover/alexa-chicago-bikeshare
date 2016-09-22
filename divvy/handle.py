@@ -513,8 +513,23 @@ def add_address(intent, session):
                            reprompt="Is that the correct address?",
                            persist=sess_data,
                            is_end=False)
+    elif sess_data['next_step'] == 'store_address':
+        # The user should have said "yes" or "no" after
+        # being asked if we should store the address.
+        # Only get here if they didn't.
+        full_address = sess_data['full_address']
+        return reply.build("Sorry, I didn't understand that. "
+                           "Do you want to set "
+                           "your %s address to %s?" %
+                           (sess_data['which'],
+                            location.text_to_speech(full_address)),
+                           reprompt="Is that the correct address?",
+                           persist=sess_data,
+                           is_end=False)
     else:
-        raise NotImplementedError
+        return reply.build("I'm sorry, I got confused. What do you mean?",
+                           persist=sess_data,
+                           is_end=False)
 
 
 def store_address(intent, session):
