@@ -152,15 +152,15 @@ def intent(req, session):
     elif intent['name'] == 'AMAZON.HelpIntent':
         return reply.build("You can ask me how many bikes or docks are "
                            "at a specific station, or else just ask the "
-                           "status of a station. Use the Divvy station "
-                           "name, such as "
-                           "\"Milwaukee Avenue and Rockwell Street\". "
+                           "status of a station. Use the %s station "
+                           "name, such as \"%s\". "
                            "If you only remember one cross-street, you "
                            "can ask me to list all stations on a particular "
                            "street. If you've told me to \"add an address\", "
                            "I can remember that and use it when you "
                            "ask me to \"check my commute\". "
-                           "What should I do?",
+                           "What should I do?" %
+                           (config.network_name, config.sample_station),
                            persist=session['attributes'],
                            is_end=False)
     else:
@@ -170,8 +170,8 @@ def intent(req, session):
 
 
 def _time_string():
-    """Return a string representing local Chicago time"""
-    os.environ['TZ'] = 'US/Central'  # Chicago!
+    """Return a string representing local time"""
+    os.environ['TZ'] = config.time_zone
     time.tzset()
     return time.asctime()
 
@@ -185,12 +185,12 @@ def _station_from_intent(intent, stations):
         JSON following the Alexa "IntentRequest"
         schema with name "CheckBikeIntent"
     stations : list of dict
-        JSON following the Divvy "stationBeanList" schema
+        JSON following the bikeshare "stationBeanList" schema
 
     Returns
     -------
     dict
-        A single station information JSON from the Divvy API response
+        A single station information JSON from the bikeshare API response
 
     Raises
     ------
@@ -341,7 +341,8 @@ def check_commute(intent, session):
                                   nearest_st[1]['stationName']))
 
     return reply.build(utter,
-                       card_title="Your Divvy Commute Status",
+                       card_title=("Your %s Commute Status" %
+                                   config.network_name),
                        card_text='\n'.join(card_text),
                        is_end=True)
 
@@ -478,22 +479,27 @@ def add_address(intent, session):
         return add_address(intent, session)
     elif sess_data['next_step'] == 'check_address':
         if sess_data['zip_code']:
-            # Assume that Divvy subscribers are always interested
-            # in Illinois addresses, but not necessarily Chicago.
-            addr = '%s, IL, %s' % (sess_data['spoken_address'],
+            # Assume that network subscribers are always interested
+            # in in-state addresses, but not necessarily in the city.
+            addr = '%s, %s, %s' % (sess_data['spoken_address'],
+                                   config.default_state,
                                    sess_data['zip_code'])
         else:
-            # Without a zip code, assume Chicago
+            # Without a zip code, assume the network's home city
             # to add necessary specificity.
-            addr = '%s, Chicago, IL' % sess_data['spoken_address']
+            addr = '%s, %s, %s' % (sess_data['spoken_address'],
+                                   config.default_city,
+                                   config.default_state)
         lat, lon, full_address = geocoding.get_lat_lon(addr)
         if full_address.endswith(", USA"):
             # We don't need to keep the country name.
             full_address = full_address[:-5]
 
-        if full_address.lower().startswith("chicago, il"):
+        if full_address.lower().startswith("%s, %s" %
+                                           (config.default_city.lower(),
+                                            config.default_state.lower())):
             # If the geocoding fails to find a specific address,
-            # it will return a generic "Chicago" location.
+            # it will return a generic city location.
             sess_data['next_step'] = 'num_and_name'
             return reply.build("I'm sorry, I heard the address \"%s\", "
                                "but I can't figure out where that is. "
@@ -744,7 +750,8 @@ def list_stations(intent, session):
         sta_name = location.text_to_speech(possible[0]['stationName'])
         return reply.build("There's only one: the %s "
                            "station." % sta_name,
-                           card_title="Divvy Stations on %s" % street_name,
+                           card_title=("%s Stations on %s" %
+                                       (config.network_name, street_name)),
                            card_text=("One station on %s: %s" %
                                       (street_name, possible[0]['stationName'])),
                            is_end=True)
@@ -759,6 +766,7 @@ def list_stations(intent, session):
                      (len(possible), street_name,
                       '\n'.join(p['stationName'] for p in possible)))
         return reply.build(speech,
-                           card_title="Divvy Stations on %s" % street_name,
+                           card_title=("%s Stations on %s" %
+                                       (config.network_name, street_name)),
                            card_text=card_text,
                            is_end=True)

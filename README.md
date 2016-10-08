@@ -2,7 +2,6 @@
 # Chicago Bikeshare
 
 A skill for Amazon Alexa<br>
-http://www.alexaskillstore.com/
 
 ## Overview
 
@@ -65,7 +64,12 @@ in the environment, but only v1.3. This Skill needs v1.4.)
 The skill requires an additional `config.py` file in the "divvy" folder.
 This file should define the following attributes at global level:
 - APP_ID : The unique ID of the Skill which uses the Lambda
-- divvy_api : Web address of the Divvy API. As of September 2016, this is https://feeds.divvybikes.com/stations/stations.json.
+- network_name : The name of the bike sharing network, e.g. "Divvy" or "CoGo"
+- default_state : The two letter state code in which the network operates, e.g. "IL"
+- default_city : The name of the city in which the network operates, e.g. "Chicago"
+- time_zone : The local time zone, e.g. "US/Central" or "US/Eastern"
+- sample_station : A valid station name for use in the help prompt
+- divvy_api : Web address of the bike sharing network's API. As of September 2016, the Divvy network's API is https://feeds.divvybikes.com/stations/stations.json.
 - maps_api : Web address of the Google Maps Geocoding API (used when users store addresses). As of September 2016, this is https://maps.googleapis.com/maps/api/geocode/.
 - maps_api_key : Token which allows access to the Google Maps Geocoding API
 - aws_region : Region in which you have your database

@@ -1,6 +1,6 @@
 """Match spoken station names and addresses to the
 stored station information which comes back from
-the Divvy API.
+the bikeshare network's API.
 """
 import difflib
 import logging
@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 # Create a couple of lookup tables to go
 # between the name format given to us by
-# Divvy and the transcription of spoken words.
+# the API and the transcription of spoken words.
 ABBREV = {' st ': ' street ',
           ' pl ': ' place ',
           ' ave ': ' avenue ',
@@ -20,7 +20,8 @@ ABBREV = {' st ': ' street ',
           ' ln ': ' lane ',
           ' pkwy ': ' parkway ',
           ' ter ': ' terrace ',
-          ' ct ': ' court '}
+          ' ct ': ' court ',
+          ' mt ': ' mount '}
 
 DIRECTIONS = {' n ': ' north ',
               ' w ': ' west ',
@@ -57,14 +58,14 @@ def _check_possible(possible, first, second=None):
 
 
 def matching_station_list(stations, first, second=None, exact=False):
-    """Filter the Divvy station list based on locations
+    """Filter the station list based on locations
 
     May return multiple stations
 
     Parameters
     ----------
     stations : list of dict
-        The 'stationBeanList' from the Divvy API response
+        The 'stationBeanList' from the bikeshare API response
     first : str
         The first component of a station name or address,
         e.g. "Larrabee" or "Larrabee Street".
@@ -79,7 +80,7 @@ def matching_station_list(stations, first, second=None, exact=False):
     Returns
     -------
     list of dict
-        List of station status JSONs from the Divvy API response
+        List of station status JSONs from the bikeshare API response
     """
     possible = []
     first = speech_to_text(first)
@@ -165,12 +166,12 @@ def _fuzzy_match_two(first, second, stations):
 
 
 def find_station(stations, first, second=None, exact=False):
-    """Filter the Divvy station list to find a single station
+    """Filter the station list to find a single station
 
     Parameters
     ----------
     stations : list of dict
-        The 'stationBeanList' from the Divvy API response
+        The 'stationBeanList' from the bikeshare API response
     first : str
         The first component of a station name or address,
         e.g. "Larrabee" or "Larrabee Street".
@@ -184,7 +185,7 @@ def find_station(stations, first, second=None, exact=False):
     Returns
     -------
     dict
-        A single station status JSON from the Divvy API response
+        A single station status JSON from the bikeshare API response
 
     Raises
     ------
@@ -196,7 +197,7 @@ def find_station(stations, first, second=None, exact=False):
 
 
 def speech_to_text(address):
-    """Standardize speech input to look like Divvy station names
+    """Standardize speech input to look like station names in the network
     """
     # Add a space, since we look for spaces after abbreviations
     address = address.lower() + ' '
@@ -224,9 +225,9 @@ def text_to_speech(address):
     return address.strip()
 
 
-def get_stations(divvy_api):
-    """Query the Divvy API and return the station list"""
-    resp = requests.get(divvy_api)
+def get_stations(bike_api):
+    """Query the bikeshare API and return the station list"""
+    resp = requests.get(bike_api)
     stations = resp.json()['stationBeanList']
 
     return stations
