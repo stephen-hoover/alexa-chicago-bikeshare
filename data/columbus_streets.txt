@@ -1,0 +1,86 @@
+mound street
+mound
+stewart avenue
+stewart
+rich street
+rich
+front street
+front
+town street
+town
+6th avenue
+6th
+lane avenue
+lane
+11th
+11th avenue
+17th
+17th avenue
+1st
+1st avenue
+2nd
+2nd avenue
+3rd
+3rd avenue
+3rd street
+4th
+4th avenue
+4th street
+avenue
+bank
+bank street
+beck
+beck street
+broad
+broad street
+buttles
+buttles avenue
+champion
+champion avenue
+clevel
+frankfort
+frankfort street
+front
+front street
+gay
+gay street
+grant
+grant avenue
+high
+high street
+jaeger
+jaeger street
+kilbourne
+kilbourne street
+king
+king avenue
+lincoln
+lincoln street
+lucas
+lucas street
+main
+main street
+michigan
+michigan avenue
+mt vernon
+mt vernon avenue
+nationwide
+nationwide boulevard
+neil
+neil avenue
+oak
+oak street
+parsons
+parsons avenue
+rich
+rich street
+spring
+spring street
+sycamore
+sycamore street
+town
+town street
+vine
+vine street
+whittier
+whittier street
