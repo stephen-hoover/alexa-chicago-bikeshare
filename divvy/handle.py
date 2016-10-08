@@ -294,7 +294,7 @@ def check_commute(intent, session):
                            "if you want me to be able to check "
                            "on your daily commute.",
                            is_end=True)
-    stations = location.get_stations(config.divvy_api)
+    stations = location.get_stations(config.bikes_api)
     utter = ''
     card_text = ['Checked at %s' % _time_string()]
     first_phrase = True
@@ -625,7 +625,7 @@ def check_bikes(intent, session):
     dict
         JSON following the Alexa reply schema
     """
-    stations = location.get_stations(config.divvy_api)
+    stations = location.get_stations(config.bikes_api)
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
@@ -672,7 +672,7 @@ def check_status(intent, session):
     dict
         JSON following the Alexa reply schema
     """
-    stations = location.get_stations(config.divvy_api)
+    stations = location.get_stations(config.bikes_api)
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
@@ -731,7 +731,7 @@ def list_stations(intent, session):
     dict
         JSON following the Alexa reply schema
     """
-    stations = location.get_stations(config.divvy_api)
+    stations = location.get_stations(config.bikes_api)
     street_name = intent['slots']['street_name']['value']
     possible = location.matching_station_list(stations,
                                               street_name,
