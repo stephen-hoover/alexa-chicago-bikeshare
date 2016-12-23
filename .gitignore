@@ -8,3 +8,8 @@
 *config.py
 requests*
 #*
+
+# I need to install external libraries in the code
+# directory for packaging in the Lambda function
+boto3*
+s3transfer*

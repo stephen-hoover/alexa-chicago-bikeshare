@@ -1,23 +1,33 @@
-![Chicago Bikeshare Logo](/assets/108px_logo.png)
-# Chicago Bikeshare
+![Chicago Bike share Logo](/assets/108px_logo.png) ![Columbus Bike share Logo](/assets/108px_columbus_logo.png)
+# Chicago Bike Share Status and Columbus Bike Share Status
 
 A skill for Amazon Alexa<br>
+https://www.amazon.com/Mark-of-Progress-Chicago-Status/dp/B01LZROIFI/<br>
 
 ## Overview
 
-This skill lets you check the status of stations in the Chicago
-Divvy bike sharing network. You can request the number of bikes,
+The Chicago Bike Share Status skill lets you check the status
+of stations in the Chicago Divvy bike sharing network, and
+the Columbus Bike Share Status skill does the same for the
+CoGo network in Columbus. Each skill has the same features and
+commands; the Chicago Bike Share Status skill will recognize
+street and station names in Chicago, IL, while the Columbus
+Bike Share Status skill will recognize street and station names
+in Columbus, OH.
+
+You can request the number of bikes,
 docks, or both from any specific station. Use the station name,
 such as "Orleans Street and Elm Street" or "Adler Planetarium"
 to make the request. Station names are displayed at the stations
-themselves and on the Divvy website. The names are generally either
+themselves and on the Divvy or CoGo website. The names are generally either
 the nearest cross-street or a nearby significant landmark. If you
 only remember one street name, you can say "Alexa, ask Chicago 
 bikeshare what stations are on Grand" (or whatever the street is)
-for a list of all stations on that street.
+for a list of all stations on that street. (Or "Alexa, ask
+Columbus bikeshare what stations are on Rich Street", for example.)
 
 To easily check the status of stations you use every day, the
-Chicago Bikeshare skill will let Alexa remember an origin and
+skills will let Alexa remember an origin and
 destination address. If you choose to store an address, Alexa
 will be able to give you the number of bikes available at the
 station closest to your origin and the number of docks at the
@@ -40,11 +50,14 @@ You can always check what address(es) you have stored with, e.g.,
 by saying "remove my addresses".
 
 This skill is not sponsored by, endorsed by, or affiliated with
-Divvy Bikes. For more information about Divvy, visit their website at
-http://www.divvybikes.com/.
+either Divvy Bikes or CoGo Bike Share.
+For more information about Divvy, visit their website at
+http://www.divvybikes.com/. The official CoGo website is
+https://www.cogobikeshare.com/.
 
-## Things you can say
+### Things you can say
 
+(Replace "Chicago" with "Columbus" for the CoGo network.)
 - Alexa, ask Chicago Bikeshare how many bikes are at the Ashland Avenue and Grand Avenue station.
 - Alexa, ask Chicago Bikeshare to check my commute.
 - Alexa, ask Chicago Bikeshare to store an address.
@@ -69,7 +82,7 @@ This file should define the following attributes at global level:
 - default_city : The name of the city in which the network operates, e.g. "Chicago"
 - time_zone : The local time zone, e.g. "US/Central" or "US/Eastern"
 - sample_station : A valid station name for use in the help prompt
-- divvy_api : Web address of the bike sharing network's API. As of September 2016, the Divvy network's API is https://feeds.divvybikes.com/stations/stations.json.
+- bikes_api : Web address of the bike sharing network's API. As of September 2016, the Divvy network's API is https://feeds.divvybikes.com/stations/stations.json, and the CoGo network's API is http://feeds.cogobikeshare.com/stations/stations.json .
 - maps_api : Web address of the Google Maps Geocoding API (used when users store addresses). As of September 2016, this is https://maps.googleapis.com/maps/api/geocode/.
 - maps_api_key : Token which allows access to the Google Maps Geocoding API
 - aws_region : Region in which you have your database
