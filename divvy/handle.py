@@ -745,7 +745,8 @@ def list_stations(intent, session):
     street_name = street_name.capitalize()
 
     if len(possible) == 0:
-        return reply.build("I didn't find any stations on %s." % street_name)
+        return reply.build("I didn't find any stations on %s." % street_name,
+                           is_end=True)
     elif len(possible) == 1:
         sta_name = location.text_to_speech(possible[0]['stationName'])
         return reply.build("There's only one: the %s "
