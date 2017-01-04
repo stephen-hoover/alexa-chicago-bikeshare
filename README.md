@@ -3,6 +3,7 @@
 
 A skill for Amazon Alexa<br>
 https://www.amazon.com/Mark-of-Progress-Chicago-Status/dp/B01LZROIFI/<br>
+https://www.amazon.com/Mark-of-Progress-Columbus-Status/dp/B01N2WV0OO/<br>
 
 ## Overview
 
