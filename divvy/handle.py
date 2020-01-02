@@ -185,7 +185,7 @@ def _station_from_intent(intent, stations):
         JSON following the Alexa "IntentRequest"
         schema with name "CheckBikeIntent"
     stations : list of dict
-        JSON following the bikeshare "stationBeanList" schema
+        JSON following the combined station_info and status GBFS schema
 
     Returns
     -------
@@ -268,6 +268,18 @@ def no_intent(intent, session):
                            is_end=False)
 
 
+def _get_bikes_available(sta):
+    """Given a GBFS station status blob, return the number of bikes"""
+    # 'num_ebikes_available" is not part of the GBFS spec, but it appears
+    # in the Divvy API response
+    return sta['num_bikes_available'] + sta.get('num_ebikes_available', 0)
+
+
+def _get_docks_available(sta):
+    """Given a GBFS station status blob, return the number of docks"""
+    return sta['num_docks_available']
+
+
 def check_commute(intent, session):
     """Checks nearest station status for home and work
 
@@ -298,17 +310,17 @@ def check_commute(intent, session):
     utter = ''
     card_text = ['Checked at %s' % _time_string()]
     first_phrase = True
-    for which, av_key, av_name in \
-          [('origin', 'availableBikes', 'bikes'),
-           ('destination', 'availableDocks', 'docks')]:
+    for which, av_func, av_name in \
+          [('origin', _get_bikes_available, 'bikes'),
+           ('destination', _get_docks_available, 'docks')]:
         if user_data.get(which):
             lat = user_data[which]['latitude']
             lon = user_data[which]['longitude']
             nearest_st = geocoding.station_from_lat_lon(
                   lat, lon, stations, n_nearest=2)
 
-            n_thing = nearest_st[0][av_key]
-            st_name = location.text_to_speech(nearest_st[0]['stationName'])
+            n_thing = av_func(nearest_st[0])
+            st_name = location.text_to_speech(nearest_st[0]['name'])
             av_slice = slice(0, (-1 if n_thing == 1 else None))  # singular?
             phrase = ('%d %s at the %s station' %
                       (n_thing, av_name[av_slice], st_name))
@@ -323,14 +335,14 @@ def check_commute(intent, session):
                              (which.capitalize(),
                               n_thing,
                               av_name[av_slice],
-                              nearest_st[0]['stationName']))
+                              nearest_st[0]['name']))
 
             if n_thing < 3:
                 # If there's not many bikes/docks at the best station,
                 # refer users to the next nearest station.
-                n_thing = nearest_st[1][av_key]
+                n_thing = av_func(nearest_st[1])
                 av_slice = slice(0, (-1 if n_thing == 1 else None))  # singular?
-                st_name = location.text_to_speech(nearest_st[1]['stationName'])
+                st_name = location.text_to_speech(nearest_st[1]['name'])
                 utter += (', and %d %s at the next nearest station, %s. ' %
                           (n_thing, av_name[av_slice], st_name))
                 first_phrase = True  # Start a new sentence next time
@@ -338,7 +350,7 @@ def check_commute(intent, session):
                                  (which.capitalize(),
                                   n_thing,
                                   av_name[av_slice],
-                                  nearest_st[1]['stationName']))
+                                  nearest_st[1]['name']))
 
     return reply.build(utter,
                        card_title=("Your %s Commute Status" %
@@ -509,7 +521,7 @@ def add_address(intent, session):
                                persist=sess_data,
                                is_end=False)
 
-        sess_data['lat'], sess_data['lon'] = lat, lon
+        sess_data['latitude'], sess_data['longitude'] = lat, lon
         sess_data['full_address'] = full_address
         sess_data['next_step'] = 'store_address'
         return reply.build("Thanks! Do you want to set "
@@ -547,8 +559,8 @@ def store_address(intent, session):
           not sess_data['next_step'] == 'store_address':
         raise RuntimeError('Something went wrong.')
 
-    data = {sess_data['which']: dict(latitude=str(sess_data['lat']),
-                                     longitude=str(sess_data['lon']),
+    data = {sess_data['which']: dict(latitude=str(sess_data['latitude']),
+                                     longitude=str(sess_data['longitude']),
                                      address=str(sess_data['full_address']))}
     success = database.update_user_data(session['user']['userId'], **data)
     if not success:
@@ -647,8 +659,8 @@ def check_bikes(intent, session):
     else:
         postamble = "."
 
-    n_bike = sta['availableBikes']
-    n_dock = sta['availableDocks']
+    n_bike = _get_bikes_available(sta)
+    n_dock = _get_docks_available(sta)
     b_or_d = intent['slots']['bikes_or_docks']['value']
     n_things = n_bike if b_or_d == 'bikes' else n_dock
 
@@ -656,7 +668,7 @@ def check_bikes(intent, session):
     b_or_d = b_or_d[:-1] if n_things == 1 else b_or_d  # singular?
     text = ("There %s %d %s available at the %s station%s"
             % (verb, n_things, b_or_d,
-               location.text_to_speech(sta['stationName']),
+               location.text_to_speech(sta['name']),
                postamble))
     return reply.build(text, is_end=True)
 
@@ -689,23 +701,28 @@ def check_status(intent, session):
                            persist=session.get('attributes', {}),
                            is_end=False)
 
-    sta_name = location.text_to_speech(sta['stationName'])
+    sta_name = location.text_to_speech(sta['name'])
+    if not sta['is_installed']:
+        return reply.build("The %s station isn't "
+                           "installed at this time." % sta_name,
+                           card_title='%s Status' % sta['name'],
+                           card_text='%s\nNot installed' % _time_string(),
+                           is_end=True)
     if not sta['is_renting']:
         return reply.build("The %s station isn't "
                            "renting right now." % sta_name,
-                           card_title='%s Status' % sta['stationName'],
+                           card_title='%s Status' % sta['name'],
                            card_text='%s\nNot renting' % _time_string(),
                            is_end=True)
-    if not sta['statusValue'] == 'In Service':
-        return reply.build("The %s station is %s."
-                           % (sta_name, sta['statusValue']),
-                           card_title='%s Status' % sta['stationName'],
-                           card_text='%s\n%s' % (sta['statusValue'],
-                                                 _time_string()),
+    if not sta['is_returning']:
+        return reply.build("The %s station isn't "
+                           "accepting returned bikes right now." % sta_name,
+                           card_title='%s Status' % sta['name'],
+                           card_text='%s\nNot returning' % _time_string(),
                            is_end=True)
 
-    n_bike = sta['availableBikes']
-    n_dock = sta['availableDocks']
+    n_bike = _get_bikes_available(sta)
+    n_dock = _get_docks_available(sta)
     text = ("There %s %d bike%s and %d dock%s "
             "at the %s station."
             % ("is" if n_bike == 1 else "are",
@@ -713,7 +730,7 @@ def check_status(intent, session):
                n_dock, "" if n_dock == 1 else "s",
                sta_name))
     return reply.build(text,
-                       card_title='%s Status' % sta['stationName'],
+                       card_title='%s Status' % sta['name'],
                        card_text=("At %s:\n%d bike%s and %d dock%s" %
                                   (_time_string(),
                                    n_bike, "" if n_bike == 1 else "s",
@@ -748,24 +765,24 @@ def list_stations(intent, session):
         return reply.build("I didn't find any stations on %s." % street_name,
                            is_end=True)
     elif len(possible) == 1:
-        sta_name = location.text_to_speech(possible[0]['stationName'])
+        sta_name = location.text_to_speech(possible[0]['name'])
         return reply.build("There's only one: the %s "
                            "station." % sta_name,
                            card_title=("%s Stations on %s" %
                                        (config.network_name, street_name)),
                            card_text=("One station on %s: %s" %
-                                      (street_name, possible[0]['stationName'])),
+                                      (street_name, possible[0]['name'])),
                            is_end=True)
     else:
-        last_name = location.text_to_speech(possible[-1]['stationName'])
+        last_name = location.text_to_speech(possible[-1]['name'])
         speech = "There are %d stations on %s: " % (len(possible),
                                                     street_name)
-        speech += (', '.join([location.text_to_speech(p['stationName'])
+        speech += (', '.join([location.text_to_speech(p['name'])
                               for p in possible[:-1]]) +
                    ', and %s' % last_name)
         card_text = ("The following %d stations are on %s:\n%s" %
                      (len(possible), street_name,
-                      '\n'.join(p['stationName'] for p in possible)))
+                      '\n'.join(p['name'] for p in possible)))
         return reply.build(speech,
                            card_title=("%s Stations on %s" %
                                        (config.network_name, street_name)),

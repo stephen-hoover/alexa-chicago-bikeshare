@@ -18,7 +18,6 @@ def test_stations_from_lat_lon():
     nearest = geocoding.station_from_lat_lon(41.866500, -87.609210,
                                              stations, n_nearest=3)
     assert len(nearest) == 3
-    assert nearest[0]["stationName"] == "Adler Planetarium"
-    assert nearest[1]["stationName"] == "Shedd Aquarium"
-    assert nearest[2]["stationName"] == "Field Museum"
-
+    assert nearest[0]["name"] == "Adler Planetarium"
+    assert nearest[1]["name"] == "Shedd Aquarium"
+    assert nearest[2]["name"] == "Field Museum"

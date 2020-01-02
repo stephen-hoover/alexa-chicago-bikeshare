@@ -1,0 +1,76 @@
+{
+  "last_updated": 1575745045,
+  "ttl": 2,
+  "data": {
+    "stations": [
+      {
+        "has_kiosk": true,
+        "capacity": 39,
+        "name": "Buckingham Fountain",
+        "short_name": "15541",
+        "lon": -87.62054800987242,
+        "electric_bike_surcharge_waiver": false,
+        "station_id": "2",
+        "rental_methods": [
+          "KEY",
+          "CREDITCARD",
+          "TRANSITCARD"
+        ],
+        "lat": 41.87651122881695,
+        "eightd_has_key_dispenser": false,
+        "external_id": "a3a36d9e-a135-11e9-9cda-0a87ae2ba916"
+      },
+      {
+        "has_kiosk": true,
+        "capacity": 55,
+        "name": "Shedd Aquarium",
+        "short_name": "15544",
+        "lon": -87.6153553902,
+        "electric_bike_surcharge_waiver": false,
+        "station_id": "3",
+        "rental_methods": [
+          "KEY",
+          "CREDITCARD",
+          "TRANSITCARD"
+        ],
+        "lat": 41.86722595682,
+        "eightd_has_key_dispenser": false,
+        "external_id": "a3a37378-a135-11e9-9cda-0a87ae2ba916"
+      },
+      {
+        "has_kiosk": true,
+        "capacity": 23,
+        "name": "Burnham Harbor",
+        "short_name": "15545",
+        "lon": -87.613348,
+        "electric_bike_surcharge_waiver": false,
+        "station_id": "4",
+        "rental_methods": [
+          "KEY",
+          "CREDITCARD",
+          "TRANSITCARD"
+        ],
+        "lat": 41.856268,
+        "eightd_has_key_dispenser": false,
+        "external_id": "a3a378ca-a135-11e9-9cda-0a87ae2ba916"
+      },
+      {
+        "has_kiosk": true,
+        "capacity": 23,
+        "name": "State St & Harrison St",
+        "short_name": "SL-007",
+        "lon": -87.627716,
+        "electric_bike_surcharge_waiver": false,
+        "station_id": "5",
+        "rental_methods": [
+          "KEY",
+          "CREDITCARD",
+          "TRANSITCARD"
+        ],
+        "lat": 41.874053,
+        "eightd_has_key_dispenser": false,
+        "external_id": "a3a37e26-a135-11e9-9cda-0a87ae2ba916"
+      }
+    ]
+  }
+}
