@@ -6,16 +6,17 @@ import pytest
 from divvy import location
 
 
-def _api_response():
+def _api_response(api_type='api'):
+
     fname = os.path.join(os.path.dirname(__file__),
                          'samples',
-                         'sample_divvy_response.json')
+                         'sample_divvy_' + api_type + '.json')
     with open(fname, 'r') as _fin:
         return json.load(_fin)
 
 
 def _station_list():
-    return _api_response()['stationBeanList']
+    return _api_response('get_stations_output')
 
 
 def test_find_stations_two_street():
@@ -24,9 +25,8 @@ def test_find_stations_two_street():
     found = location.find_station(sta, 'Wells', 'Concord')
 
     assert isinstance(found, dict)
-    assert 'Wells' in found['stationName']
-    assert 'Concord' in found['stationName']
-    assert not found['testStation']
+    assert 'Wells' in found['name']
+    assert 'Concord' in found['name']
 
 
 def test_find_station_one_name():
@@ -35,8 +35,7 @@ def test_find_station_one_name():
     found = location.find_station(sta, 'Adler Planetarium')
 
     assert isinstance(found, dict)
-    assert 'Adler' in found['stationName']
-    assert not found['testStation']
+    assert 'Adler' in found['name']
 
 
 def test_find_station_with_and():
@@ -45,8 +44,7 @@ def test_find_station_with_and():
     found = location.find_station(sta, 'Ashland Avenue and Grand Avenue', exact=True)
 
     assert isinstance(found, dict)
-    assert 'Ashland Ave & Grand Ave' == found['stationName']
-    assert not found['testStation']
+    assert 'Ashland Ave & Grand Ave' == found['name']
 
 
 def test_find_station_fuzzy():
@@ -55,8 +53,7 @@ def test_find_station_fuzzy():
     found = location.find_station(sta, 'ritchie quarton bank street')
 
     assert isinstance(found, dict)
-    assert 'Ritchie Ct & Banks St' == found['stationName']
-    assert not found['testStation']
+    assert 'Ritchie Ct & Banks St' == found['name']
 
 
 def test_find_station_fuzzy_pair():
@@ -66,8 +63,7 @@ def test_find_station_fuzzy_pair():
                                   exact=False)
 
     assert isinstance(found, dict)
-    assert 'Ashland Ave & Grand Ave' == found['stationName']
-    assert not found['testStation']
+    assert 'Ashland Ave & Grand Ave' == found['name']
 
 
 def test_find_station_fuzzy_pair_partial_nomatch():
@@ -79,8 +75,7 @@ def test_find_station_fuzzy_pair_partial_nomatch():
     found = location.find_station(sta, 'concord', 'Welles', exact=False)
 
     assert isinstance(found, dict)
-    assert 'Wells St & Concord Ln' == found['stationName']
-    assert not found['testStation']
+    assert 'Wells St & Concord Ln' == found['name']
 
 
 def test_find_station_fuzzy_pair_complete_nomatch():
@@ -99,8 +94,7 @@ def test_find_station_fuzzy_pair_flipped():
                                   exact=False)
 
     assert isinstance(found, dict)
-    assert 'Ashland Ave & Grand Ave' == found['stationName']
-    assert not found['testStation']
+    assert 'Ashland Ave & Grand Ave' == found['name']
 
 
 def test_find_station_one_ambiguous():
@@ -108,7 +102,7 @@ def test_find_station_one_ambiguous():
 
     with pytest.raises(location.AmbiguousStationError) as err:
         location.find_station(sta, 'Halsted')
-    assert 'halsted street' in err.value.message.lower()
+    assert 'halsted' in err.value.message.lower()
 
 
 def test_speech_to_text_two_street():

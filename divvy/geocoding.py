@@ -100,7 +100,7 @@ def station_from_lat_lon(lat, lon, stations, n_nearest=3):
     stations : list of dict
         JSON following the Divvy "stationBeanList" schema.
         Each entry in the list must have
-        "latitude" and "longitude" keys.
+        "lat" and "lon" keys.
     n_nearest : int, optional
         Return this many stations, ordered from nearest to furthest
 
@@ -110,7 +110,8 @@ def station_from_lat_lon(lat, lon, stations, n_nearest=3):
         A list of `n_nearest` Divvy stations
     """
     lat, lon = float(lat), float(lon)
-    distances = [(distance(lat, lon, st['latitude'], st['longitude']), st)
-                 for st in stations if st['is_renting']]
+    distances = [(distance(lat, lon, st['lat'], st['lon']), st)
+                 for st in stations
+                 if (st['is_renting'] and st['is_installed'])]
     distances = sorted(distances)
     return [pair[1] for pair in distances[:n_nearest]]

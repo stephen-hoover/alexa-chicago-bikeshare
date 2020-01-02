@@ -6,10 +6,11 @@ import mock
 from divvy import handle
 
 
-def _api_response():
+def _api_response(api_type='api'):
+
     fname = os.path.join(os.path.dirname(__file__),
                          'samples',
-                         'sample_divvy_response.json')
+                         'sample_divvy_' + api_type + '.json')
     with open(fname, 'r') as _fin:
         return json.load(_fin)
 
@@ -17,12 +18,12 @@ def _api_response():
 def build_station_mock(not_renting=None):
     """Return a function which can be used to
     mock out `location.get_stations"""
-    sta = _api_response()['stationBeanList']
+    sta = _api_response('get_stations_output')
 
     if not_renting:
         # All stations in my sample response are renting, so hack it.
         for s in sta:
-            if s['id'] in not_renting:
+            if int(s['station_id']) in not_renting:
                 s['is_renting'] = False
 
     def mock_get_stations(divvy_api):
