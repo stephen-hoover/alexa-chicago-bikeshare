@@ -1,4 +1,3 @@
-from __future__ import print_function, division
 import logging
 import sys
 
@@ -24,15 +23,15 @@ def lambda_handler(event, context):
         if event['request']['type'] == "IntentRequest":
             return handle.intent(event['request'], event['session'])
         elif event['request']['type'] == "LaunchRequest":
-            return reply.build("Ask me a question about a "
-                               "%s station." % config.network_name,
+            return reply.build(f"Ask me a question about a "
+                               f"{config.network_name} station.",
                                is_end=False)
         elif event['request']['type'] == "SessionEndedRequest":
             return reply.build("Bike safe!", is_end=True)
         else:
             # I don't think there's any other kinds of requests.
-            return reply.build("Ask me a question about a "
-                               "%s station." % config.network_name,
+            return reply.build(f"Ask me a question about a "
+                               f"{config.network_name} station.",
                                is_end=False)
     except Exception as err:  # NOQA
         log.exception('Unhandled exception for event\n%s\n' % str(event))

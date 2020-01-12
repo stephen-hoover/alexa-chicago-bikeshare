@@ -39,19 +39,16 @@ IntentRequest:
   }
 }
 """
-from __future__ import print_function, division
 import difflib
 import logging
 import os
-import reply
 import time
 
-import location
-from divvy import config, geocoding
+from divvy import config, geocoding, reply, location
 if config.db_type == 's3':
-    import s3_database as database
+    from divvy import s3_database as database
 elif config.db_type == 'dynamo':
-    import s3_database as database
+    from divvy import s3_database as database
 else:
     raise ImportError("Unrecognized database type "
                       "in config: %s" % config.db_type)
@@ -647,7 +644,7 @@ def check_bikes(intent, session):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build(err.message, is_end=True)
+        return reply.build(str(err), is_end=True)
     except:  # NOQA
         log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that. Try again?",
@@ -694,7 +691,7 @@ def check_status(intent, session):
     try:
         sta = _station_from_intent(intent, stations)
     except location.AmbiguousStationError as err:
-        return reply.build(err.message, is_end=True)
+        return reply.build(str(err), is_end=True)
     except:  # NOQA
         log.exception('Failed to get a station.')
         return reply.build("I'm sorry, I didn't understand that. Try again?",

@@ -1,6 +1,5 @@
 """Functions having to do with physical location
 """
-from __future__ import print_function, division
 import math
 
 import requests

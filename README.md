@@ -70,10 +70,12 @@ https://www.cogobikeshare.com/.
 
 ## Developer Notes
 
+This skill reads bikeshare data in the
+[General Bikeshare Feed Specification](https://github.com/NABSA/gbfs) format.
+
 This code is designed to run in an AWS Lambda function.
-You'll need to also include the `requests` and `boto3` modules
-in the zip file sent to AWS. (AWS Lambda functions include `boto3`
-in the environment, but only v1.3. This Skill needs v1.4.)
+You'll need to also include the `requests` module
+in the zip file sent to AWS.
 
 The skill requires an additional `config.py` file in the "divvy" folder.
 This file should define the following attributes at global level:
@@ -83,8 +85,8 @@ This file should define the following attributes at global level:
 - default_city : The name of the city in which the network operates, e.g. "Chicago"
 - time_zone : The local time zone, e.g. "US/Central" or "US/Eastern"
 - sample_station : A valid station name for use in the help prompt
-- bikes_api : Web address of the bike sharing network's API. As of September 2016, the Divvy network's API is https://feeds.divvybikes.com/stations/stations.json, and the CoGo network's API is http://feeds.cogobikeshare.com/stations/stations.json .
-- maps_api : Web address of the Google Maps Geocoding API (used when users store addresses). As of September 2016, this is https://maps.googleapis.com/maps/api/geocode/.
+- bikes_api : Web address of the bike sharing network's API. As of January 2020, the Divvy network's API is https://gbfs.divvybikes.com/gbfs/gbfs.json, and the CoGo network's API is https://gbfs.cogobikeshare.com/gbfs/gbfs.json.
+- maps_api : Web address of the Google Maps Geocoding API (used when users store addresses). As of January 2020, this is https://maps.googleapis.com/maps/api/geocode/.
 - maps_api_key : Token which allows access to the Google Maps Geocoding API
 - aws_region : Region in which you have your database
 - db_type : Database backend for storing addresses. Either 's3' or 'dynamo'.
@@ -96,5 +98,4 @@ This file should define the following attributes at global level:
 
 In addition to requirements listed in the `requirements.txt`, developers
 should also have the following packages installed
-- mock
 - pytest

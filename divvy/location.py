@@ -209,7 +209,7 @@ def speech_to_text(address):
     address = address.lower() + ' '
     address = address.replace(' and ', ' & ')
 
-    for ab, full in ABBREV.iteritems():
+    for ab, full in ABBREV.items():
         address = address.replace(full, ab)
 
     return address.strip()
@@ -223,9 +223,9 @@ def text_to_speech(address):
     address = address.replace('&', 'and')
     address = address.replace('(*)', '')
 
-    for ab, full in ABBREV.iteritems():
+    for ab, full in ABBREV.items():
         address = address.replace(ab, full)
-    for ab, full in DIRECTIONS.iteritems():
+    for ab, full in DIRECTIONS.items():
         address = address.replace(ab, full)
 
     return address.strip()
