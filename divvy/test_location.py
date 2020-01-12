@@ -102,7 +102,7 @@ def test_find_station_one_ambiguous():
 
     with pytest.raises(location.AmbiguousStationError) as err:
         location.find_station(sta, 'Halsted')
-    assert 'halsted' in err.value.message.lower()
+    assert 'halsted' in str(err.value).lower()
 
 
 def test_speech_to_text_two_street():
